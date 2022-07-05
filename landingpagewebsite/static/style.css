@@ -1,0 +1,27 @@
+.select {
+            width: 208px;
+    }
+.select-field-1 {
+            width: 208px;
+    }
+.select-field-2 {
+            width: 208px;
+    }
+.button {
+            width: 208px;
+            margin-bottom: 5px;
+
+    }
+.text {
+            margin-top: 5px;
+            width: 100px;
+    }
+.field{
+            margin-top: 5px;
+    }
+.main{
+            background-color: whitesmoke;
+            list-style-type: none;
+            border-radius: 3px;
+
+    }

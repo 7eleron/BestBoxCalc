@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Result page {% endblock %}
+{% block content %}
+<center>
+<br>{{ data }}
+<br>Расход картона - {{ result_cardboard_0 }}л. {{ result_cardboard_1 }}
+<br>Расход бумаги - {{ result_paper_0 }}л. {{ result_paper_1 }}
+<br>Стоимость работы - {{ work }}. {{ type_work }}
+<br>Картон - {{ cardboard }}.
+<br>Бумага - {{ paper }}.
+    <br><b>Цена коробки - {{ sum }} руб/шт.</b>
+    <br><b>Цена штампа - {{ shtamp }} руб.</b>
+
+</center>
+{% endblock %}
+

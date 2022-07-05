@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <title>{% block title %} {% endblock %}</title>
+    <h3>Курс евро {{ cur_euro }} руб.</h3>
+    <center><H2><FONT FACE="Arial" SIZE=6 COLOR=TEAL>Калькулятор</FONT></h2></center>
+</head>
+<body>
+<center>
+<form action="{% url 'result' %}" method="POST">
+    {% csrf_token %}
+    <div class="main">
+   <div class="field">
+      <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
+      <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
+      <input class="text" id="h" placeholder="Высота мм." name="hight" required="required" />
+   </div>
+   <div class="field">
+      <input class="text" id="th" placeholder="Высота крышки мм." name="lid_hight" required="required" />
+      <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+   </div>
+   <div class="field">
+   <br><select class="select-field-1" name="cardboard" required="required">
+    <option value="cardboard">Картон</option>
+        <option value="Сураж 2 мм">Сураж 2 мм</option>
+        <option value="Eska 2 мм">Eska 2 мм</option>
+</select>
+    <select class="select-field-2" name="paper" required="required">
+    <option value="paper">Бумага</option>
+        <option value="Keaykolour 120 г/м2">Keaykolour 120 г/м2</option>
+        <option value="Senzo 175 г/м2">Senzo 175 г/м2</option>
+        <option value="Pergraphica черная 120 г/м2">Pergraphica черная 120 г/м2</option>
+</select>
+    <div>
+    <br><button class="button" type="submit">Calculet</button>
+    </div>
+    </div>
+    </div>
+
+
+</form>
+
+
+</center>
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
