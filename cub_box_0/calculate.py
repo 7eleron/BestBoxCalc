@@ -85,9 +85,8 @@ class Cardboard_Box:
         return result
 
     # расход материала
-    def expence(self, lid, tray):
+    def expence(self, lid, tray, lis_siz):
         lis_one = [lid, tray]
-        lis_siz = [1000, 700]
         try:
             # четыре варианта располодения крышки и дно вместе
             if tray[0] >= lid[0]:
@@ -132,14 +131,15 @@ class Cardboard_Box:
                     f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
                     f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм.']
 
-    def cardboard_box(self):
+    def cardboard_box(self, lis_siz):
         # развернутая крышка
         lid_card = self.lid_cb()
         # развернутое дно
         tray_card = self.tray_cb()
 
         try:
-            result = self.expence(lid_card, tray_card)
+            result = self.expence(lid_card, tray_card, lis_siz)
+
             return result
         except ZeroDivisionError:
             return 'Неполучилось разместить на листе.'
@@ -191,9 +191,8 @@ class Paper_Box_Hand:
         return [[math.ceil(width), math.ceil(length)], [self.width - 3, self.length - 3], [0, 0]]
 
     # расход материала
-    def expence(self, lid, tray):
+    def expence(self, lid, tray, lis_siz):
         lis_one = [lid, tray]
-        lis_siz = [1000, 700]
         try:
             # результат дно и крышка вместе
             lid_ras = calc([lid], lis_siz)
@@ -228,8 +227,7 @@ class Paper_Box_Hand:
         except Exception:
             return Exception
 
-    def cub_box_paper(self):
-        lis_siz = [1000, 700]
+    def cub_box_paper(self, lis_siz):
         # бумага крышка
         lid_pap = self.lid_paper()
         if self.tray_hight <= 75:
@@ -243,7 +241,7 @@ class Paper_Box_Hand:
                 tray_pap = self.tray_paper_rim_tw()
 
         try:
-            result = self.expence(lid_pap, tray_pap)
+            result = self.expence(lid_pap, tray_pap, lis_siz)
             return result
 
         except ZeroDivisionError:
@@ -277,8 +275,7 @@ class Paper_Box_Auto:
         return [math.ceil(width), math.ceil(length)]
 
     # расход материала
-    def expence(self, lid, tray):
-        lis_siz = [1000, 700]
+    def expence(self, lid, tray, lis_siz):
         try:
             # результат дно и крышка вместе
             lid_ras = calc([lid], lis_siz)
@@ -291,13 +288,13 @@ class Paper_Box_Auto:
         except Exception:
             return Exception
 
-    def cub_box_paper(self):
+    def cub_box_paper(self, lis_siz):
         # бумага крышка
         lid_pap = self.lid_paper()
         tray_pap = self.tray_paper_once()
 
         try:
-            result = self.expence(lid_pap, tray_pap)
+            result = self.expence(lid_pap, tray_pap, lis_siz)
             return result
 
         except ZeroDivisionError:
