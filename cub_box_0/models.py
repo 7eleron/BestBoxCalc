@@ -33,8 +33,8 @@ class Work(models.Model):
         return self.Name
 
     class Meta:
-        verbose_name = 'Работа'
-        verbose_name_plural = 'Работы'
+        verbose_name = 'Работа автомат'
+        verbose_name_plural = 'Работы автомат'
 
 
 class Material(models.Model):
@@ -63,5 +63,5 @@ class Work2(models.Model):
         return self.Size
 
     class Meta:
-        verbose_name = 'Работа'
-        verbose_name_plural = 'Работы'
+        verbose_name = 'Работа ручная'
+        verbose_name_plural = 'Работы ручная'
