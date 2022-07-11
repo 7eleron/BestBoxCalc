@@ -13,6 +13,12 @@
 <form action="{% url 'result' %}" method="POST">
     {% csrf_token %}
     <div class="main">
+    <div class="field">
+        <br><select class="select-field-1" name="construction" required="required">
+            <option value="Крышка-дно">Крышка-дно</option>
+            <option value="Шкатулка">Шкатулка</option>
+        </select>
+    </div>
    <div class="field">
       <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
       <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
