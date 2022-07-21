@@ -1,8 +1,8 @@
-from cub_box.calculate import Cardboard_Box, Paper_Box_Hand, Paper_Box_Auto
+from cubbox.calculate import Cardboard_Box, Paper_Box_Hand, Paper_Box_Auto
 from cub_box_0.models import Work, Material, calc_count, Work2
-from alg_prog.currency import currency_eur as cur_euro
-from cub_box.shtamp import cutter
-from alg_prog.toFix import toFixed
+from details.algprog.currency import currency_eur as cur_euro
+from cubbox.shtamp import cutter
+from details.algprog.toFix import toFixed
 
 
 def machin_work(res_paper, kol):
@@ -83,7 +83,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
                                     f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
             'Расходы': f'Расход картона - {result_cardboard[0]}л. Расход бумаги - {result_paper[0]}л. ',
             'Работа': f'Стоимость работы - {work} руб. {type_work[0]}',
-            'Цены': f'Цена коробки: 40% - {calc_sum[0]} руб/шт.'
+            'Цены': f'Цена коробки: 40% - {calc_sum[0]} руб/шт. '
                     f'50% - {calc_sum[1]} руб/шт. '
                     f'60% - {calc_sum[2]} руб/шт. '
                     f'70% - {calc_sum[3]} руб/шт. '

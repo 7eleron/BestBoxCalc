@@ -3,9 +3,13 @@
 {% load static %}
 {% block content %}
 <center>
-    {% if result %}
+    {% if prices %}
     <br>{{ construction }}
-    <br>{{ result }}
+    <br>{{ info }}
+    <br>{{ expence }}
+    <br>{{ work }}
+    <br>{{ prices }}
+    <br>{{ priceshtamp }}
     {% else %}
     <br><b>Не получилось рассчитать, оставьте заявку на почту или обратитесь к нашему менеджеру!</b>
     <br><b>{{ ex }}</b>

@@ -1,7 +1,7 @@
 import math
-from algprog.calc_lis import calc
-from algprog.toFix import toFixed
-from algprog.cal_m2 import calc_m2
+from details.algprog.calc_lis import calc
+from details.algprog.toFix import toFixed
+from details.algprog.cal_m2 import calc_m2
 
 
 # бумага дно одним листом

@@ -1,93 +1,53 @@
-from casket.calculate import Cardboard_Casket, Paper_Casket
-from cub_box_0.models import Work, Material, calc_count, Work2
-from algprog.currency import currency_eur as cur_euro
-from casket.shtamp import resp
-from algprog.toFix import toFixed
-
-
-def machin_work(res_paper):
-    object_list = Work.objects.all()
-    for obj in object_list:
-        if obj.Name == 'дно_авто' and obj.dm2 <= res_paper[1]:
-            tray = obj.Tray
-    return tray
-
-
-def hand_work_tray(a, b, hight):
-    object_list = Work2.objects.all()
-    size_box = a+b
-    work_count = None
-    for obj in object_list:
-        if size_box <= obj.Size and hight <= obj.Hight:
-            work_count = obj.Count
-            break
-    return work_count/2.5
-
-
-def folder_work(list, type_work):
-    m2 = list[0]+list[2]
-    object = Work.objects.get(Name=type_work).Lid
-    return object * m2
+from details.tray.trayauto.result import result_data_tray_auto
+from details.tray.trayhandcasket.result import result_data_tray_hand
+from details.folder.folderM.folderhand.result import result_data_folder_hand
+from details.algprog.toFix import toFixed
 
 
 def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
-    currency_req = cur_euro()
-    thickness_cb = Material.objects.get(mt_name=cardboard_req).len
-    lis_siz = [Material.objects.get(mt_name=cardboard_req).size_x, Material.objects.get(mt_name=cardboard_req).size_y]
-
+    calc_sum = []
     if kol >= 500 and a >= 80 and b >= 65 and c >= 10:
         if a <= 460 and b <= 380 and c <= 120:
-            type_work = ['Сборка автоматическая лотка. ', 'шкатулка автомат']
-            cardboard = Cardboard_Casket(a, b, c, thickness_cb)
-            result_cardboard = cardboard.cardboard_casket(lis_siz)
-            paper = Paper_Casket(a, b, c, thickness_cb)
-            result_paper = paper.paper_casket(lis_siz, type_work[1])
-            work_fold = folder_work(result_paper.get('m2'), 'папка автомат')
-            work_tray = machin_work(result_paper.get('m2'))
-            object_scotch = Work.objects.get(Name='папка автомат').Scotch
-            work = work_tray + work_fold + object_scotch
-            shtamp_res = resp(a, b, c)
-
+            type_work_tray = 'Сборка автоматическая лотка. '
+            tray = result_data_tray_auto(a, b, c, cardboard_req, paper_req)
+            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+            result_cardboard = tray.get('Расход картона')+folder.get('Расход картона')
+            result_paper = tray.get('Расход бумаги')+folder.get('Расход бумаги')
+            work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
+            shtamp_res = tray.get('Цена штампа')+folder.get('Цена штампа')
+            for x in range(7):
+                calc_sum.append(toFixed(tray.get('Цена')[x] + folder.get('Цены')[x], 2))
         else:
-            type_work = ['Сборка ручная. ', 'шкатулка ручная']
-            cardboard = Cardboard_Casket(a, b, c, thickness_cb)
-            result_cardboard = cardboard.cardboard_casket(lis_siz)
-            paper = Paper_Casket(a, b, c, thickness_cb)
-            result_paper = paper.paper_casket(lis_siz, type_work[1])
-            work_tray = hand_work_tray(a, b, c)
-            work_fold = folder_work(result_paper.get('m2'), 'папка ручная')
-            object_scotch = Work.objects.get(Name='папка ручная').Scotch
-            work = work_tray + work_fold + object_scotch
-            shtamp_res = resp(a, b, c)
+            type_work_tray = 'Сборка ручная лотка.'
+            tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req)
+            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+            result_cardboard = tray.get('Расход картона') + folder.get('Расход картона')
+            result_paper = tray.get('Расход бумаги') + folder.get('Расход бумаги')
+            work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
+            shtamp_res = tray.get('Цена штампа') + folder.get('Цена штампа')
+            for x in range(7):
+                calc_sum.append(toFixed(tray.get('Цена')[x] + folder.get('Цены')[x], 2))
     else:
-        type_work = ['Сборка ручная. ', 'шкатулка ручная']
-        cardboard = Cardboard_Casket(a, b, c, thickness_cb)
-        result_cardboard = cardboard.cardboard_casket(lis_siz)
-        paper = Paper_Casket(a, b, c, thickness_cb)
-        result_paper = paper.paper_casket(lis_siz, type_work[1])
-        work_tray = hand_work_tray(a, b, c)
-        work_fold = folder_work(result_paper.get('m2'), 'папка ручная')
-        object_scotch = Work.objects.get(Name='папка ручная').Scotch
-        work = work_tray + work_fold + object_scotch
-        shtamp_res = resp(a, b, c)
-
-    currency = {'euro': currency_req, 'rub': 1}
-    data_calc = calc_count.objects.get(style_work=type_work[1])
-    paper_obj = Material.objects.get(mt_name= paper_req)
-    paper_count = (paper_obj.prise * (currency.get(paper_obj.currency))*float(result_paper.get('except')))
-    cardboard_obj = Material.objects.get(mt_name= cardboard_req)
-    cardboard_count = (cardboard_obj.prise * (currency.get(cardboard_obj.currency))*float(result_cardboard))
-    production_cost = (paper_count+cardboard_count)*data_calc.reject+data_calc.cut+(work)+((work)\
-                                                                        *data_calc.not_production)
-    calc_sum = ((production_cost*data_calc.margin)*data_calc.manager_proc)+production_cost
-
-    data = f'Размер коробки {a}x{b}x{c}мм. Тираж {kol}шт.' \
-           f'\nРасход картона - {toFixed(result_cardboard, 2)}л. ' \
-           f'\nРасход бумаги - {result_paper.get("except")}л. {result_paper.get("info")}' \
-           f'\nСтоимость работы - папка: {toFixed(work_fold, 2)}руб; лоток: {toFixed(work_tray, 2)}руб; ' \
-           f'сборка: {object_scotch}руб. {type_work[0]} ' \
-           f'\nКартон - {cardboard_req}. Бумага - {paper_req}.' \
-           f'\nЦена коробки - {toFixed(calc_sum, 2)} руб/шт.' \
-           f'\nЦена штампа - {toFixed(shtamp_res, 2)} руб.'
+        type_work_tray = 'Сборка ручная лотка.'
+        tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req)
+        folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+        result_cardboard = tray.get('Расход картона') + folder.get('Расход картона')
+        result_paper = tray.get('Расход бумаги') + folder.get('Расход бумаги')
+        work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
+        shtamp_res = tray.get('Цена штампа') + folder.get('Цена штампа')
+        for x in range(7):
+            calc_sum.append(toFixed(tray.get('Цены')[x] + folder.get('Цены')[x], 2))
+    data = {'Информация о коробке': f'Размер коробки {a}x{b}x{c}мм. Тираж {kol}шт. '
+                                    f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
+            'Расходы': f'Расход картона - {toFixed(result_cardboard, 2)}л. Расход бумаги - {toFixed(result_paper, 2)}л. ',
+            'Работа': f'Стоимость работы - {work}. {type_work_tray}',
+            'Цены': f'Цена коробки: 40% - {calc_sum[0]} руб/шт. '
+                    f'50% - {calc_sum[1]} руб/шт. '
+                    f'60% - {calc_sum[2]} руб/шт. '
+                    f'70% - {calc_sum[3]} руб/шт. '
+                    f'80% - {calc_sum[4]} руб/шт. '
+                    f'90% - {calc_sum[5]} руб/шт. '
+                    f'100% - {calc_sum[6]} руб/шт. ',
+            'Цена штампа': f'Цена штампа - {shtamp_res} руб.'}
     return data
 
