@@ -1,8 +1,8 @@
 from casket.calculate import Cardboard_Casket, Paper_Casket
 from cub_box_0.models import Work, Material, calc_count, Work2
-from alg_prog.currency import currency_eur as cur_euro
+from algprog.currency import currency_eur as cur_euro
 from casket.shtamp import resp
-from alg_prog.toFix import toFixed
+from algprog.toFix import toFixed
 
 
 def machin_work(res_paper):

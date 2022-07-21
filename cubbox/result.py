@@ -41,7 +41,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
             tray = machin_work(result_paper, kol)[1]
             work = lid+tray
             shtamp_res = cutter(a, b, c, lid_hight)*2
-            type_work = ['Сборка автоматическая.', 'machin']
+            type_work = ['Сборка автоматическая.', 'кд автомат']
 
         else:
             cardboard = Cardboard_Box(a, b, c, thickness_cb, lid_hight)
@@ -50,7 +50,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
             result_paper = paper.cub_box_paper(lis_siz=lis_siz)
             work = hand_work(a, b, c)
             shtamp_res = cutter(a, b, c, lid_hight)
-            type_work = ['Сборка ручная.', 'hand']
+            type_work = ['Сборка ручная.', 'кд ручное']
     else:
         cardboard = Cardboard_Box(a, b, c, thickness_cb, lid_hight)
         result_cardboard = cardboard.cardboard_box(lis_siz=lis_siz)
@@ -58,7 +58,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
         result_paper = paper.cub_box_paper(lis_siz=lis_siz)
         work = hand_work(a, b, c)
         shtamp_res = cutter(a, b, c, lid_hight)
-        type_work = ['Сборка ручная.', 'hand']
+        type_work = ['Сборка ручная.', 'кд ручное']
 
     currency = {'euro': currency_req, 'rub': 1}
 
@@ -70,14 +70,25 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
     cardboard_count = (cardboard_obj.prise * (currency.get(cardboard_obj.currency))*float(result_cardboard[0]))
     production_cost = (paper_count+cardboard_count)*data_calc.reject+data_calc.cut+(work)+((work)\
                                                                         *data_calc.not_production)
-    calc_sum = ((production_cost*data_calc.margin)*data_calc.manager_proc)+production_cost
+    calc_sum = [toFixed(((production_cost*0.4)*data_calc.manager_proc)+production_cost, 2),
+                toFixed(((production_cost * 0.5) * data_calc.manager_proc) + production_cost, 2),
+                toFixed(((production_cost * 0.6) * data_calc.manager_proc) + production_cost, 2),
+                toFixed(((production_cost * 0.7) * data_calc.manager_proc) + production_cost, 2),
+                toFixed(((production_cost * 0.8) * data_calc.manager_proc) + production_cost, 2),
+                toFixed(((production_cost * 0.9) * data_calc.manager_proc) + production_cost, 2),
+                toFixed(((production_cost * 1) * data_calc.manager_proc) + production_cost, 2),
+                ]
 
-    data = f'Размер коробки {a}x{b}x{c}мм. Высота крышки {lid_hight}. Тираж {kol}шт.' \
-           f'\nРасход картона - {result_cardboard[0]}л. {result_cardboard[1]}' \
-           f'\nРасход бумаги - {result_paper[0]}л. {result_paper[1]}' \
-           f'\nСтоимость работы - {work}. {type_work[0]}' \
-           f'\nКартон - {cardboard_req}. Бумага - {paper_req}.' \
-           f'\nЦена коробки - {toFixed(calc_sum, 2)} руб/шт.' \
-           f'\nЦена штампа - {toFixed(shtamp_res, 2)} руб.'
+    data = {'Информация о коробке': f'Размер коробки {a}x{b}x{c}мм. Высота крышки {lid_hight}. Тираж {kol}шт. '\
+                                    f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
+            'Расходы': f'Расход картона - {result_cardboard[0]}л. Расход бумаги - {result_paper[0]}л. ',
+            'Работа': f'Стоимость работы - {work} руб. {type_work[0]}',
+            'Цены': f'Цена коробки: 40% - {calc_sum[0]} руб/шт.'
+                    f'50% - {calc_sum[1]} руб/шт. '
+                    f'60% - {calc_sum[2]} руб/шт. '
+                    f'70% - {calc_sum[3]} руб/шт. '
+                    f'80% - {calc_sum[4]} руб/шт. '
+                    f'90% - {calc_sum[5]} руб/шт. '
+                    f'100% - {calc_sum[6]} руб/шт. ',
+            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
     return data
-
