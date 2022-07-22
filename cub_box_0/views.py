@@ -11,37 +11,45 @@ def first_page(request):
     return render(request, './index.html', {'cur_euro': cur_euro})
 
 
-def req_data(request):
+def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction):
+    if construction == 'Крышка-дно':
+        result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight)
+        return result
+    elif construction == 'Шкатулка':
+        result = result_data_casket(a, b, c, cardboard_req, paper_req, kol)
+        return result
+    elif construction == 'Лоток':
+        result = result_data_tray_auto(a, b, c, cardboard_req, paper_req)
+        return result
 
-    #try:
+
+def req_data(request):
+    if str(currency_eur()).isdigit():
+        cur_euro = 60
+    else:
         cur_euro = currency_eur()
+
+    try:
         construction = request.POST['construction']
-        a, b, c = int(request.POST['width']), int(request.POST['length']), int(request.POST['hight'])
-        kol = int(request.POST['kol'])
         cardboard_req = request.POST['cardboard']
         paper_req = request.POST['paper']
+        try:
+            a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(request.POST['hight'].strip())
+            kol = int(request.POST['kol'].strip())
+            lid_hight = int(request.POST['lid_hight'].strip())
+            result = request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction)
 
-        if construction == 'Крышка-дно':
-            lid_hight = int(request.POST['lid_hight'])
-            result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight)
-            construction = 'Крышка-дно'
+            return render(request, './result.html', {'construction': construction,
+                                                     'cur_euro': cur_euro,
+                                                     'info': result.get('Информация о коробке'),
+                                                     'expence': result.get('Расходы'),
+                                                     'work': result.get('Работа'),
+                                                     'prices': result.get('Цены'),
+                                                     'priceshtamp': result.get('Цена штампа')})
 
-        elif construction == 'Шкатулка':
-            result = result_data_casket(a, b, c, cardboard_req, paper_req, kol)
-            construction = 'Шкатулка'
+        except ValueError:
+            return render(request, './result.html', {'cur_euro': cur_euro, 'info': 'Введите числовые данные.'})
 
-        elif construction == 'Лоток':
-            result = result_data_tray_auto(a, b, c, cardboard_req, paper_req)
-            construction = 'Лоток'
-
-        return render(request, './result.html', {'construction': construction,
-                                                 'cur_euro': cur_euro,
-                                                 'info': result.get('Информация о коробке'),
-                                                 'expence': result.get('Расходы'),
-                                                 'work': result.get('Работа'),
-                                                 'prices': result.get('Цены'),
-                                                 'priceshtamp': result.get('Цена штампа')})
-
-    #except Exception as ex:
-        return render(request, './result.html', {'ex': ex})
+    except Exception as ex:
+        return render(request, './result.html', {'cur_euro': cur_euro, 'ex': ex})
 

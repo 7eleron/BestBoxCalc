@@ -48,6 +48,6 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
                     f'80% - {calc_sum[4]} руб/шт. '
                     f'90% - {calc_sum[5]} руб/шт. '
                     f'100% - {calc_sum[6]} руб/шт. ',
-            'Цена штампа': f'Цена штампа - {shtamp_res} руб.'}
+            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
     return data
 

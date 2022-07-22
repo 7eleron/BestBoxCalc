@@ -17,7 +17,8 @@ def result_data_folder_hand(a, b, c, cardboard_req, paper_req):
     result_paper_fold = obj_tray.result(lis_siz).get('paper_folder')
     result_paper_end = obj_tray.result(lis_siz).get('paper_end')
     result_paper = result_paper_fold.get('Расход')+result_paper_end.get('Расход')
-    work = folder_work(result_paper_fold.get('m2')+result_paper_end.get('m2'), 'папка ручная')
+    m2 = result_paper_fold.get('m2')+result_paper_end.get('m2')
+    work = folder_work(m2)*m2
     shtamp_res = resp(a, b, c)
 
     currency = {'euro': currency_req, 'rub': 1}
