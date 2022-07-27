@@ -1,6 +1,5 @@
 from cubbox.calculate import Cardboard_Box, Paper_Box_Hand, Paper_Box_Auto
 from cub_box_0.models import Work, Material, calc_count, Work2
-from details.algprog.currency import currency_eur as cur_euro
 from cubbox.shtamp import cutter
 from details.algprog.toFix import toFixed
 
@@ -26,8 +25,7 @@ def hand_work(a, b, hight):
     return work_count
 
 
-def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
-    currency_req = cur_euro()
+def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_req):
     thickness_cb = Material.objects.get(mt_name=cardboard_req).len
     lis_siz = [Material.objects.get(mt_name=cardboard_req).size_x, Material.objects.get(mt_name=cardboard_req).size_y]
 
@@ -91,4 +89,5 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight):
                     f'90% - {calc_sum[5]} руб/шт. '
                     f'100% - {calc_sum[6]} руб/шт. ',
             'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
+    print(data)
     return data

@@ -16,3 +16,8 @@ def valve_folder():
 # загиб дна шкатулки
 def valve_casket():
     return 15
+
+
+# загиб футляр
+def valve_case():
+    return 15

@@ -4,13 +4,13 @@ from details.folder.folderM.folderhand.result import result_data_folder_hand
 from details.algprog.toFix import toFixed
 
 
-def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
+def result_data_casket(a, b, c, cardboard_req, paper_req, kol, cur_euro):
     calc_sum = []
     if kol >= 500 and a >= 80 and b >= 65 and c >= 10:
         if a <= 460 and b <= 380 and c <= 120:
             type_work_tray = 'Сборка автоматическая лотка. '
-            tray = result_data_tray_auto(a, b, c, cardboard_req, paper_req)
-            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+            tray = result_data_tray_auto(a, b, c, cardboard_req, paper_req, cur_euro)
+            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req, cur_euro)
             result_cardboard = tray.get('Расход картона')+folder.get('Расход картона')
             result_paper = tray.get('Расход бумаги')+folder.get('Расход бумаги')
             work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
@@ -19,8 +19,8 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
                 calc_sum.append(toFixed(tray.get('Цена')[x] + folder.get('Цены')[x], 2))
         else:
             type_work_tray = 'Сборка ручная лотка.'
-            tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req)
-            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+            tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req, cur_euro)
+            folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req, cur_euro)
             result_cardboard = tray.get('Расход картона') + folder.get('Расход картона')
             result_paper = tray.get('Расход бумаги') + folder.get('Расход бумаги')
             work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
@@ -29,8 +29,8 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
                 calc_sum.append(toFixed(tray.get('Цена')[x] + folder.get('Цены')[x], 2))
     else:
         type_work_tray = 'Сборка ручная лотка.'
-        tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req)
-        folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req)
+        tray = result_data_tray_hand(a, b, c, cardboard_req, paper_req, cur_euro)
+        folder = result_data_folder_hand(a, b, c, cardboard_req, paper_req, cur_euro)
         result_cardboard = tray.get('Расход картона') + folder.get('Расход картона')
         result_paper = tray.get('Расход бумаги') + folder.get('Расход бумаги')
         work = f'папка {folder.get("Работа")}руб, лоток {tray.get("Работа")}руб'
@@ -49,5 +49,6 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol):
                     f'90% - {calc_sum[5]} руб/шт. '
                     f'100% - {calc_sum[6]} руб/шт. ',
             'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
+    print(data)
     return data
 

@@ -25,3 +25,4 @@ urlpatterns = [
     path('', views.first_page),
     path('result', views.req_data, name='result')] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+

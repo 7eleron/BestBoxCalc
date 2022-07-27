@@ -1,35 +1,37 @@
 from django.shortcuts import render
 from cubbox.result import result_data_box
 from casketM.result import result_data_casket
-from details.tray.trayauto.result import result_data_tray_auto
+from Case.result import result_data_case
 from details.algprog.currency import currency_eur
 
 
 # Create your views here.
 def first_page(request):
-    cur_euro = currency_eur()
-    return render(request, './index.html', {'cur_euro': cur_euro})
+    return render(request, './index.html', {'cur_euro': currency_eur()})
 
 
-def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction):
+def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction, cur_euro):
     if construction == 'Крышка-дно':
-        result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight)
+        result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, cur_euro)
         return result
-    elif construction == 'Шкатулка':
-        result = result_data_casket(a, b, c, cardboard_req, paper_req, kol)
+    elif construction == 'Шкатулка на магнитах':
+        result = result_data_casket(a, b, c, cardboard_req, paper_req, kol, cur_euro)
         return result
-    elif construction == 'Лоток':
-        result = result_data_tray_auto(a, b, c, cardboard_req, paper_req)
+    elif construction == 'Пенал':
+        result = result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro)
         return result
 
 
 def req_data(request):
-    if str(currency_eur()).isdigit():
-        cur_euro = 60
-    else:
-        cur_euro = currency_eur()
+    #try:
 
-    try:
+        req_cur_euro = request.POST['currency'].strip().split(',')
+        cur_euro = 0
+        if len(req_cur_euro) == 1:
+            cur_euro = float(req_cur_euro[0])
+        elif len(req_cur_euro) == 2:
+            cur_euro = float(req_cur_euro[0] + '.' + req_cur_euro[1])
+
         construction = request.POST['construction']
         cardboard_req = request.POST['cardboard']
         paper_req = request.POST['paper']
@@ -37,10 +39,11 @@ def req_data(request):
             a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(request.POST['hight'].strip())
             kol = int(request.POST['kol'].strip())
             lid_hight = int(request.POST['lid_hight'].strip())
-            result = request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction)
+            result = request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction, cur_euro)
 
             return render(request, './result.html', {'construction': construction,
-                                                     'cur_euro': cur_euro,
+                                                     'cur_euro': currency_eur(),
+                                                     'sen_cur_euro': cur_euro,
                                                      'info': result.get('Информация о коробке'),
                                                      'expence': result.get('Расходы'),
                                                      'work': result.get('Работа'),
@@ -48,8 +51,14 @@ def req_data(request):
                                                      'priceshtamp': result.get('Цена штампа')})
 
         except ValueError:
-            return render(request, './result.html', {'cur_euro': cur_euro, 'info': 'Введите числовые данные.'})
+            return render(request, './result.html', {'cur_euro': currency_eur(), 'info': 'Введите числовые данные.'})
 
-    except Exception as ex:
-        return render(request, './result.html', {'cur_euro': cur_euro, 'ex': ex})
+    #except Exception as ex:
+        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': ex})
 
+
+#сохранение данных в xl
+def save(request):
+    name = request.POST['name']
+    print(request)
+    print(name)

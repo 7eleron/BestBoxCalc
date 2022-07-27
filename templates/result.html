@@ -2,6 +2,7 @@
 {% block title %} Result page {% endblock %}
 {% load static %}
 {% block content %}
+
 <center>
     {% if info %}
     <br>{{ construction }}
@@ -10,12 +11,14 @@
     <br>{{ work }}
     <br>{{ prices }}
     <br>{{ priceshtamp }}
+    <br>По курсу евро {{ sen_cur_euro }} руб.
     {% else %}
     <br><b>Не получилось рассчитать, оставьте заявку на почту или обратитесь к нашему менеджеру!</b>
     <br><b>{{ ex }}</b>
     {% endif %}
 
 </center>
+
 {% endblock %}
 
 

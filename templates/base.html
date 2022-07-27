@@ -5,18 +5,24 @@
     <meta charset="UTF-8">
     <link href="{% static 'style.css' %}" rel="stylesheet">
     <title>{% block title %} {% endblock %}</title>
-    <h3>Курс евро {{ cur_euro }} руб.</h3>
     <center><H2><FONT FACE="Arial" SIZE=6 COLOR=TEAL>Калькулятор</FONT></h2></center>
 </head>
 <body>
+    <link href="{% static 'style.css' %}" rel="stylesheet">
 <center>
 <form action="{% url 'result' %}" method="POST">
     {% csrf_token %}
+    {% if cur_euro %}
+        <h3>Курс евро <input class="text" id="c" type="text" placeholder="{{ cur_euro }}" name="currency" value="{{ cur_euro }}"/></h3>
+    {% else %}
+        <h3>Курс евро <input class="text" id="c_2" type="text" placeholder="" name="currency" required="required"/></h3>
+    {% endif %}
     <div class="main">
     <div class="field">
         <br><select class="select-field-1" name="construction" required="required">
             <option value="Крышка-дно">Крышка-дно</option>
-            <option value="Шкатулка">Шкатулка</option>
+            <option value="Шкатулка на магнитах">Шкатулка на магнитах</option>
+            <option value="Пенал">Пенал</option>
         </select>
     </div>
    <div class="field">
@@ -28,18 +34,20 @@
       <input class="text" id="th" placeholder="Высота крышки мм." name="lid_hight" required="required" />
       <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
    </div>
-   <div class="field">
-   <br><select class="select-field-1" name="cardboard" required="required">
-        <option selected="selected" value="Сураж 2 мм" >Сураж 2 мм</option>
-        <option value="Eska 2 мм">Eska 2 мм</option>
+   <link href="{% static 'style.css' %}" rel="stylesheet">
+   <div class="field" >
+   <br>Картон <select class="select-field-1" name="cardboard" required="required">
+        <option selected="selected" value="Сураж 1,5 мм" >Сураж 1,5 мм</option>
+        <option value="Сураж 2 мм" >Сураж 2 мм</option>
+        <option value="Сураж 2,5 мм">Сураж 2,5 мм</option>
 </select>
-    <select class="select-field-2" name="paper" required="required">
-        <option selected="selected" value="Keaykolour 120 г/м2" >Keaykolour 120 г/м2</option>
+    Бумага <select class="select-field-2" name="paper" required="required">
+        <option selected="selected" value="Efalin 120 г/м2" >Efalin 120 г/м2</option>
         <option value="Senzo 175 г/м2">Senzo 175 г/м2</option>
         <option value="Pergraphica черная 120 г/м2">Pergraphica черная 120 г/м2</option>
 </select>
     <div>
-    <br><button class="button" type="submit">Calculet</button>
+    <br><button class="button" type="submit">Рассчитать</button>
     </div>
     </div>
     </div>
