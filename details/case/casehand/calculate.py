@@ -10,15 +10,10 @@ class ExpenceCase:
         self.thickness_cb = thickness_cb
 
     def result(self, lis_siz):
-        try:
-            # внутренние размеры с учететом лотка
-            width_c, length_c = self.width+((self.thickness_cb*2)+2), self.length+((self.thickness_cb*2)+1)
-            hight = self.tray_hight+(self.thickness_cb+2)
-            # расход материалов
-            paper = expence_pap_case(width_c, hight, length_c, self.thickness_cb, lis_siz)
-            cardboard = expence_case_cb(width_c, length_c, hight, lis_siz)
-            return {'cardboard': cardboard, 'paper': paper}
-        except ZeroDivisionError:
-            return 'Неполучилось расчитать.'
-        except Exception as ex:
-            return ex
+        # внутренние размеры с учететом лотка
+        width_c, length_c = self.width+((self.thickness_cb*2)+2), self.length+((self.thickness_cb*2)+1)
+        hight = self.tray_hight+(self.thickness_cb+2)
+        # расход материалов
+        paper = expence_pap_case(width_c, hight, length_c, self.thickness_cb, lis_siz)
+        cardboard = expence_case_cb(width_c, length_c, hight, lis_siz)
+        return {'cardboard': cardboard, 'paper': paper}

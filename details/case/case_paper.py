@@ -1,9 +1,9 @@
 import math
 import numpy as np
+from details.algprog.round import rou
 from details.valvebends.valve import valve_case
 from details.algprog.calc_lis import calc
 from details.algprog.cal_m2 import calc_m2
-from details.algprog.toFix import toFixed
 
 
 # бумага футляр бортом
@@ -35,9 +35,9 @@ def expence(case, lis_siz):
         tray_ras = tray_bor[0] + tray_dno[0]
         trayD_m2 = calc_m2(case[1])
         trayB_m2 = calc_m2(case[0])
-        return {'Расход': float(toFixed(tray_ras, 2)),
-                'Информация': f'Одним бортом. ' \
-                              f'Борт - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм.',
+        return {'Расход': rou(tray_ras),
+                'Информация': f'футляр одной полосой. ' \
+                              f'Полоса - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм. ',
                 'm2': trayB_m2 + trayD_m2}
     elif a == 6:
         tray_bor = calc([case[0]], lis_siz) * 2
@@ -45,11 +45,9 @@ def expence(case, lis_siz):
         tray_ras = tray_bor[0] + tray_dno[0]
         trayD_m2 = calc_m2(case[1])
         trayB_m2 = calc_m2(case[0]) * 2
-        print(f'Двумя бортами. ' \
-              f'Борт(х2) - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм.')
-        return {'Расход': float(toFixed(tray_ras, 2)),
-                'Информация': f'Двумя бортами. ' \
-                              f'Борт(х2) - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм.',
+        return {'Расход': rou(tray_ras),
+                'Информация': f'футляр двумя полосами. '
+                              f'Полоса(х2) - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм. ',
                 'm2': trayB_m2 + trayD_m2}
 
 
@@ -59,10 +57,5 @@ def expence_pap_case(width, length, tray_hight, thickness_cb, lis_siz):
     # бумага двумя бортами
     if tray_pap[0][1] > lis_siz[0]:
         tray_pap = paper_rim_tw(width, length, tray_hight, thickness_cb)
-
-    try:
-        result = expence(tray_pap, lis_siz)
-        return result
-
-    except ZeroDivisionError:
-        return 'Неполучилось расчитать.'
+    result = expence(tray_pap, lis_siz)
+    return result

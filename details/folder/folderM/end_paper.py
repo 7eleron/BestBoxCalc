@@ -1,7 +1,7 @@
 import math
 from details.algprog.calc_lis import calc
-from details.algprog.toFix import toFixed
 from details.algprog.cal_m2 import calc_m2
+from details.algprog.round import rou
 
 
 # бумага форзац
@@ -19,6 +19,6 @@ def expence_end_paper(width, length, hight, thickness_cb, lis_siz):
     end_pap = end_paper(width, length, hight, thickness_cb)
     end_pap_ras = calc([end_pap], lis_siz)
     end_pap_m2 = calc_m2(end_pap)
-    return {'Расход': float(toFixed(end_pap_ras[0], 2)),
-            'Информация': f'{end_pap[0]}x{end_pap[1]}мм.',
+    return {'Расход': rou(end_pap_ras[0]),
+            'Информация': f'форзац {end_pap[0]}x{end_pap[1]}мм. ',
             'm2': end_pap_m2}

@@ -1,9 +1,9 @@
 import math
 import numpy as np
+from details.algprog.round import rou
 from details.valvebends.valve import valve_tray
 from details.algprog.calc_lis import calc
 from details.algprog.cal_m2 import calc_m2
-from details.algprog.toFix import toFixed
 
 
 # бумага дно бортом
@@ -35,8 +35,8 @@ def expence(tray, lis_siz):
         tray_ras = tray_bor[0] + tray_dno[0]
         trayD_m2 = calc_m2(tray[1])
         trayB_m2 = calc_m2(tray[0])
-        return {'Расход': float(toFixed(tray_ras, 2)),
-                'Информация': f'Донышко бортом. '\
+        return {'Расход': rou(tray_ras),
+                'Информация': f'лоток бортом. '\
                               f'Борт - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм.',
                 'm2': trayB_m2+trayD_m2}
     elif a == 6:
@@ -45,8 +45,8 @@ def expence(tray, lis_siz):
         tray_ras = tray_bor[0] + tray_dno[0]
         trayD_m2 = calc_m2(tray[1])
         trayB_m2 = calc_m2(tray[0])*2
-        return {'Расход': float(toFixed(tray_ras, 2)),
-                'Информация': f'Донышко двумя бортами. '\
+        return {'Расход': rou(tray_ras),
+                'Информация': f'лоток двумя бортами. '\
                               f'Борт(х2) - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм.',
                 'm2': trayB_m2 + trayD_m2}
 
@@ -57,10 +57,5 @@ def expence_pap(width, length, tray_hight, thickness_cb, lis_siz):
     # бумага двумя бортами
     if tray_pap[0][1] > lis_siz[0]:
         tray_pap = tray_paper_rim_tw(width, length, tray_hight, thickness_cb)
-
-    try:
-        result = expence(tray_pap, lis_siz)
-        return result
-
-    except ZeroDivisionError:
-        return 'Неполучилось расчитать.'
+    result = expence(tray_pap, lis_siz)
+    return result

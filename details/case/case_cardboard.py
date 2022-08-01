@@ -1,4 +1,5 @@
 from details.algprog.calc_lis import calc
+from details.algprog.round import rou
 
 
 # картонная футляр
@@ -13,5 +14,5 @@ def case_cb(width, length, hight):
 def expence_case_cb(width, length, hight, lis_siz):
     case = case_cb(width, length, hight)
     case_exp = calc([case], lis_siz)[0]
-    return {'Расход': float(case_exp),
-            'Информация': case}
+    return {'Расход': rou(case_exp),
+            'Информация': f'футляр {case[0]}x{case[1]}мм. '}

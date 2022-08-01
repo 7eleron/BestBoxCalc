@@ -21,3 +21,8 @@ def valve_casket():
 # загиб футляр
 def valve_case():
     return 15
+
+
+# загиб футляр
+def valve_insert():
+    return 15

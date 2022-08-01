@@ -5,15 +5,21 @@
 
 <center>
     {% if info %}
-    <br>{{ construction }}
-    <br>{{ info }}
-    <br>{{ expence }}
-    <br>{{ work }}
-    <br>{{ prices }}
-    <br>{{ priceshtamp }}
-    <br>По курсу евро {{ sen_cur_euro }} руб.
+    {{ construction }}
+        <br>{{ info }}
+        <br>{{ expence }}
+        <br>{{ work }}
+        <br>{{ prices }}
+        <br>{{ priceshtamp }}
+        <br>По курсу евро {{ sen_cur_euro }} руб.
+
+    <h6><br>Информация о деталях:
+    <br>{{ infolid }}
+    <br>{{ infotray }}
+    </h6>
+
     {% else %}
-    <br><b>Не получилось рассчитать, оставьте заявку на почту или обратитесь к нашему менеджеру!</b>
+    <br><b>Не получилось рассчитать!</b>
     <br><b>{{ ex }}</b>
     {% endif %}
 

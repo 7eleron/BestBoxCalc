@@ -1,7 +1,7 @@
 import math
+from details.algprog.round import rou
 from details.valvebends.valve import valve_folder
 from details.algprog.calc_lis import calc
-from details.algprog.toFix import toFixed
 from details.algprog.cal_m2 import calc_m2
 
 
@@ -36,16 +36,14 @@ def expence_pap_fold(width, length, hight, thickness_cb, lis_siz):
         folder = folder_paper_one(width, length, hight, thickness_cb)
         fold_ras = calc([folder], lis_siz)
         fold_m2 = calc_m2(folder)
-        return {'Расход': float(toFixed(fold_ras[0], 2)),
-                'Информация': f'{folder[0]}x{folder[1]}мм.',
+        return {'Расход': rou(fold_ras[0]),
+                'Информация': f'лайнер папки {folder[0]}x{folder[1]}мм.',
                 'm2': fold_m2}
     except ZeroDivisionError:
         folder = folder_paper_dab(width, length, hight, thickness_cb)
         fold_ras = calc([folder[0]], lis_siz)[0] + calc([folder[1]], lis_siz)[0]
         fold_m2 = calc_m2(folder[0]) + calc_m2(folder[1])
-        return {'Расход': float(toFixed(fold_ras, 2)),
-                'Информация': f'Папка 1 - {folder[0][0]}x{folder[0][1]}мм.'\
-                              f'Папка 2 - {folder[1][0]}x{folder[1][1]}мм.',
+        return {'Расход': rou(fold_ras),
+                'Информация': f'лайнер папки 1 - {folder[0][0]}x{folder[0][1]}мм. '
+                              f'лайнер папки 2 - {folder[1][0]}x{folder[1][1]}мм. ',
                 'm2': fold_m2}
-    except Exception as ex:
-        return ex

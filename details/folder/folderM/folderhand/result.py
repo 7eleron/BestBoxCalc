@@ -2,6 +2,7 @@ from details.folder.folderM.folderhand.calculate import ExpenceFolder
 from cub_box_0.models import Material, calc_count
 from details.folder.folderM.folderhand.shtamp import resp
 from details.algprog.toFix import toFixed
+from services.marga import marga
 from work.hand_work_folder import folder_work
 
 
@@ -14,14 +15,18 @@ def result_data_folder_hand(a, b, c, cardboard_req, paper_req, cur_euro):
     lissiz_pap = [Material.objects.get(mt_name=paper_req).size_x, Material.objects.get(mt_name=paper_req).size_y]
 
     type_work = 'папка магниты ручная'
+    obj_folder = ExpenceFolder(a, b, c, thickness_cb)
+    cardboard = obj_folder.result(lissiz_cb)['cardboard']
+    paper_fold = obj_folder.result(lissiz_pap).get('paper_folder')
+    paper_end = obj_folder.result(lissiz_pap).get('paper_end')
     # расход материала
-    obj_tray = ExpenceFolder(a, b, c, thickness_cb)
-    result_cardboard = obj_tray.result(lissiz_cb)['cardboard'].get('Расход')
-    result_paper_fold = obj_tray.result(lissiz_pap).get('paper_folder')
-    result_paper_end = obj_tray.result(lissiz_pap).get('paper_end')
-    result_paper = result_paper_fold.get('Расход')+result_paper_end.get('Расход')
+    result_cardboard = cardboard.get('Расход')
+    result_paper = paper_fold.get('Расход')+paper_end.get('Расход')
+    # информация
+    info_cardboard_paper = f'Картон - {cardboard.get("Информация")}. ' \
+                           f'Бумага - {paper_fold.get("Информация")}{paper_end.get("Информация")}. '
 
-    m2 = result_paper_fold.get('m2')+result_paper_end.get('m2')
+    m2 = paper_fold.get('m2')+paper_end.get('m2')
     # стоимость работы
     work = folder_work(m2)*m2
     # стоимость штампа
@@ -51,17 +56,11 @@ def result_data_folder_hand(a, b, c, cardboard_req, paper_req, cur_euro):
     production_cost = ((paper_count+cardboard_count)*data_calc.reject)+magnets+data_calc.cut+work+((work)\
                                                                         *data_calc.not_production)
     # стоимости
-    calc_sum = [((production_cost * 0.4) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 0.5) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 0.6) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 0.7) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 0.8) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 0.9) * data_calc.manager_proc) + production_cost,
-                ((production_cost * 1) * data_calc.manager_proc) + production_cost
-                ]
+    calc_sum = marga(production_cost)
 
     data = {'Расход картона': result_cardboard,
             'Расход бумаги': result_paper,
+            'Информация': info_cardboard_paper,
             'Работа': float(toFixed(work, 2)),
             'Цены': calc_sum,
             'Цена штампа': float(toFixed(shtamp_res, 2))}

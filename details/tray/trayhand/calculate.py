@@ -11,15 +11,10 @@ class ExpenceTray:
         self.thickness_cb = thickness_cb
 
     def result(self, lis_siz):
-        try:
-            cardboard = expence_cd(self.width, self.length, self.tray_hight, lis_siz)
-            if self.tray_hight >= 75:
-                paper = expence_pap(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
-            else:
-                paper = expence_pap_once(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
+        cardboard = expence_cd(self.width, self.length, self.tray_hight, lis_siz)
+        if self.tray_hight >= 75:
+            paper = expence_pap(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
+        else:
+            paper = expence_pap_once(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
 
-            return {'cardboard': cardboard, 'paper': paper}
-        except ZeroDivisionError:
-            return 'Неполучилось расчитать.'
-        except Exception as ex:
-            return ex
+        return {'cardboard': cardboard, 'paper': paper}

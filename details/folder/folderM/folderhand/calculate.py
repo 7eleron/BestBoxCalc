@@ -11,12 +11,7 @@ class ExpenceFolder:
         self.thickness_cb = thickness_cb
 
     def result(self, lis_siz):
-        try:
-            cardboard = expence_fol_cb(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
-            paper_folder = expence_pap_fold(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
-            paper_end = expence_end_paper(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
-            return {'cardboard': cardboard, 'paper_folder': paper_folder, 'paper_end': paper_end}
-        except ZeroDivisionError:
-            return 'Неполучилось расчитать.'
-        except Exception as ex:
-            return ex
+        cardboard = expence_fol_cb(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
+        paper_folder = expence_pap_fold(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
+        paper_end = expence_end_paper(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
+        return {'cardboard': cardboard, 'paper_folder': paper_folder, 'paper_end': paper_end}

@@ -1,7 +1,7 @@
 import math
 from details.algprog.calc_lis import calc
-from details.algprog.toFix import toFixed
 from details.algprog.cal_m2 import calc_m2
+from details.algprog.round import rou
 
 
 # бумага дно одним листом
@@ -18,6 +18,6 @@ def expence_pap(width, length, hight, thickness_cb, lis_siz):
     tray = tray_paper_once(width, length, hight, thickness_cb)
     tray_ras = calc([tray], lis_siz)
     tray_m2 = calc_m2(tray)
-    return {'Расход': float(toFixed(tray_ras[0], 2)),
-            'Информация': f'{tray[0]}x{tray[1]}мм.',
+    return {'Расход': rou(tray_ras[0]),
+            'Информация': f'лоток одним листом {tray[0]}x{tray[1]}мм. ',
             'm2': tray_m2}

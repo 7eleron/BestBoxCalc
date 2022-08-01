@@ -1,7 +1,7 @@
 import numpy as np
 from details.algprog.calc_lis import calc
-from details.algprog.toFix import toFixed
 from details.algprog.cal_m2 import calc_m2
+from details.algprog.round import rou
 from details.lid.lid_flat_cardboard import lid_cb
 from details.lid.lid_paper_cross import lid_paper
 from details.tray.tray_flat_cardboard import tray_cb
@@ -62,18 +62,21 @@ class Cardboard_Box:
             result_one = self.sep_lid_tray(lid, tray, lis_siz)
 
             if result_tw[0] <= result_one:
-                return [toFixed(result_tw[0], 2),
-                        f'Крышка и дно вместе. Крышка-дно - {result_tw[1][0]}x{result_tw[1][1]}мм.']
+                return {'Расход': rou(result_tw[0]),
+                        'Информация': f'Крышка и дно вместе. Крышка-дно - {result_tw[1][0]}x{result_tw[1][1]}мм. '
+                        }
             else:
-                return [toFixed(result_one, 2),
-                        f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
-                        f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм.']
+                return {'Расход': rou(result_one),
+                        'Информация': f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
+                                      f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. '
+                        }
 
         except ZeroDivisionError:
             result = self.sep_lid_tray(lid, tray, lis_siz)
-            return [toFixed(result, 2),
-                    f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
-                    f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм.']
+            return {'Расход': rou(result),
+                    'Информация': f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
+                                  f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. '
+                    }
 
     def cardboard_box(self, lis_siz):
         # развернутая крышка
@@ -81,12 +84,8 @@ class Cardboard_Box:
         # развернутое дно
         tray_card = tray_cb(self.width, self.length, self.tray_hight)
 
-        try:
-            result = self.expence(lid_card, tray_card, lis_siz)
-
-            return result
-        except ZeroDivisionError:
-            return 'Неполучилось разместить на листе.'
+        result = self.expence(lid_card, tray_card, lis_siz)
+        return result
 
 
 class Paper_Box_Hand:
@@ -101,39 +100,41 @@ class Paper_Box_Hand:
     # расход материала
     def expence(self, lid, tray, lis_siz):
         lis_one = [lid, tray]
-        try:
-            # результат дно и крышка вместе
-            lid_ras = calc([lid], lis_siz)
-            # результат дно и крышка раздельно
-            a = np.size(tray)
-            if a == 4:
-                tray_bor = calc([tray[0]], lis_siz)
-                tray_dno = calc([tray[1]], lis_siz)
-                tray_ras = tray_bor[0] + tray_dno[0]
-                lid_m2 = calc_m2(lid)
-                trayD_m2 = calc_m2(tray[1])
-                trayB_m2 = calc_m2(tray[0])
-                return [toFixed(lid_ras[0] + tray_ras, 2), f'Донышко бортом. Крышка - {lid[0]}x{lid[1]}мм. '
-                       f'Борт - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм.',
-                        lid_m2, trayB_m2+trayD_m2]
-            elif a == 6:
-                tray_bor = calc([tray[0]], lis_siz) * 2
-                tray_dno = calc([tray[1]], lis_siz)
-                tray_ras = tray_bor[0] + tray_dno[0]
-                lid_m2 = calc_m2(lid)
-                trayD_m2 = calc_m2(tray[1])
-                trayB_m2 = calc_m2(tray[0])*2
-                return [toFixed(lid_ras[0] + tray_ras, 2), f'Донышко бортом. Крышка - {lid[0]}x{lid[1]}мм. '
-                        f'Борт(х2) - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм.',
-                        lid_m2, trayB_m2+trayD_m2]
-            else:
-                tray_ras = calc([tray], lis_siz)[0]
-                lid_m2 = calc_m2(lid)
-                tray_m2 = calc_m2(tray)
-                return [toFixed(lid_ras[0] + tray_ras, 2), f'Донышко одним листом. Крышка - {lid[0]}x{lid[1]}мм. '
-                                                           f'Дно - {tray[0]}x{tray[1]}мм.', lid_m2, tray_m2]
-        except Exception:
-            return Exception
+        # результат дно и крышка вместе
+        lid_ras = calc([lid], lis_siz)
+        # результат дно и крышка раздельно
+        a = np.size(tray)
+        if a == 4:
+            tray_bor = calc([tray[0]], lis_siz)
+            tray_dno = calc([tray[1]], lis_siz)
+            tray_ras = tray_bor[0] + tray_dno[0]
+            lid_m2 = calc_m2(lid)
+            trayD_m2 = calc_m2(tray[1])
+            trayB_m2 = calc_m2(tray[0])
+            return {'Расход': rou(lid_ras[0] + tray_ras),
+                    'Информация': f'Донышко бортом. Крышка - {lid[0]}x{lid[1]}мм. '
+                                  f'Борт - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм. ',
+                    'm2': [lid_m2, trayB_m2+trayD_m2]}
+
+        elif a == 6:
+            tray_bor = calc([tray[0]], lis_siz) * 2
+            tray_dno = calc([tray[1]], lis_siz)
+            tray_ras = tray_bor[0] + tray_dno[0]
+            lid_m2 = calc_m2(lid)
+            trayD_m2 = calc_m2(tray[1])
+            trayB_m2 = calc_m2(tray[0])*2
+            return {'Расход': rou(lid_ras[0] + tray_ras),
+                    'Информация': f'Донышко бортом. Крышка - {lid[0]}x{lid[1]}мм. '
+                                  f'Борт(х2) - {tray[0][0]}x{tray[0][1]}мм. Дно - {tray[1][0]}x{tray[1][1]}мм. ',
+                    'm2': [lid_m2, trayB_m2+trayD_m2]}
+        else:
+            tray_ras = calc([tray], lis_siz)[0]
+            lid_m2 = calc_m2(lid)
+            tray_m2 = calc_m2(tray)
+            return {'Расход': rou(lid_ras[0] + tray_ras),
+                    'Информация': f'Донышко одним листом. Крышка - {lid[0]}x{lid[1]}мм. '
+                                  f'Дно - {tray[0]}x{tray[1]}мм.',
+                    'm2': [lid_m2, tray_m2]}
 
     def cub_box_paper(self, lis_siz):
         # бумага крышка
@@ -148,12 +149,8 @@ class Paper_Box_Hand:
             if tray_pap[0][1] > lis_siz[0]:
                 tray_pap = tray_paper_rim_tw(self.width, self.length, self.tray_hight, self.thickness_cb)
 
-        try:
-            result = self.expence(lid_pap, tray_pap, lis_siz)
-            return result
-
-        except ZeroDivisionError:
-            return 'Неполучилось расчитать.'
+        result = self.expence(lid_pap, tray_pap, lis_siz)
+        return result
 
 
 class Paper_Box_Auto:
@@ -166,25 +163,20 @@ class Paper_Box_Auto:
 
     # расход материала
     def expence(self, lid, tray, lis_siz):
-        try:
-            # результат дно и крышка вместе
-            lid_ras = calc([lid], lis_siz)
-            tray_ras = calc([tray], lis_siz)[0]
-            lid_m2 = calc_m2(lid)
-            tray_m2 = calc_m2(tray)
-            return [toFixed(lid_ras[0] + tray_ras, 2), f'Донышко одним листом. Крышка - {lid[0]}x{lid[1]}мм. '
-                                                       f'Дно - {tray[0]}x{tray[1]}мм.', lid_m2, tray_m2]
-        except Exception:
-            return Exception
+        # результат дно и крышка вместе
+        lid_ras = calc([lid], lis_siz)
+        tray_ras = calc([tray], lis_siz)[0]
+        lid_m2 = calc_m2(lid)
+        tray_m2 = calc_m2(tray)
+        return {'Расход': rou(lid_ras[0] + tray_ras),
+                'Информация': f'Донышко одним листом. Крышка - {lid[0]}x{lid[1]}мм. '
+                              f'Дно - {tray[0]}x{tray[1]}мм. ',
+                'm2': [lid_m2, tray_m2]}
 
     def cub_box_paper(self, lis_siz):
         # бумага крышка
         lid_pap = lid_paper(self.width, self.length, self.lid_hight, self.thickness_cb)
         tray_pap = tray_paper_once(self.width, self.length, self.tray_hight, self.thickness_cb)
 
-        try:
-            result = self.expence(lid_pap, tray_pap, lis_siz)
-            return result
-
-        except ZeroDivisionError:
-            return 'Неполучилось расчитать.'
+        result = self.expence(lid_pap, tray_pap, lis_siz)
+        return result

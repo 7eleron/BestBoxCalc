@@ -1,4 +1,5 @@
 from details.algprog.calc_lis import calc
+from details.algprog.round import rou
 
 
 # картонная папка
@@ -17,5 +18,8 @@ def expence_fol_cb(width, length, hight, thickness_cb, lis_siz):
     folder_exp = 0
     for dit in folder[1:]:
         folder_exp += calc([[folder[0], dit]], lis_siz)[0]
-    return {'Расход': float(folder_exp),
-            'Информация': folder}
+    return {'Расход': rou(folder_exp),
+            'Информация': f'клапан {folder[0]}х{folder[1]}мм, '
+                          f'крышка {folder[0]}х{folder[3]}мм, '
+                          f'корешок {folder[0]}х{folder[2]}мм, '
+                          f'дно {folder[0]}х{folder[4]}мм. '}

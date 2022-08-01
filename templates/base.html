@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <link href="{% static 'style.css' %}" rel="stylesheet">
     <title>{% block title %} {% endblock %}</title>
+    <a href='http://127.0.0.1:8000/'>
     <center><H2><FONT FACE="Arial" SIZE=6 COLOR=TEAL>Калькулятор</FONT></h2></center>
+        </a>
 </head>
 <body>
     <link href="{% static 'style.css' %}" rel="stylesheet">
@@ -21,6 +23,7 @@
     <div class="field">
         <br><select class="select-field-1" name="construction" required="required">
             <option value="Крышка-дно">Крышка-дно</option>
+            <option value="Крышка-дно со вставкой">Крышка-дно со вставкой</option>
             <option value="Шкатулка на магнитах">Шкатулка на магнитах</option>
             <option value="Пенал">Пенал</option>
         </select>
