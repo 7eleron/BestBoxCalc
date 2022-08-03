@@ -15,14 +15,14 @@ def prices(calc_sum: list):
 
 # маржа
 def marga(production_cost):
-    listsum = [((production_cost * 0.3) * 0.1) + production_cost,
-               ((production_cost * 0.4) * 0.1) + production_cost,
-               ((production_cost * 0.5) * 0.1) + production_cost,
-               ((production_cost * 0.6) * 0.1) + production_cost,
-               ((production_cost * 0.7) * 0.1) + production_cost,
-               ((production_cost * 0.8) * 0.1) + production_cost,
-               ((production_cost * 0.9) * 0.1) + production_cost,
-               ((production_cost * 1) * 0.1) + production_cost
+    listsum = [((production_cost * 0.3) * 1.1) + production_cost,
+               ((production_cost * 0.4) * 1.1) + production_cost,
+               ((production_cost * 0.5) * 1.1) + production_cost,
+               ((production_cost * 0.6) * 1.1) + production_cost,
+               ((production_cost * 0.7) * 1.1) + production_cost,
+               ((production_cost * 0.8) * 1.1) + production_cost,
+               ((production_cost * 0.9) * 1.1) + production_cost,
+               ((production_cost * 1) * 1.1) + production_cost
                ]
     listsum = [float(toFixed(x, 2)) for x in listsum]
     return listsum

@@ -1,5 +1,5 @@
-from details.cubboxinsert.cbinsertauto.result import result_data_cdinsert_auto
-from details.cubboxinsert.cbinserthand.result import result_data_cdinsert_hand
+from CubBoxInsert.cubboxinsert.cbinsertauto.result import result_data_cdinsert_auto
+from CubBoxInsert.cubboxinsert.cbinserthand.result import result_data_cdinsert_hand
 from details.algprog.toFix import toFixed
 from services.marga import prices
 
@@ -24,6 +24,7 @@ def result_data_cdinsert(a, b, tray_hight, cardboard_req, paper_req, kol, lid_hi
 
         # расчет изготовления лотка вручную
         else:
+            print('2')
             result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
                                                cur_euro)
             # расход материала
@@ -39,6 +40,7 @@ def result_data_cdinsert(a, b, tray_hight, cardboard_req, paper_req, kol, lid_hi
 
     # расчет изготовления лотка вручную
     else:
+        print('3')
         result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
                                            cur_euro)
         # расход материала
@@ -55,8 +57,8 @@ def result_data_cdinsert(a, b, tray_hight, cardboard_req, paper_req, kol, lid_hi
     data = {'Информация о коробке': f'Размер коробки {a}x{b}x{tray_hight+lid_hight}мм. Тираж {kol}шт. '
                                     f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
             'Расходы': f'Расход картона - {toFixed(result_cardboard, 2)}л. Расход бумаги - {toFixed(result_paper, 2)}л. ',
-            'Информация крышка': result.get('Информация'),
-            'Информация дно': '',
+            'Информация картон': result.get('Информация')['Картон'],
+            'Информация бумага': result.get('Информация')['Бумага'],
             'Работа': f'Стоимость работы - {work}. {type_work_tray}',
             'Цены': prices(calc_sum),
             'Цена штампа': f'Цена штампа - {shtamp_res} руб.'}

@@ -42,8 +42,8 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
             result_cardboard = cardboard['Расход']
             result_paper = paper['Расход']
             # информация
-            info_cardboard_paper = f'Картон - {cardboard.get("Информация")}. ' \
-                                   f'Бумага - {paper.get("Информация")}. '
+            info_cardboard_paper = {'Картон': cardboard.get("Информация"),
+                                    'Бумага': paper.get("Информация")}
 
             lid = machin_work(paper['m2'], kol)[0]
             tray = machin_work(paper['m2'], kol)[1]
@@ -61,8 +61,8 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
             result_cardboard = cardboard['Расход']
             result_paper = paper['Расход']
             # информация
-            info_cardboard_paper = f'Картон - {cardboard.get("Информация")}. ' \
-                                   f'Бумага - {paper.get("Информация")}. '
+            info_cardboard_paper = {'Картон': cardboard.get("Информация"),
+                                    'Бумага': paper.get("Информация")}
             # стоимость работы
             work = hand_work(a, b, c)
             type_work = ['Сборка ручная.', 'кд ручное']
@@ -77,8 +77,8 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
         result_cardboard = cardboard['Расход']
         result_paper = paper['Расход']
         # информация
-        info_cardboard_paper = f'Картон - {cardboard.get("Информация")}. ' \
-                               f'Бумага - {paper.get("Информация")}. '
+        info_cardboard_paper = {'Картон': cardboard.get("Информация"),
+                                'Бумага': paper.get("Информация")}
         # стоимость работы
         work = hand_work(a, b, c)
         type_work = ['Сборка ручная.', 'кд ручное']
@@ -103,9 +103,9 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
 
     data = {'Информация о коробке': f'Размер коробки {a}x{b}x{c}мм. Высота крышки {lid_hight}. Тираж {kol}шт. '
                                     f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
-            'Расходы': f'Расход картона - {toFixed(result_cardboard, 2)}л. Расход бумаги - {toFixed(result_paper, 2)}л.',
-            'Информация крышка': info_cardboard_paper,
-            'Информация дно': '',
+            'Расходы': f'Расход картона - {toFixed(result_cardboard, 2)}л. Расход бумаги - {toFixed(result_paper, 2)}л. ',
+            'Информация картон': info_cardboard_paper['Картон'],
+            'Информация бумага': info_cardboard_paper['Бумага'],
             'Работа': f'Стоимость работы - {work} руб. {type_work[0]}',
             'Цены': prices(calc_sum),
             'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}

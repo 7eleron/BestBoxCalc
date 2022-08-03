@@ -1,5 +1,4 @@
 from details.algprog.calc_lis import calc
-from details.algprog.round import rou
 
 
 # картонная крышка
@@ -14,5 +13,5 @@ def lid_cb(width, length, lid_hight, thickness_cb):
 def expence_pap(width, length, hight, thickness_cb, lis_siz):
     lid = lid_cb(width, length, hight, thickness_cb)
     lid_ras = calc([lid], lis_siz)
-    return {'Расход': rou(lid_ras[0]),
+    return {'Расход': float(lid_ras[0]),
             'Информация': f'{lid[0]}x{lid[1]}мм.'}

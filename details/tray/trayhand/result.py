@@ -24,7 +24,7 @@ def result_data_tray_hand(a, b, c, cardboard_req, paper_req, currency_req):
     info_cardboard_paper = f'Картон - {cardboard.get("Информация")}. ' \
                            f'Бумага - {paper.get("Информация")}. '
     # стоимость работы
-    work = (hand_work(a, b, c)/3)*2
+    work = hand_work(a, b, c)*0.66
     # стоимость штампа
     shtamp_res = resp(a, b, c)
 

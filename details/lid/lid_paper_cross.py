@@ -1,5 +1,4 @@
 import math
-from details.algprog.round import rou
 from details.valvebends.valve import valve_lid
 from details.algprog.calc_lis import calc
 from details.algprog.cal_m2 import calc_m2
@@ -19,6 +18,6 @@ def expence_pap(width, length, hight, thickness_cb, lis_siz):
     lid = lid_paper(width, length, hight, thickness_cb)
     lid_ras = calc([lid], lis_siz)
     lid_m2 = calc_m2(lid)
-    return {'Расход': rou(lid_ras[0]),
+    return {'Расход': float(lid_ras[0]),
             'Информация': f'{lid[0]}x{lid[1]}мм.',
             'm2': lid_m2}
