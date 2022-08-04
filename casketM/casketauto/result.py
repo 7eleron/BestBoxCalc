@@ -1,4 +1,4 @@
-from CasketM.casketauto.calculate import ExpenceCasket
+from casketM.casketauto.calculate import ExpenceCasket
 from cub_box_0.models import Material, calc_count
 from details.algprog.round import rou
 from details.algprog.toFix import toFixed

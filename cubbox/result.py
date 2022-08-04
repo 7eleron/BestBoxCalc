@@ -1,6 +1,6 @@
-from CubBox.calculate import Cardboard_Box, Paper_Box_Hand, Paper_Box_Auto
+from cubbox.calculate import Cardboard_Box, Paper_Box_Hand, Paper_Box_Auto
 from cub_box_0.models import Work, Material, calc_count, Work2
-from CubBox.shtamp import cutter
+from cubbox.shtamp import cutter
 from details.algprog.toFix import toFixed
 from services.marga import marga, prices
 

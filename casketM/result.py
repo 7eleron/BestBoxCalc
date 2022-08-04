@@ -1,5 +1,5 @@
-from CasketM.caskethand.result import result_data_casket_hand
-from CasketM.casketauto.result import result_data_casket_auto
+from casketM.caskethand.result import result_data_casket_hand
+from casketM.casketauto.result import result_data_casket_auto
 from details.algprog.toFix import toFixed
 from services.marga import prices
 
