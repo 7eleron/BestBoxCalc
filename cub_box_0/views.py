@@ -8,7 +8,10 @@ from details.algprog.currency import currency_eur
 
 # Create your views here.
 def first_page(request):
-    return render(request, './index.html', {'cur_euro': currency_eur()})
+    try:
+        return render(request, './index.html', {'cur_euro': currency_eur()})
+    except:
+        return render(request, './index.html', {'cur_euro': currency_eur(), 'ex': 'Обновите страницу!'})
 
 
 def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction, cur_euro):
