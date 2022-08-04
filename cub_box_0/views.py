@@ -27,7 +27,7 @@ def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, cons
 
 
 def req_data(request):
-    #try:
+    try:
         req_cur_euro = request.POST['currency'].strip().split(',')
         cur_euro = 0
         if len(req_cur_euro) == 1:
@@ -54,17 +54,17 @@ def req_data(request):
                                                  'infocb': result.get('Информация картон'),
                                                  'infotpap': result.get('Информация бумага'),
                                                  })
-    #except ValueError:
+    except ValueError:
         return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Введите числовые данные.'})
 
-    #except ZeroDivisionError:
+    except ZeroDivisionError:
         return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
 
-    #except TypeError:
+    except TypeError:
         return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
 
-    #except AttributeError:
+    except AttributeError:
         return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
 
-    #except Exception:
+    except Exception:
         return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': ''})
