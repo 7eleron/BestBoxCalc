@@ -4,8 +4,7 @@ from details.algprog.toFix import toFixed
 from services.marga import prices
 
 
-def result_data_cdinsert(a, b, tray_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro):
-    insert_hight = tray_hight+10
+def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro):
     if kol >= 500 and a >= 80 and b >= 65 and tray_hight >= 10 and lid_hight >= 10 and insert_hight >= 10:
         # расчет изготовления лотка на автоматической машине
         if a <= 460 and b <= 380 and tray_hight <= 120 and lid_hight <= 120 and insert_hight <= 120:
@@ -54,7 +53,13 @@ def result_data_cdinsert(a, b, tray_hight, cardboard_req, paper_req, kol, lid_hi
         # склейка стоимости
         calc_sum = result.get('Цены')
 
-    data = {'Информация о коробке': f'Размер коробки {a}x{b}x{tray_hight+lid_hight}мм. Тираж {kol}шт. '
+    if tray_hight+lid_hight >= insert_hight:
+        all_hight = tray_hight+lid_hight
+    else:
+        all_hight = insert_hight
+
+    data = {'Информация о коробке': f'Размер коробки {a}x{b}x{all_hight}мм. '
+                                    f'Крышка {lid_hight}мм, дно {tray_hight}мм, вставка {insert_hight}мм. Тираж {kol}шт. '
                                     f'Картон - {cardboard_req}. Бумага - {paper_req}. ',
             'Расходы': f'Расход картона - {toFixed(result_cardboard, 2)}л. Расход бумаги - {toFixed(result_paper, 2)}л. ',
             'Информация картон': result.get('Информация')['Картон'],

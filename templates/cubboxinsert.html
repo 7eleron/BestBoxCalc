@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} Cub Box {% endblock %}
+{% load static %}
+{% block params %}
+<link href="{% static 'style.css' %}" rel="stylesheet">
+
+<form action="{% url 'cubboxinsert' %}" method="POST">
+    {% csrf_token %}
+<center>
+
+    <input type="hidden" name="construction" value="Крышка-дно со вставкой"><h2>Крышка-дно со вставкой</h2>
+    <input type="hidden" name="namepage" value="cubboxinsert">
+{% if cur_euro %}
+        <h5>Курс евро <input class="text" id="c" type="text" placeholder="{{ cur_euro }}" name="currency" value="{{ cur_euro }}"/></h5>
+    {% else %}
+        <h5>Курс евро <input class="text" id="c_2" type="text" placeholder="" name="currency" required="required"/></h5>
+    {% endif %}
+    <div class="main">
+
+<div class="field">
+      <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
+      <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
+      <br><input class="text" id="h" placeholder="Высота дна мм." name="hight" required="required" />
+      <input class="text" id="th" placeholder="Высота крышки мм." name="lid_hight" required="required" />
+      <input class="text" id="ih" placeholder="Высота вставки мм." name="insert_hight" required="required" />
+</div>
+
+   <div class="field">
+      <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+   <br>Картон <select class="select-field-1" name="cardboard" required="required">
+        <option selected="selected" value="Сураж 1,5 мм" >Сураж 1,5 мм</option>
+        <option value="Сураж 2 мм" >Сураж 2 мм</option>
+        <option value="Сураж 2,5 мм">Сураж 2,5 мм</option>
+</select>
+    Бумага <select class="select-field-2" name="paper" required="required">
+        <option selected="selected" value="Efalin 120 г/м2" >Efalin 120 г/м2</option>
+        <option value="Senzo 175 г/м2">Senzo 175 г/м2</option>
+        <option value="Pergraphica черная 120 г/м2">Pergraphica черная 120 г/м2</option>
+</select>
+    <div>
+    <br><button class="button" type="submit">Рассчитать</button>
+    </div>
+    </div>
+    </div>
+</center>
+</form>
+{% endblock %}
+
+
+{% block result %}
+
+<center>
+    {% if info %}
+        <br>{{ info }}
+        <br>{{ expence }}
+        <br>{{ work }}
+        <br>{{ prices }}
+        <br>{{ priceshtamp }}
+
+    <h6><br>Информация о деталях:
+    <br>Картон {{ infocb }}
+    <br>Бумага {{ infotpap }}
+    </h6>
+
+    {% else %}
+    <br><b>{{ ex }}</b>
+    {% endif %}
+
+</center>
+
+{% endblock %}

@@ -1,7 +1,7 @@
-from details.tray.trayauto.result import result_data_tray_auto
-from Case.case.casehand.result import result_data_case_hand
+from Case.casehand.result import result_data_case_hand
+from Case.caseauto.result import result_data_case_auto
 from details.algprog.toFix import toFixed
-from services.marga import prices, glue_price
+from services.marga import prices
 
 
 def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
@@ -9,18 +9,17 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
     if kol >= 500 and a >= 80 and b >= 65 and c >= 10:
         # расчет изготовления лотка на автоматической машине
         if a <= 460 and b <= 380 and c <= 120:
-            tray = result_data_tray_auto(a, b, c, cardboard_req, paper_req, cur_euro)
-            case = result_data_case_hand(a, b, c, cardboard_req, paper_req, cur_euro)
+            result = result_data_case_auto(a, b, c, cardboard_req, paper_req, cur_euro)
             # расход материала
-            result_cardboard = tray.get('Расход картона')+case.get('Расход картона')
-            result_paper = tray.get('Расход бумаги')+case.get('Расход бумаги')
+            result_cardboard = result.get('Расход картона')
+            result_paper = result.get('Расход бумаги')
             # стоимость работы
-            type_work_tray = 'Сборка автоматическая лотка. '
-            work = f'папка {case.get("Работа")}руб, лоток {tray.get("Работа")}руб'
+            type_work_tray = 'Сборка автоматическая лотка.'
+            work = f'футляр {result["Работа"]["футляр"]}руб, лоток {result["Работа"]["лоток"]}руб'
             # стоимость штампа
-            shtamp_res = tray.get('Цена штампа')+case.get('Цена штампа')
+            shtamp_res = result.get('Цена штампа')
             # склейка стоимости
-            calc_sum = glue_price(tray.get('Цены'), case.get('Цены'))
+            calc_sum = result.get('Цены')
 
         # расчет изготовления лотка вручную
         else:

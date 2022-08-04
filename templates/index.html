@@ -1,14 +1,17 @@
-{% extends 'base.html' %}
-{% block title %} Start page {% endblock %}
 {% load static %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="ru">
+{% block index %}
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <center>
 
-<center>
+    {% include 'carusel.html' %}
+
     {% if info %}
-        <br><b>{{ ex }}</b>
+        <br>{{ ex }}
     {% else %}
     {% endif %}
 
-</center>
+    </center>
 {% endblock %}
 

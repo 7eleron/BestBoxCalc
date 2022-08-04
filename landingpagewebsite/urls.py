@@ -23,6 +23,10 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.first_page),
-    path('result', views.req_data, name='result')] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('cubbox/', views.cubbox_page, name='cubbox'),
+    path('cubboxinsert/', views.cubboxinsert_page, name='cubboxinsert'),
+    path('case/', views.case_page, name='case'),
+    path('casketm/', views.casketm_page, name='casketm'),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

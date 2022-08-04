@@ -2,9 +2,11 @@
             width: 100px;
     }
 .select-field-1 {
+            margin-top: 10px;
             width: 100px;
     }
 .select-field-2 {
+            margin-top: 10px;
             width: 200px;
     }
 .button {
@@ -25,3 +27,12 @@
             border-radius: 3px;
 
     }
+
+.slaider_h {
+	height: 60px;
+	width: 50%;
+	margin: 30px 0px 10px 0px;
+	padding-top: 20px;
+	background-color: rgba(10, 77, 125, 0.5);
+	text-align: center;
+}

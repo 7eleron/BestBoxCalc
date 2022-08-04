@@ -1,73 +1,51 @@
 from django.shortcuts import render
-from cubbox.result import result_data_box
-from casketM.result import result_data_casket
-from Case.result import result_data_case
-from CubBoxInsert.result import result_data_cdinsert
 from details.algprog.currency import currency_eur
+from cms.models import CmsSlider
+from services.resp_result import responseresult
+from services.req_constructions import request_construction_cubbox, request_construction_cubboxinsert
+from services.req_constructions import request_construction_case, request_construction_casketm
 
 
 # Create your views here.
 def first_page(request):
+    slider_list = CmsSlider.objects.all()
     try:
-        return render(request, './index.html', {'cur_euro': currency_eur()})
+        return render(request, './index.html', {'slider_list': slider_list})
     except:
-        return render(request, './index.html', {'cur_euro': currency_eur(), 'ex': 'Обновите страницу!'})
+        return render(request, './index.html', {'slider_list': slider_list, 'ex': ''})
 
 
-def request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction, cur_euro):
-    if construction == 'Крышка-дно':
-        result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, cur_euro)
-        return result
-    elif construction == 'Крышка-дно со вставкой':
-        result = result_data_cdinsert(a, b, c, cardboard_req, paper_req, kol, lid_hight, cur_euro)
-        return result
-    elif construction == 'Пенал':
-        result = result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro)
-        return result
-    elif construction == 'Шкатулка на магнитах':
-        result = result_data_casket(a, b, c, cardboard_req, paper_req, kol, cur_euro)
-        return result
-
-
-def req_data(request):
+def cubbox_page(request):
     try:
-        req_cur_euro = request.POST['currency'].strip().split(',')
-        cur_euro = 0
-        if len(req_cur_euro) == 1:
-            cur_euro = float(req_cur_euro[0])
-        elif len(req_cur_euro) == 2:
-            cur_euro = float(req_cur_euro[0] + '.' + req_cur_euro[1])
+        result = request_construction_cubbox(request)
+        return render(request, f'./cubbox.html', responseresult(result))
+    except:
+        return render(request, './cubbox.html', {'cur_euro': currency_eur(),
+                                                 'ex': ''})
 
-        construction = request.POST['construction']
-        cardboard_req = request.POST['cardboard']
-        paper_req = request.POST['paper']
-        a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(request.POST['hight'].strip())
-        kol = int(request.POST['kol'].strip())
-        lid_hight = int(request.POST['lid_hight'].strip())
-        result = request_construction(a, b, c, cardboard_req, paper_req, kol, lid_hight, construction, cur_euro)
 
-        return render(request, './result.html', {'construction': construction,
-                                                 'cur_euro': currency_eur(),
-                                                 'sen_cur_euro': cur_euro,
-                                                 'info': result.get('Информация о коробке'),
-                                                 'expence': result.get('Расходы'),
-                                                 'work': result.get('Работа'),
-                                                 'prices': result.get('Цены'),
-                                                 'priceshtamp': result.get('Цена штампа'),
-                                                 'infocb': result.get('Информация картон'),
-                                                 'infotpap': result.get('Информация бумага'),
-                                                 })
-    except ValueError:
-        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Введите числовые данные.'})
+def cubboxinsert_page(request):
+    try:
+        result = request_construction_cubboxinsert(request)
+        return render(request, './cubboxinsert.html', responseresult(result))
+    except:
+        return render(request, './cubboxinsert.html', {'cur_euro': currency_eur(),
+                                                     'ex': ''})
 
-    except ZeroDivisionError:
-        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
 
-    except TypeError:
-        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
+def case_page(request):
+    try:
+        result = request_construction_case(request)
+        return render(request, './case.html', responseresult(result))
+    except:
+        return render(request, './case.html', {'cur_euro': currency_eur(),
+                                                     'ex': ''})
 
-    except AttributeError:
-        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': 'Размер требует расчета в ручную.'})
 
-    except Exception:
-        return render(request, './result.html', {'cur_euro': currency_eur(), 'ex': ''})
+def casketm_page(request):
+    try:
+        result = request_construction_casketm(request)
+        return render(request, './casketm.html', responseresult(result))
+    except:
+        return render(request, './casketm.html', {'cur_euro': currency_eur(),
+                                                     'ex': ''})
