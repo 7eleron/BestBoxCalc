@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Cub Box {% endblock %}
+{% load static %}
+{% block params %}
+<link href="{% static 'style.css' %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<form action="{% url 'briefcase' %}" method="POST">
+    {% csrf_token %}
+<center>
+
+    <input type="hidden" name="construction" value="Портфель на магнитах"><h2>Портфель на магнитах</h2>
+    <input type="hidden" name="namepage" value="briefcase">
+{% if cur_euro %}
+        <h5>Курс евро <input class="text" id="c" type="text" placeholder="{{ cur_euro }}" name="currency" value="{{ cur_euro }}"/></h5>
+    {% else %}
+        <h5>Курс евро <input class="text" id="c_2" type="text" placeholder="" name="currency" required="required"/></h5>
+    {% endif %}
+    <div class="main">
+
+<script>
+
+        $(".handles input").on("click", function() {
+
+            $(".handles input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+
+        });
+
+</script>
+
+<div class="field">
+    <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
+    <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
+    <input class="text" id="h" placeholder="Высота дна мм." name="hight" required="required" />
+</div>
+
+          {% include 'material.html' %}
+
+
+<div class="handles">
+    <h4>Ручка</h4>
+    <p>
+        {% for handl in handle %}
+            <input type="checkbox" name="handle" value="{{ handl.mt_name }}"> {{ handl.mt_name }}
+        {% endfor %}
+    </p>
+</div>
+    <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+    <button class="button" type="submit">Рассчитать</button>
+    </div>
+</center>
+</form>
+{% endblock %}

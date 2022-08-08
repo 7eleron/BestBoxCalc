@@ -1,13 +1,85 @@
 {% load static %}
+<!DOCTYPE html>
+<html>
+
 <link href="{% static 'extend.css' %}" rel="stylesheet">
-<div class="slider">
+<link href="/examples/vendors/bootstrap-4.1/css/bootstrap.min.css" rel="stylesheet">
+<center>
+<div class="slider carousel-fade">
     <div class="slides">
       {% for slider in slider_list %}
+        {% if slider.cms_construction == "Крышка-дно" %}
+        <div id="{{ slider.cms_construction }}" class="carousel-item">
+          <a href="{{ slider.cms_link }}">
+            <img class="img-fluid" src="{{ slider.cms_img.url }}">
+          </a>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+
+<div class="slider carousel-fade">
+    <div class="slides">
+      {% for slider in slider_list %}
+        {% if slider.cms_construction == "Крышка-дно со вставкой" %}
+        <div id="{{ slider.cms_construction }}" class="carousel-item">
+          <a href="{{ slider.cms_link }}">
+            <img class="img-fluid" src="{{ slider.cms_img.url }}">
+          </a>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+
+<div class="slider carousel-fade">
+    <div class="slides">
+      {% for slider in slider_list %}
+        {% if slider.cms_construction == "Пенал" %}
         <div id="{{ slider.cms_construction }}">
           <a href="{{ slider.cms_link }}">
             <img src="{{ slider.cms_img.url }}">
           </a>
         </div>
+        {% endif %}
       {% endfor %}
     </div>
 </div>
+<br>
+<div class="slider-2 carousel-fade">
+    <div class="slides">
+      {% for slider in slider_list %}
+        {% if slider.cms_construction == "Шкатулка на магнитах" %}
+        <div id="{{ slider.cms_construction }}">
+          <a href="{{ slider.cms_link }}">
+            <img src="{{ slider.cms_img.url }}">
+          </a>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+
+<div class="slider-2 carousel-fade">
+    <div class="slides">
+      {% for slider in slider_list %}
+        {% if slider.cms_construction == "Портфель на магнитах" %}
+        <div id="{{ slider.cms_construction }}">
+          <a href="{{ slider.cms_link }}">
+            <img src="{{ slider.cms_img.url }}">
+          </a>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+</center>
+<!-- jQuery -->
+<script src="/examples/vendors/jquery/jquery-3.3.1.min.js"></script>
+<!-- Popper -->
+<script src="/examples/vendors/popper.js/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="/examples/vendors/bootstrap-4.1/js/bootstrap.min.js"></script>
+
+</html>

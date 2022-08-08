@@ -27,6 +27,7 @@ urlpatterns = [
     path('cubboxinsert/', views.cubboxinsert_page, name='cubboxinsert'),
     path('case/', views.case_page, name='case'),
     path('casketm/', views.casketm_page, name='casketm'),
+    path('briefcase/', views.briefcase_page, name='briefcase'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

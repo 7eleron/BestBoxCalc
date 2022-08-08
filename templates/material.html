@@ -1,0 +1,34 @@
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<div class="mat_cb">
+  <h4>Картон</h4>
+    <p>
+      {% for mat_cb in cardboard_list %}
+        <input type="checkbox" name="cardboard" value="{{mat_cb.mt_name}}"> {{mat_cb.mt_name}}
+      {% endfor %}
+    </p>
+</div>
+<div class="mat_pap">
+  <h4>Бумага</h4>
+    <p>
+      {% for mat_pap in paper_list %}
+        <input type="checkbox" name="paper" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
+      {% endfor %}
+</div>
+<script>
+
+        $(".mat_cb input").on("click", function() {
+
+            $(".mat_cb input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+
+        });
+
+        $(".mat_pap input").on("click", function() {
+
+            $(".mat_pap input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+
+        });
+
+</script>
