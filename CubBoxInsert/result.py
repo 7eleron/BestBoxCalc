@@ -23,7 +23,6 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
 
         # расчет изготовления лотка вручную
         else:
-            print('2')
             result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
                                                cur_euro)
             # расход материала
@@ -39,7 +38,6 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
 
     # расчет изготовления лотка вручную
     else:
-        print('3')
         result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
                                            cur_euro)
         # расход материала

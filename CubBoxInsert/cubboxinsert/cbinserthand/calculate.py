@@ -28,8 +28,13 @@ class ExpenceCubBoxInsert:
                      }
         paper_lid = expence_pap(width_lt, length_lt, self.tray_hight, self.thickness_cb, lis_siz)
         paper_tray = expence_pap_rim(width_lt, length_lt, self.tray_hight, self.thickness_cb, lis_siz)
-        paper_insert = expence_pap_insert(self.width, self.length, self.tray_hight, self.insert_hight,
-                                          self.thickness_cb, lis_siz)
+
+        if self.insert_hight <= 80:
+            paper_insert = expence_pap(self.width, self.length, self.insert_hight, self.thickness_cb, lis_siz)
+        else:
+            paper_insert = expence_pap_insert(self.width, self.length, self.tray_hight, self.insert_hight,
+                                              self.thickness_cb, lis_siz)
+
         paper_result = paper_lid['Расход'] + paper_tray['Расход'] + paper_insert['Расход']
         paper_info = ('крышка ' + paper_lid['Информация']) \
                       + ('донышко ' + paper_tray['Информация']) \
