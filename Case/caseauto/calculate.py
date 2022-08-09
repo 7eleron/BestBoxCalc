@@ -26,7 +26,7 @@ class ExpenceCase:
                      'Информация': cardboard_info}
 
         # расход бумаги
-        paper_case = expence_pap_case(width_c, length_c, hight, self.thickness_cb, lis_siz)
+        paper_case = expence_pap_case(width_c, hight, length_c, self.thickness_cb, lis_siz)
         paper_tray = expence_pap(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
         paper_result = paper_case['Расход'] + paper_tray['Расход']
         paper_info = ('футляр ' + paper_case['Информация']) \
