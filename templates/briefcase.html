@@ -35,13 +35,13 @@
 </div>
 
           {% include 'material.html' %}
-
+          {% include 'laminating_tray.html' %}
 
 <div class="handles">
     <h4>Ручка</h4>
     <p>
         {% for handl in handle %}
-            <input type="checkbox" name="handle" value="{{ handl.mt_name }}"> {{ handl.mt_name }}
+            <input id="handle" type="checkbox" name="handle" value="{{ handl.mt_name }}"> {{ handl.mt_name }}
         {% endfor %}
     </p>
 </div>
@@ -50,4 +50,39 @@
     </div>
 </center>
 </form>
+<script>
+    w.value = localStorage.getItem('w');
+    w.oninput = () => {
+      localStorage.setItem('w', w.value)
+    };
+    ln.value = localStorage.getItem('ln');
+    ln.oninput = () => {
+      localStorage.setItem('ln', ln.value)
+    };
+    h.value = localStorage.getItem('h');
+    h.oninput = () => {
+      localStorage.setItem('h', h.value)
+    };
+    k.value = localStorage.getItem('k');
+    k.oninput = () => {
+      localStorage.setItem('k', k.value)
+    };
+
+    $(".handles input").on("click", function() {
+            $(".handles input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+        });
+
+        // Remember checkbox
+        document.getElementById('handle').onclick = function() {
+            if(document.getElementById('handle').checked) {
+                localStorage.setItem('handle', "true");
+            } else {
+                localStorage.setItem('handle', "false");
+            }
+        }
+            if (localStorage.getItem('handle') == "true") {
+                document.getElementById("handle").setAttribute('checked','checked');
+        };
+</script>
 {% endblock %}

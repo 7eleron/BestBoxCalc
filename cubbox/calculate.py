@@ -63,19 +63,22 @@ class Cardboard_Box:
 
             if result_tw[0] <= result_one:
                 return {'Расход': rou(result_tw[0]),
-                        'Информация': f'Крышка и дно вместе. Крышка-дно - {result_tw[1][0]}x{result_tw[1][1]}мм. '
+                        'Информация': f'Крышка и дно вместе. Крышка-дно - {result_tw[1][0]}x{result_tw[1][1]}мм. ',
+                        'lid_tray': (calc([lid], lis_siz)[0], calc([tray], lis_siz)[0])
                         }
             else:
                 return {'Расход': rou(result_one),
                         'Информация': f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
-                                      f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. '
+                                      f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. ',
+                        'lid_tray': (calc([lid], lis_siz)[0], calc([tray], lis_siz)[0])
                         }
 
         except ZeroDivisionError:
             result = self.sep_lid_tray(lid, tray, lis_siz)
             return {'Расход': rou(result),
                     'Информация': f'Крышка и дно раздельно. Крышка - {lis_one[0][0]}x{lis_one[0][1]}мм. '
-                                  f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. '
+                                  f'Дно - {lis_one[1][0]}x{lis_one[1][1]}мм. ',
+                    'lid_tray': (calc([lid], lis_siz)[0], calc([tray], lis_siz)[0])
                     }
 
     def cardboard_box(self, lis_siz):

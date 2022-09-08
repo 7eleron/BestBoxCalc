@@ -4,10 +4,9 @@
 {% block params %}
 <link href="{% static 'style.css' %}" rel="stylesheet">
 
-<form action="{% url 'case' %}" method="POST">
-    {% csrf_token %}
+<form id="form" action="{% url 'case' %}" method="POST">
+        {% csrf_token %}
 <center>
-
     <input type="hidden" name="construction" value="Пенал"><h2>Пенал</h2>
     <input type="hidden" name="namepage" value="case">
 {% if cur_euro %}
@@ -20,37 +19,37 @@
 <div class="field">
       <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
       <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
-      <input class="text" id="h" placeholder="Высота дна мм." name="hight" required="required" />
+      <input class="text" id="h" placeholder="Высота дна мм." name="hight" required="required"/>
 </div>
 
     {% include 'material.html' %}
+    {% include 'laminating_lid_case.html' %}
+    {% include 'laminating_tray.html' %}
+
     <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
-    <button class="button" type="submit">Рассчитать</button>
+
+        <button type="submit">Рассчитать</button>
     </div>
 </center>
 </form>
+<script>
+    w.value = localStorage.getItem('w');
+    w.oninput = () => {
+      localStorage.setItem('w', w.value)
+    };
+    ln.value = localStorage.getItem('ln');
+    ln.oninput = () => {
+      localStorage.setItem('ln', ln.value)
+    };
+    h.value = localStorage.getItem('h');
+    h.oninput = () => {
+      localStorage.setItem('h', h.value)
+    };
+    k.value = localStorage.getItem('k');
+    k.oninput = () => {
+      localStorage.setItem('k', k.value)
+    };
+
+</script>
 {% endblock %}
 
-
-{% block result %}
-
-<center>
-    {% if info %}
-        <br>{{ info }}
-        <br>{{ expence }}
-        <br>{{ work }}
-        <br>{{ prices }}
-        <br>{{ priceshtamp }}
-
-    <h6><br>Информация о деталях:
-    <br>Картон {{ infocb }}
-    <br>Бумага {{ infotpap }}
-    </h6>
-
-    {% else %}
-    <br><b>{{ ex }}</b>
-    {% endif %}
-
-</center>
-
-{% endblock %}

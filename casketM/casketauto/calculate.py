@@ -16,7 +16,7 @@ class ExpenceCasket:
         # расход картона
         cardboard_folder = expence_fol_cb(self.width, self.length, self.tray_hight, self.thickness_cb, lis_siz)
         cardboard_tray = expence_cd(self.width, self.length, self.tray_hight, lis_siz)
-        cardboard_result = cardboard_folder['Расход'] + cardboard_tray['Расход']
+        cardboard_result = (cardboard_folder['Расход'], cardboard_tray['Расход'])
         cardboard_info = ('папка ' + cardboard_folder['Информация']) \
                          + ('лоток ' + cardboard_tray['Информация'])
         cardboard = {'Расход': cardboard_result,

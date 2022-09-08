@@ -4,12 +4,12 @@ from details.algprog.toFix import toFixed
 from services.marga import prices
 
 
-def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro):
+def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro, lam_req):
     if kol >= 500 and a >= 80 and b >= 65 and tray_hight >= 10 and lid_hight >= 10 and insert_hight >= 10:
         # расчет изготовления лотка на автоматической машине
         if a <= 460 and b <= 380 and tray_hight <= 120 and lid_hight <= 120 and insert_hight <= 120:
             result = result_data_cdinsert_auto(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
-                                               cur_euro)
+                                               cur_euro, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -24,7 +24,7 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
         # расчет изготовления лотка вручную
         else:
             result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
-                                               cur_euro)
+                                               cur_euro, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -39,7 +39,7 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
     # расчет изготовления лотка вручную
     else:
         result = result_data_cdinsert_hand(a, b, tray_hight, lid_hight, insert_hight, cardboard_req, paper_req,
-                                           cur_euro)
+                                           cur_euro, kol, laminating=lam_req)
         # расход материала
         result_cardboard = result.get('Расход картона')
         result_paper = result.get('Расход бумаги')

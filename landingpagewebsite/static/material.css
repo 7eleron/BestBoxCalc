@@ -1,0 +1,31 @@
+div.mt1 {
+    display: inline-block;
+}
+div.mt2 {
+    margin: 5px;
+    padding: 10px;
+    display: block;
+}
+div.mt2 label, input, select{
+    display: inline-block;
+}
+#cardboardname, #papername {
+    width: 100px;
+}
+#cardboardx, #cardboardy, #paperx, #papery {
+    width: 50px;
+}
+#cardboardl {
+    width: 60px;
+}
+#cardboardprice, #paperprice {
+    width: 40px;
+}
+.paperanother input, select{
+    display: inline-block;
+}
+
+
+
+
+

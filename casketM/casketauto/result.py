@@ -3,27 +3,32 @@ from cub_box_0.models import Material, calc_count
 from details.algprog.round import rou
 from details.algprog.toFix import toFixed
 from services.marga import marga
+from services.materialcalculate import material_information, material_price
 from services.shtamp.folderm import resp_folder
 from services.shtamp.trayflap import resp_tray
 from work.auto_work_tray import machin_work_tray
 from work.hand_work_folder import folder_work
+from work.hand_work_laminating import laminating_work
 
 
-def result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro):
-    currency_req = cur_euro
-    # толщина картона
-    thickness_cb = Material.objects.get(mt_name=cardboard_req).len
-    # размер листа материала
-    lissiz_cb = [Material.objects.get(mt_name=cardboard_req).size_x, Material.objects.get(mt_name=cardboard_req).size_y]
-    lissiz_pap = [Material.objects.get(mt_name=paper_req).size_x, Material.objects.get(mt_name=paper_req).size_y]
-
+def result_data_casket_auto(a, b, c, cardboard_req, paper_req, currency_req, kol, laminating=None):
+    # материал
+    mt_cardboard = material_information(cardboard_req)
+    mt_paper = material_information(paper_req)
     type_work = 'шкатулка магнитная полуавтомат'
-    obj_casket = ExpenceCasket(a, b, c, thickness_cb)
-    cardboard = obj_casket.result(lissiz_cb)['cardboard']
-    paper = obj_casket.result(lissiz_pap)['paper']
+    obj_casket = ExpenceCasket(a, b, c, mt_cardboard["thickness"])
+    cardboard = obj_casket.result(mt_cardboard["lissiz"])['cardboard']
+    paper = obj_casket.result(mt_paper["lissiz"])['paper']
     # расход материала
-    result_cardboard = rou(cardboard.get('Расход'))
+    result_cardboard = rou(sum(cardboard.get('Расход')))
     result_paper = rou(paper.get('Расход'))
+    result_laminat_lid = cardboard.get('Расход')[0]
+    result_laminat_tray = cardboard.get('Расход')[1]
+    # округление кашировки
+    if result_laminat_lid > 0:
+        result_laminat_lid = rou(result_laminat_lid)
+    if result_laminat_tray > 0:
+        result_laminat_tray = rou(result_laminat_tray)
     # информация
     info_cardboard_paper = {'Картон': cardboard.get("Информация"),
                             'Бумага': paper.get("Информация")}
@@ -33,7 +38,13 @@ def result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro):
     # стоимость работы
     work_fold = folder_work(m2_folder)*m2_folder
     work_tray = machin_work_tray(m2_tray)
-    work = work_fold + work_tray
+    work_laminate = 0
+    if laminating[0] != 'Без кашировки':
+        work_laminate += laminating_work(cardboard.get('Расход')[0])
+    if laminating[1] != 'Без кашировки':
+        work_laminate += laminating_work(cardboard.get('Расход')[1])
+    work = work_fold + work_tray + work_laminate
+
     # стоимость штампа
     shtamp_fold = resp_folder(a, b, c)
     shtamp_tray = resp_tray(a, b, c)*2
@@ -43,14 +54,26 @@ def result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro):
     # расчетные данные для калькуляции стоимости
     data_calc = calc_count.objects.get(style_work=type_work)
     data_calc_auto = calc_count.objects.get(style_work='лоток автомат')
-    # материал
-    cardboard_obj = Material.objects.get(mt_name=cardboard_req)
-    paper_obj = Material.objects.get(mt_name=paper_req)
-
-    # стоимость бумаги перемноженная на расход бумаги
-    paper_count = (paper_obj.prise * (currency.get(paper_obj.currency))*result_paper)
+    data_calc_lam = calc_count.objects.get(style_work='кашировка')
+    # цена материала на коробку
+    cardboard_price = material_price(cardboard_req, kol, result_cardboard)
+    paper_price = material_price(paper_req, kol, result_paper)
+    paper_price_laminate_lid = material_price(laminating[0], kol, result_laminat_lid)
+    paper_price_laminate_tray = material_price(laminating[1], kol, result_laminat_tray)
     # стоимость картона перемноженная на расход картона
-    cardboard_count = (cardboard_obj.prise * (currency.get(cardboard_obj.currency))*result_cardboard)
+    cardboard_count = (cardboard_price["price"] * (currency.get(cardboard_price["currency"])) * result_cardboard)
+    # стоимость внутренней бумаги перемноженная на расход бумаги
+    paper_count_laminate_lid = (paper_price_laminate_lid["price"] * (currency.get(paper_price_laminate_lid["currency"]))*result_laminat_lid)
+    paper_count_laminate_tray = (paper_price_laminate_tray["price"] * (currency.get(paper_price_laminate_tray["currency"]))*result_laminat_tray)
+    if laminating[0] == 'Полноцветная печать 170 г/м2':
+        paper_count_laminate_lid = paper_price_laminate_lid["price"]
+    if laminating[1] == 'Полноцветная печать 170 г/м2':
+        paper_count_laminate_tray = paper_price["price"]
+    # стоимость внешней бумаги перемноженная на расход бумаги
+    if mt_paper['name'] == 'Полноцветная печать 170 г/м2':
+        paper_count = paper_price["price"]
+    else:
+        paper_count = (paper_price["price"] * (currency.get(paper_price["currency"])) * result_paper)
     # магниты
     magnets = None
     if a > 0 and a <= 100:
@@ -63,9 +86,10 @@ def result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro):
     # непроизводственные перемноженные на стоимость работы
     nonproductworkfold = work_fold * data_calc.not_production
     nonproductworktray = work_tray * data_calc_auto.not_production
-    nonproductwork = nonproductworkfold + nonproductworktray
+    nonproductworklaminating = work_laminate * data_calc_lam.not_production
+    nonproductwork = nonproductworkfold + nonproductworktray + nonproductworklaminating
     # подсчет всех производственных затрат
-    production_cost = ((paper_count+cardboard_count)*data_calc.reject)+magnets+data_calc.cut+work+nonproductwork
+    production_cost = ((paper_count+cardboard_count+paper_count_laminate_lid+paper_count_laminate_tray)*data_calc.reject)+magnets+data_calc.cut+work+nonproductwork
     # стоимости
     calc_sum = marga(production_cost)
 

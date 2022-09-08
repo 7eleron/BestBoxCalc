@@ -1,0 +1,30 @@
+{% load static %}
+
+<input id=txt type="hidden" value="{{ info }}{{ expence }}{{ work }}{{ prices }}{{ priceshtamp }}Информация о деталях: Картон {{ infocb }} Бумага {{ infotpap }}">
+<br>
+<button type=button id=sf>Сохранить расчет</button>
+
+<script>
+function textToFile (text, name) {
+	const b = new Blob([text], { type: 'text/plain' });
+	const url = window.URL.createObjectURL(b);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = name || 'text.txt';
+	a.type = 'text/plain';
+	a.addEventListener('click', () => {
+		setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+	})
+	a.click()
+}
+
+document.getElementById('sf').addEventListener('click', () => {
+	textToFile (document.getElementById('txt').value, 'расчет_коробок.txt')
+})
+</script>
+
+
+
+
+
+

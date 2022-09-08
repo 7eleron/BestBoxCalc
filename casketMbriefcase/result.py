@@ -4,11 +4,11 @@ from details.algprog.toFix import toFixed
 from services.marga import prices
 
 
-def result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, handle):
+def result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, handle, lam_req):
     if kol >= 500 and a >= 80 and b >= 65 and c >= 10:
         # расчет изготовления лотка на автоматической машине
         if a <= 460 and b <= 380 and c <= 120:
-            result = result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro, handle)
+            result = result_data_casket_auto(a, b, c, cardboard_req, paper_req, cur_euro, handle, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -22,7 +22,7 @@ def result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, hand
 
         # расчет изготовления лотка вручную
         else:
-            result = result_data_casket_hand(a, b, c, cardboard_req, paper_req, cur_euro, handle)
+            result = result_data_casket_hand(a, b, c, cardboard_req, paper_req, cur_euro, handle, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -36,7 +36,7 @@ def result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, hand
 
     # расчет изготовления лотка вручную
     else:
-        result = result_data_casket_hand(a, b, c, cardboard_req, paper_req, cur_euro, handle)
+        result = result_data_casket_hand(a, b, c, cardboard_req, paper_req, cur_euro, handle, kol, laminating=lam_req)
         # расход материала
         result_cardboard = result.get('Расход картона')
         result_paper = result.get('Расход бумаги')

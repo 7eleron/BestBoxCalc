@@ -1,0 +1,86 @@
+{% load static %}
+<link href="{% static 'laminating.css' %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<h4>Внутренняя кашировка дна</h4>
+<div class="laminatingtray_mat">
+  <input id="laminatingtray" type="checkbox" name="laminatingtray" value="Без кашировки" onclick="myFunction44()">Нет
+  <input id="laminatingtray" type="checkbox" name="laminatingtray" value="Офсетная бумага с ламинацией" onclick="myFunction44()">Офсетная бумага с ламинацией
+  {% for mat_pap in paper_list %}
+      <input id="laminatingtray" type="checkbox" name="laminatingtray" value="{{mat_pap.mt_name}}" onclick="myFunction44()"> {{mat_pap.mt_name}}
+  {% endfor %}
+
+  <input id="laminatingtraynew" type="checkbox" name="laminatingtray" onclick="myFunction12()" >Свое
+</div>
+<br>
+<div id="textlaminatingtray" class="block" style="display:none">
+  <div class="laminatingtray2">
+    <input id="laminatingtrayname" type="text" class="laminatingtrayname" name="laminatingtrayname" placeholder="Название" title="Наименование материала">
+    <input id="laminatingtrayx" type="text" class="laminatingtrayx" name="laminatingtrayx" placeholder="Ширина" title="Ширина листа в мм" maxlength="4">х
+    <input id="laminatingtrayy" type="text" class="laminatingtrayy" name="laminatingtrayy" placeholder="Длина" title="Длина листа в мм" maxlength="4">
+    <input id="laminatingtrayl" type="hidden" class="laminatingtrayl" name="laminatingtrayl" placeholder="Толщина" title="Толщина материала в мм" maxlength="3" value="0.15">
+    <input id="laminatingtrayprice" type="text" class="laminatingtrayprice" name="laminatingtrayprice" placeholder="Цена" title="Цена за листа">
+    <select class="laminatingtraycurrency" name="laminatingtraycurrency" title="Валюта стоимости материала">
+        <option value="rub">rub</option>
+        <option value="euro">euro</option>
+    </select>
+  </div>
+</div>
+
+<script>
+        //Tray
+        $(".laminatingtray_mat input").on("click", function() {
+            $(".laminatingtray_mat input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+        });
+
+        // Remember checkbox laminating
+        document.getElementById('laminatingtray').onclick = function() {
+            if(document.getElementById('laminatingtray').checked) {
+                localStorage.setItem('laminatingtray', "true");
+            } else {
+                localStorage.setItem('laminatingtray', "false");
+            }
+        }
+            if (localStorage.getItem('laminatingtray') == "true") {
+                document.getElementById("laminatingtray").setAttribute('checked','checked');
+        };
+
+        $(".laminatingtrayname, .laminatingtrayx, .laminatingtrayy, .laminatingtrayl, .laminatingtrayprice, .laminatingtraycurrency").bind("keyup", function(){
+            var laminatingtrayname = $(".laminatingtrayname").val();
+            var laminatingtrayx = $(".laminatingtrayx").val();
+            var laminatingtrayy = $(".laminatingtrayy").val();
+            var laminatingtrayl = $(".laminatingtrayl").val();
+            var laminatingtrayprice = $(".laminatingtrayprice").val();
+            var laminatingtraycurrency = $(".laminatingtraycurrency").val();
+
+            $("#laminatingtraynew").val(laminatingtrayname+";"+laminatingtrayx+";"+laminatingtrayy+";"+laminatingtrayl+";"+laminatingtrayprice+";"+laminatingtraycurrency);
+        });
+
+        function myFunction12() {
+          // Get the checkbox
+          var checkBox = document.getElementById("laminatingtraynew");
+          // Get the output text
+          var text = document.getElementById("textlaminatingtray");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+            text.style.display = "none";
+          }
+        };
+
+        function myFunction44() {
+          var checkBox = document.getElementById("laminatingtray");
+          var text2 = document.getElementById("textlaminatingtray");
+
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text2.style.display = "none";
+          } else {
+            text2.style.display = "none";
+          }
+        };
+
+
+</script>

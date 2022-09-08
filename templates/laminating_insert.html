@@ -1,0 +1,88 @@
+{% load static %}
+<link href="{% static 'laminating.css' %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<h4>Внутренняя кашировка вставки</h4>
+<div class="laminatinginsert_mat">
+  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Без кашировки" onclick="myFunction4444()">Нет
+  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Офсетная бумага с ламинацией" onclick="myFunction4444()">Офсетная бумага с ламинацией
+  {% for mat_pap in paper_list %}
+    <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="{{mat_pap.mt_name}}" onclick="myFunction4444()"> {{mat_pap.mt_name}}
+  {% endfor %}
+  <input id="laminatinginsertnew" type="checkbox" name="laminatinginsert" onclick="myFunction1234()" >Свое
+</div>
+<br>
+<div id="textlaminatinginsert" class="block" style="display:none">
+  <div class="laminatinginsert2">
+    <input id="laminatinginsertname" type="text" class="laminatinginsertname" name="laminatinginsertname" placeholder="Название" title="Наименование материала">
+    <input id="laminatinginsertx" type="text" class="laminatinginsertx" name="laminatinginsertx" placeholder="Ширина" title="Ширина листа в мм" maxlength="4">х
+    <input id="laminatinginserty" type="text" class="laminatinginserty" name="laminatinginserty" placeholder="Длина" title="Длина листа в мм" maxlength="4">
+    <input id="laminatinginsertl" type="hidden" class="laminatinginsertl" name="laminatinginsertl" placeholder="Толщина" title="Толщина материала в мм" maxlength="3" value="0.15">
+    <input id="laminatinginsertprice" type="text" class="laminatinginsertprice" name="laminatinginsertprice" placeholder="Цена" title="Цена за листа">
+    <select class="laminatinginsertcurrency" name="laminatinginsertcurrency" title="Валюта стоимости материала">
+        <option value="rub">rub</option>
+        <option value="euro">euro</option>
+    </select>
+  </div>
+</div>
+
+
+<script>
+
+        // Lid
+        $(".laminatinginsert_mat input").on("click", function() {
+            $(".laminatinginsert_mat input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+        });
+
+        // Remember checkbox laminating
+        document.getElementById('laminatinginsert').onclick = function() {
+            if(document.getElementById('laminatinginsert').checked) {
+                localStorage.setItem('laminatinginsert', "true");
+            } else {
+                localStorage.setItem('laminatinginsert', "false");
+            }
+        }
+            if (localStorage.getItem('laminatinginsert') == "true") {
+                document.getElementById("laminatinginsert").setAttribute('checked','checked');
+        };
+
+        $(".laminatinginsertname, .laminatinginsertx, .laminatinginserty, .laminatinginsertl, .laminatinginsertprice, .laminatinginsertcurrency").bind("keyup", function(){
+            var laminatinginsertname = $(".laminatinginsertname").val();
+            var laminatinginsertx = $(".laminatinginsertx").val();
+            var laminatinginserty = $(".laminatinginserty").val();
+            var laminatinginsertl = $(".laminatinginsertl").val();
+            var laminatinginsertprice = $(".laminatinginsertprice").val();
+            var laminatinginsertcurrency = $(".laminatinginsertcurrency").val();
+
+            $("#laminatinginsertnew").val(laminatinginsertname+";"+laminatinginsertx+";"+laminatinginserty+";"+laminatinginsertl+";"+laminatinginsertprice+";"+laminatinginsertcurrency);
+        });
+
+        function myFunction1234() {
+          // Get the checkbox
+          var checkBox = document.getElementById("laminatinginsertnew");
+          // Get the output text
+          var text = document.getElementById("textlaminatinginsert");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+            text.style.display = "none";
+          }
+        };
+
+        function myFunction4444() {
+          var checkBox = document.getElementById("laminatinginsert");
+          var text2 = document.getElementById("textlaminatinginsert");
+
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text2.style.display = "none";
+          } else {
+            text2.style.display = "none";
+          }
+        };
+
+
+
+</script>

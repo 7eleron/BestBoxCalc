@@ -1,34 +1,159 @@
 {% load static %}
+<link href="{% static 'material.css' %}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<div class="mat_cb">
-  <h4>Картон</h4>
-    <p>
-      {% for mat_cb in cardboard_list %}
-        <input type="checkbox" name="cardboard" value="{{mat_cb.mt_name}}"> {{mat_cb.mt_name}}
-      {% endfor %}
-    </p>
+
+<h4>Картон</h4>
+<div class="mat_card">
+{% for mat_cb in cardboard_list %}
+  <input id="cbstand" type="checkbox" name="cardboard" value="{{mat_cb.mt_name}}" onclick="myFunction3()"> {{mat_cb.mt_name}}
+{% endfor %}
+  <input id="cardboardnew" type="checkbox" name="cardboard" onclick="myFunction1()">Свое
 </div>
-<div class="mat_pap">
-  <h4>Бумага</h4>
-    <p>
-      {% for mat_pap in paper_list %}
-        <input type="checkbox" name="paper" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
-      {% endfor %}
+<br>
+<div id="text1" class="block" style="display:none">
+  <div class="mt2">
+    <input id="cardboardname" type="text" class="cardboardname" name="cardboardname" placeholder="Название" title="Наименование материала">
+    <input id="cardboardx" type="text" class="cardboardx" name="cardboardx" placeholder="Ширина" title="Ширина листа в мм" maxlength="4">х
+    <input id="cardboardy" type="text" class="cardboardy" name="cardboardy" placeholder="Длина" title="Длина листа в мм" maxlength="4">
+    <input id="cardboardl" type="text" class="cardboardl" name="cardboardl" placeholder="Толщина" title="Толщина материала в мм" maxlength="3">
+    <input id="cardboardprice" type="text" class="cardboardprice" name="cardboardprice" placeholder="Цена" title="Цена за листа">
+    <select class="cardboardcurrency" name="cardboardcurrency" title="Валюта стоимости материала">
+        <option value="rub">rub</option>
+        <option value="euro">euro</option>
+    </select>
+  </div>
 </div>
+
+
+<h4>Бумага</h4>
+  <div class="mat_pap">
+    {% for mat_pap in paper_list %}
+      <input id="papstand" type="checkbox" name="paper" value="{{mat_pap.mt_name}}" onclick="myFunction4()"> {{mat_pap.mt_name}}
+    {% endfor %}
+      <input id="paper" type="checkbox" name="paper" onclick="myFunction2()">Свое
+  </div>
+<br>
+<div id="text2" class="block" style="display:none">
+    <div class="mt2">
+      <input id="papername" type="text" class="papername" name="papername" placeholder="Название" title="Наименование материала">
+      <input id="paperx" type="text" class="paperx" name="paperx" placeholder="Ширина" title="Ширина листа в мм" maxlength="4">х
+      <input id="papery" type="text" class="papery" name="papery" placeholder="Длина" title="Длина листа в мм" maxlength="4">
+      <input id="paperl" type="hidden" class="paperl" name="paperl" placeholder="Толщина" title="Толщина материала в мм" maxlength="3" value="0.15">
+      <input id="paperprice" type="text" class="paperprice" name="paperprice" placeholder="Цена" title="Цена за листа">
+      <select class="papercurrency" name="papercurrency" title="Валюта стоимости материала">
+          <option value="rub">rub</option>
+          <option value="euro">euro</option>
+      </select>
+    </div>
+</div>
+
+
 <script>
 
-        $(".mat_cb input").on("click", function() {
-
-            $(".mat_cb input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+        $(".mat_card input").on("click", function() {
+            $(".mat_card input").removeAttr("checked"); // Снимаем чекбокс со всей группы
             $(this).prop("checked", true); // Оставляем выбранный чекбокс
-
         });
 
         $(".mat_pap input").on("click", function() {
-
             $(".mat_pap input").removeAttr("checked"); // Снимаем чекбокс со всей группы
             $(this).prop("checked", true); // Оставляем выбранный чекбокс
-
         });
+
+        // Remember checkbox cbstand
+        document.getElementById('cbstand').onclick = function() {
+            if(document.getElementById('cbstand').checked) {
+                localStorage.setItem('cbstand', "true");
+            } else {
+                localStorage.setItem('cbstand', "false");
+            }
+        }
+            if (localStorage.getItem('cbstand') == "true") {
+                document.getElementById("cbstand").setAttribute('checked','checked');
+        };
+
+        // Remember checkbox papstand
+        document.getElementById('papstand').onclick = function() {
+            if(document.getElementById('papstand').checked) {
+                localStorage.setItem('papstand', "true");
+            } else {
+                localStorage.setItem('papstand', "false");
+            }
+        }
+            if (localStorage.getItem('papstand') == "true") {
+                document.getElementById("papstand").setAttribute('checked','checked');
+        };
+
+        $(".cardboardname, .cardboardx, .cardboardy, .cardboardl, .cardboardprice, .cardboardcurrency").bind("keyup", function(){
+            var cardboardname = $(".cardboardname").val();
+            var cardboardx = $(".cardboardx").val();
+            var cardboardy = $(".cardboardy").val();
+            var cardboardl = $(".cardboardl").val();
+            var cardboardprice = $(".cardboardprice").val();
+            var cardboardcurrency = $(".cardboardcurrency").val();
+
+            $("#cardboardnew").val(cardboardname+";"+cardboardx+";"+cardboardy+";"+cardboardl+";"+cardboardprice+";"+cardboardcurrency);
+        });
+
+        $(".papername, .paperx, .papery, .paperl, .paperprice, .papercurrency").bind("keyup", function(){
+            var papername = $(".papername").val();
+            var paperx = $(".paperx").val();
+            var papery = $(".papery").val();
+            var paperl = $(".paperl").val();
+            var paperprice = $(".paperprice").val();
+            var papercurrency = $(".papercurrency").val();
+
+            $("#paper").val(papername+";"+paperx+";"+papery+";"+paperl+";"+paperprice+";"+papercurrency);
+        });
+
+        function myFunction1() {
+          // Get the checkbox
+          var checkBox = document.getElementById("cardboardnew");
+          // Get the output text
+          var block = document.getElementById("text1");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            block.style.display = "block";
+          } else {
+            block.style.display = "none";
+          }
+        };
+
+        function myFunction2() {
+          // Get the checkbox
+          var checkBox = document.getElementById("paper");
+          // Get the output text
+          var block = document.getElementById("text2");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            block.style.display = "block";
+          } else {
+            block.style.display = "none";
+          }
+        };
+
+        function myFunction3() {
+          var checkBox = document.getElementById("cbstand");
+          var block = document.getElementById("text1");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            block.style.display = "none";
+          } else {
+            block.style.display = "none";
+          }
+        };
+
+        function myFunction4() {
+          var checkBox = document.getElementById("papstand");
+          var block = document.getElementById("text2");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            block.style.display = "none";
+          } else {
+            block.style.display = "none";
+          }
+        };
+
+
 
 </script>

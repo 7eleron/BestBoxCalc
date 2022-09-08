@@ -1,0 +1,37 @@
+div.laminatinglid2 {
+    margin: 5px;
+    padding: 10px;
+    display: block;
+}
+div.laminatinglid2 label, input, select {
+    display: inline-block;
+}
+#laminatinglidname {
+    width: 100px;
+}
+#laminatinglidx, #laminatinglidy {
+    width: 50px;
+}
+#laminatinglidprice {
+    width: 40px;
+}
+
+
+
+div.laminatingtray2 {
+    margin: 5px;
+    padding: 10px;
+    display: block;
+}
+div.laminatingtray2 label, input, select {
+    display: inline-block;
+}
+#laminatingtrayname {
+    width: 100px;
+}
+#laminatingtrayx, #laminatingtrayy {
+    width: 50px;
+}
+#laminatingtrayprice {
+    width: 40px;
+}

@@ -19,7 +19,7 @@ class ExpenceCubBoxInsert:
         cardboard_lid = expence_cd(width_lt, length_lt, self.lid_hight, lis_siz)
         cardboard_tray = expence_cd(width_lt, length_lt, self.tray_hight, lis_siz)
         cardboard_insert = expence_cd(self.width, self.length, self.insert_hight, lis_siz)
-        cardboard_result = cardboard_lid['Расход']+cardboard_tray['Расход']+cardboard_insert['Расход']
+        cardboard_result = (cardboard_lid['Расход'], cardboard_tray['Расход'], cardboard_insert['Расход'])
         cardboard_info = ('крышка '+cardboard_lid['Информация'])\
                          +('донышко '+cardboard_tray['Информация'])\
                          +('вставка '+cardboard_insert['Информация'])

@@ -25,10 +25,34 @@
 </div>
 
   {% include 'material.html' %}
+  {% include 'laminating_lid.html' %}
+  {% include 'laminating_tray.html' %}
     <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
     <button class="button" type="submit">Рассчитать</button>
     </div>
 </center>
 </form>
+<script>
+    w.value = localStorage.getItem('w');
+    w.oninput = () => {
+      localStorage.setItem('w', w.value)
+    };
+    ln.value = localStorage.getItem('ln');
+    ln.oninput = () => {
+      localStorage.setItem('ln', ln.value)
+    };
+    h.value = localStorage.getItem('h');
+    h.oninput = () => {
+      localStorage.setItem('h', h.value)
+    };
+    k.value = localStorage.getItem('k');
+    k.oninput = () => {
+      localStorage.setItem('k', k.value)
+    };
+    th.value = localStorage.getItem('th');
+    th.oninput = () => {
+      localStorage.setItem('th', th.value)
+    };
+</script>
 {% endblock %}
 

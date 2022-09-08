@@ -4,12 +4,12 @@ from details.algprog.toFix import toFixed
 from services.marga import prices
 
 
-def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
+def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro, lam_req):
 
     if kol >= 500 and a >= 80 and b >= 65 and c >= 10:
         # расчет изготовления лотка на автоматической машине
         if a <= 460 and b <= 380 and c <= 120:
-            result = result_data_case_auto(a, b, c, cardboard_req, paper_req, cur_euro)
+            result = result_data_case_auto(a, b, c, cardboard_req, paper_req, cur_euro, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -23,7 +23,7 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
 
         # расчет изготовления лотка вручную
         else:
-            result = result_data_case_hand(a, b, c, cardboard_req, paper_req, cur_euro)
+            result = result_data_case_hand(a, b, c, cardboard_req, paper_req, cur_euro, kol, laminating=lam_req)
             # расход материала
             result_cardboard = result.get('Расход картона')
             result_paper = result.get('Расход бумаги')
@@ -37,7 +37,7 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
 
     # расчет изготовления лотка вручную
     else:
-        result = result_data_case_hand(a, b, c, cardboard_req, paper_req, cur_euro)
+        result = result_data_case_hand(a, b, c, cardboard_req, paper_req, cur_euro, kol, laminating=lam_req)
         # расход материала
         result_cardboard = result.get('Расход картона')
         result_paper = result.get('Расход бумаги')
@@ -56,7 +56,8 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro):
             'Информация бумага': result.get('Информация')['Бумага'],
             'Работа': f'Стоимость работы - {work}. {type_work_tray}',
             'Цены': prices(calc_sum),
-            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
+            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.',
+            }
     print(data)
     return data
 

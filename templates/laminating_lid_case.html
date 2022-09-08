@@ -1,0 +1,87 @@
+{% load static %}
+<link href="{% static 'laminating.css' %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<h4>Внутренняя кашировка футляра</h4>
+<div class="laminatinglid_mat">
+  <input id="laminatinglid" type="checkbox" name="laminatinglid" value="Офсетная бумага с ламинацией" onclick="myFunction444()">Офсетная бумага с ламинацией
+  {% for mat_pap in paper_list %}
+      <input id="laminatinglid" type="checkbox" name="laminatinglid" value="{{mat_pap.mt_name}}" onclick="myFunction444()"> {{mat_pap.mt_name}}
+  {% endfor %}
+
+  <input id="laminatinglidnew" type="checkbox" name="laminatinglid" onclick="myFunction123()">Свое
+</div>
+<br>
+<div id="textlaminatinglid" class="block" style="display:none">
+  <div class="laminatinglid2">
+    <input id="laminatinglidname" type="text" class="laminatinglidname" name="laminatinglidname" placeholder="Название" title="Наименование материала">
+    <input id="laminatinglidx" type="text" class="laminatinglidx" name="laminatinglidx" placeholder="Ширина" title="Ширина листа в мм" maxlength="4">х
+    <input id="laminatinglidy" type="text" class="laminatinglidy" name="laminatinglidy" placeholder="Длина" title="Длина листа в мм" maxlength="4">
+    <input id="laminatinglidl" type="hidden" class="laminatinglidl" name="laminatinglidl" placeholder="Толщина" title="Толщина материала в мм" maxlength="3" value="0.15">
+    <input id="laminatinglidprice" type="text" class="laminatinglidprice" name="laminatinglidprice" placeholder="Цена" title="Цена за листа">
+    <select class="laminatinglidcurrency" name="laminatinglidcurrency" title="Валюта стоимости материала">
+        <option value="rub">rub</option>
+        <option value="euro">euro</option>
+    </select>
+  </div>
+</div>
+
+<script>
+
+        // Lid
+        $(".laminatinglid_mat input").on("click", function() {
+            $(".laminatinglid_mat input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+            $(this).prop("checked", true); // Оставляем выбранный чекбокс
+        });
+
+        // Remember checkbox laminating
+        document.getElementById('laminatinglid').onclick = function() {
+            if(document.getElementById('laminatinglid').checked) {
+                localStorage.setItem('laminatinglid', "true");
+            } else {
+                localStorage.setItem('laminatinglid', "false");
+            }
+        }
+            if (localStorage.getItem('laminatinglid') == "true") {
+                document.getElementById("laminatinglid").setAttribute('checked','checked');
+        };
+
+        $(".laminatinglidname, .laminatinglidx, .laminatinglidy, .laminatinglidl, .laminatinglidprice, .laminatinglidcurrency").bind("keyup", function(){
+            var laminatinglidname = $(".laminatinglidname").val();
+            var laminatinglidx = $(".laminatinglidx").val();
+            var laminatinglidy = $(".laminatinglidy").val();
+            var laminatinglidl = $(".laminatinglidl").val();
+            var laminatinglidprice = $(".laminatinglidprice").val();
+            var laminatinglidcurrency = $(".laminatinglidcurrency").val();
+
+            $("#laminatinglidnew").val(laminatinglidname+";"+laminatinglidx+";"+laminatinglidy+";"+laminatinglidl+";"+laminatinglidprice+";"+laminatinglidcurrency);
+        });
+
+        function myFunction123() {
+          // Get the checkbox
+          var checkBox = document.getElementById("laminatinglidnew");
+          // Get the output text
+          var text = document.getElementById("textlaminatinglid");
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text.style.display = "block";
+          } else {
+            text.style.display = "none";
+          }
+        };
+
+        function myFunction444() {
+          var checkBox = document.getElementById("laminatinglid");
+          var text2 = document.getElementById("textlaminatinglid");
+
+          // If the checkbox is checked, display the output text
+          if (checkBox.checked == true){
+            text2.style.display = "none";
+          } else {
+            text2.style.display = "none";
+          }
+        };
+
+
+
+</script>

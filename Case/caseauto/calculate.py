@@ -19,7 +19,7 @@ class ExpenceCase:
         # расход картона
         cardboard_case = expence_case_cb(width_c, length_c, hight, lis_siz)
         cardboard_tray = expence_cd(self.width, self.length, self.tray_hight, lis_siz)
-        cardboard_result = cardboard_case['Расход']+cardboard_tray['Расход']
+        cardboard_result = (cardboard_case['Расход'], cardboard_tray['Расход'])
         cardboard_info = ('футляр '+cardboard_case['Информация'])\
                          +('лоток '+cardboard_tray['Информация'])
         cardboard = {'Расход': cardboard_result,
