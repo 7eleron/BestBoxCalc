@@ -156,6 +156,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
     nonproductwork = nonproductworklidtray + nonproductworklaminating
     # подсчет всех производственных затрат
     production_cost = ((paper_count+cardboard_count+paper_count_laminate_lid+paper_count_laminate_tray)*data_calc.reject)+data_calc.cut+work+nonproductwork
+    print(f'production_cost = (({paper_count}+{cardboard_count}+{paper_count_laminate_lid}+{paper_count_laminate_tray})*data_calc.reject)+data_calc.cut+work+nonproductwork')
     # стоимости
     calc_sum = marga(production_cost)
 

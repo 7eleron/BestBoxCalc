@@ -1,0 +1,25 @@
+<input type="checkbox" id="checkbox1" onclick="save('checkbox1')" class="box">checkbox</input>
+<input type="checkbox" id="checkbox2" onclick="save('checkbox2')" class="box">checkbox</input>
+<p><button onclick="location.replace('#toPrim'); location.reload(); ">Перегрузить страницу</button></p>
+
+<script>
+
+//save checkbox
+function save(name){
+    var checkbox = document.getElementById(name);
+    localStorage.setItem(name, checkbox.checked);
+}
+//for loading
+function load(){
+    for (var i = 0; i < localStorage.length; i++) {
+    // set iteration key name
+    var key = localStorage.key(i);
+    var checked = JSON.parse(localStorage.getItem(key));
+    document.getElementById(key).checked = checked;
+    // console.log the iteration key and value
+    console.log('Key: ' + key + ', Value: ' + checked);
+    }
+}
+load();
+
+</script>
