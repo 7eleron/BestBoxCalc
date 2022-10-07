@@ -10,7 +10,7 @@ function textToFile (text, name) {
 	const url = window.URL.createObjectURL(b);
 	const a = document.createElement('a');
 	a.href = url;
-	a.download = name || 'text.txt';
+	a.download = name || 'расчет_коробок.xlsl';
 	a.type = 'text/plain';
 	a.addEventListener('click', () => {
 		setTimeout(() => window.URL.revokeObjectURL(url), 10000);
@@ -19,8 +19,9 @@ function textToFile (text, name) {
 }
 
 document.getElementById('sf').addEventListener('click', () => {
-	textToFile (document.getElementById('txt').value, 'расчет_коробок.txt')
+	textToFile (document.getElementById('txt').value, 'расчет_коробок.xlsl')
 })
+
 </script>
 
 

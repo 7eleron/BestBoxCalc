@@ -1,31 +1,33 @@
 from details.algprog.toFix import toFixed
 
 
-# цены
-def prices(calc_sum: list):
-    return f'Цена коробки: 30% - {calc_sum[0]} руб./шт. '\
-                         f'40% - {calc_sum[1]} руб./шт. '\
-                         f'50% - {calc_sum[2]} руб./шт. '\
-                         f'60% - {calc_sum[3]} руб./шт. '\
-                         f'70% - {calc_sum[4]} руб./шт. '\
-                         f'80% - {calc_sum[5]} руб./шт. '\
-                         f'90% - {calc_sum[6]} руб./шт. '\
-                         f'100% - {calc_sum[7]} руб./шт. '
+# % менеджера
+def proc_manager(production_cost: float, uppercost: float, kol: int):
+    return {'информация': f'Бонус менеджера: {int(((production_cost * (uppercost / 100)) * 0.1) * kol)} руб.',
+            'result': int(((production_cost * (uppercost / 100)) * 0.1) * kol)}
 
 
-# маржа
-def marga(production_cost):
-    listsum = [((production_cost * 0.3) * 1.1) + production_cost,
-               ((production_cost * 0.4) * 1.1) + production_cost,
-               ((production_cost * 0.5) * 1.1) + production_cost,
-               ((production_cost * 0.6) * 1.1) + production_cost,
-               ((production_cost * 0.7) * 1.1) + production_cost,
-               ((production_cost * 0.8) * 1.1) + production_cost,
-               ((production_cost * 0.9) * 1.1) + production_cost,
-               ((production_cost * 1) * 1.1) + production_cost
-               ]
-    listsum = [float(toFixed(x, 2)) for x in listsum]
-    return listsum
+# цена
+def prices_one(calc_sum: float, uppercost: float):
+    return f'Цена коробки: наценка {int(uppercost)}%, без НДС - {toFixed(calc_sum, 2)} руб./шт.,' \
+           f' с НДС - {toFixed(calc_sum * 1.2, 2)} руб./шт.'
+
+
+# сумма заказа
+def count_all(calc_sum_all: float):
+    return f'Сумма заказа: без НДС {int(calc_sum_all)} руб., с НДС {int(calc_sum_all*1.2)} руб.'
+
+
+# маржа заказа
+def marga_all(calc_sum_all: float, production_cost_all: int):
+    marga = calc_sum_all - production_cost_all
+    return f'Маржа: {int(marga)} руб./шт.'
+
+
+# наценка
+def upper_cost(production_cost, upercost: float):
+    sum_cost = float(toFixed(((production_cost * (upercost/100)) * 1.1) + production_cost, 2))
+    return sum_cost
 
 
 # склейка двух цен

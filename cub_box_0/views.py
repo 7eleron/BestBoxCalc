@@ -1,11 +1,15 @@
 from django.shortcuts import render
-from details.algprog.currency import currency_eur
+from details.algprog.currency import get_currency as currency_eur
 from cms.models import CmsSlider
 from cub_box_0.models import Material
 from services.resp_result import responseresult
 from services.req_constructions import request_construction_cubbox, request_construction_cubboxinsert
 from services.req_constructions import request_construction_case, request_construction_casketm
 from services.req_constructions import request_construction_briefcase
+
+"""
+def currency_eur():
+    return 55"""
 
 
 def material():

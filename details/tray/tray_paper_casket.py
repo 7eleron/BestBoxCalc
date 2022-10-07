@@ -30,16 +30,15 @@ def expence_tray_casket(width, length, hight, thickness_cb, lis_siz):
         tray_ras = calc([tray], lis_siz)
         tray_m2 = calc_m2(tray)
         return {'Расход': float(tray_ras[0]),
-                'Информация': f'одним бортом {tray[0]}x{tray[1]}мм. ',
+                'Информация': f'борт дна - {int(tray[0])}x{int(tray[1])}мм. ',
                 'm2': tray_m2}
     except ZeroDivisionError:
         tray = tray_paper_rim_tw(width, length, hight, thickness_cb)
         tray_ras = calc([tray[0]], lis_siz)[0] + calc([tray[1]], lis_siz)[0]
         tray_m2 = calc_m2(tray[0]) + calc_m2(tray[1])
         return {'Расход': float(tray_ras),
-                'Информация': f'двумя бортами. '
-                              f'Борт 1 - {tray[0][0]}x{tray[0][1]}мм. '\
-                              f'Борт 2 - {tray[1][0]}x{tray[1][1]}мм. ',
+                'Информация': f'борт дна-1 - {int(tray[0][0])}x{int(tray[0][1])}мм., '
+                              f'борт дна-2 - {int(tray[1][0])}x{int(tray[1][1])}мм. ',
                 'm2': tray_m2}
     except Exception as ex:
         return ex

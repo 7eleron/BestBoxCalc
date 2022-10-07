@@ -4,7 +4,7 @@
 
 <h4>Внутренняя кашировка дна</h4>
 <div class="laminatingtray_mat">
-  <input id="laminatingtray" type="checkbox" name="laminatingtray" value="Без кашировки" onclick="myFunction44()">Нет
+  <input id="laminatingtray" type="checkbox" name="laminatingtray" value="без кашировки" onclick="myFunction44()">Нет
   <input id="laminatingtray" type="checkbox" name="laminatingtray" value="Офсетная бумага с ламинацией" onclick="myFunction44()">Офсетная бумага с ламинацией
   {% for mat_pap in paper_list %}
       <input id="laminatingtray" type="checkbox" name="laminatingtray" value="{{mat_pap.mt_name}}" onclick="myFunction44()"> {{mat_pap.mt_name}}

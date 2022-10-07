@@ -19,5 +19,5 @@ def expence_end_paper(width, length, hight, thickness_cb, lis_siz):
     end_pap_ras = calc([end_pap], lis_siz)
     end_pap_m2 = calc_m2(end_pap)
     return {'Расход': float(end_pap_ras[0]),
-            'Информация': f'{end_pap[0]}x{end_pap[1]}мм. ',
+            'Информация': f'{int(end_pap[0])}x{int(end_pap[1])}мм. ',
             'm2': end_pap_m2}

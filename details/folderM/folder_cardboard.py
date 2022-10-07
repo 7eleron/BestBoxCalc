@@ -18,7 +18,7 @@ def expence_fol_cb(width, length, hight, thickness_cb, lis_siz):
     for dit in folder[1:]:
         folder_exp += calc([[folder[0], dit]], lis_siz)[0]
     return {'Расход': float(folder_exp),
-            'Информация': f'клапан {folder[0]}х{folder[1]}мм, '
-                          f'крышка {folder[0]}х{folder[3]}мм, '
-                          f'корешок {folder[0]}х{folder[2]}мм, '
-                          f'дно {folder[0]}х{folder[4]}мм. '}
+            'Информация': f'клапан {int(folder[0])}х{int(folder[1])}мм, '
+                          f'крышка {int(folder[0])}х{int(folder[3])}мм, '
+                          f'корешок {int(folder[0])}х{int(folder[2])}мм, '
+                          f'дно {int(folder[0])}х{int(folder[4])}мм. '}

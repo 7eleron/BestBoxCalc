@@ -4,7 +4,7 @@
 
 <h4>Внутренняя кашировка вставки</h4>
 <div class="laminatinginsert_mat">
-  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Без кашировки" onclick="myFunction4444()">Нет
+  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="без кашировки" onclick="myFunction4444()">Нет
   <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Офсетная бумага с ламинацией" onclick="myFunction4444()">Офсетная бумага с ламинацией
   {% for mat_pap in paper_list %}
     <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="{{mat_pap.mt_name}}" onclick="myFunction4444()"> {{mat_pap.mt_name}}

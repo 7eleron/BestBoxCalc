@@ -2,7 +2,7 @@
 {% block title %} Cub Box {% endblock %}
 {% load static %}
 {% block params %}
-<link href="{% static 'style.css' %}" rel="stylesheet">
+<link href="{% static 'style.css' %}" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
 
 <form id="form" action="{% url 'case' %}" method="POST">
         {% csrf_token %}
@@ -27,6 +27,7 @@
     {% include 'laminating_tray.html' %}
 
     <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+    <input class="text" id="co" placeholder="Наценка %" name="uppercost" required="required" />
 
         <button type="submit">Рассчитать</button>
     </div>
@@ -48,6 +49,10 @@
     k.value = localStorage.getItem('k');
     k.oninput = () => {
       localStorage.setItem('k', k.value)
+    };
+    co.value = localStorage.getItem('co');
+    co.oninput = () => {
+      localStorage.setItem('co', co.value)
     };
 
 </script>

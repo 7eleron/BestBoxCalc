@@ -14,4 +14,4 @@ def expence_case_cb(width, length, hight, lis_siz):
     case = case_cb(width, length, hight)
     case_exp = calc([case], lis_siz)[0]
     return {'Расход': float(case_exp),
-            'Информация': f'{case[0]}x{case[1]}мм. '}
+            'Информация': f'{int(case[0])}x{int(case[1])}мм. '}

@@ -21,7 +21,8 @@ def request_construction_cubbox(request):
         request.POST['hight'].strip())
     kol = int(request.POST['kol'].strip())
     lid_hight = int(request.POST['lid_hight'].strip())
-    result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, cur_euro, lam_req)
+    uppercost = float(request.POST['uppercost'].strip())
+    result = result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, cur_euro, lam_req, uppercost)
     return result
 
 
@@ -42,7 +43,9 @@ def request_construction_cubboxinsert(request):
     kol = int(request.POST['kol'].strip())
     lid_hight = int(request.POST['lid_hight'].strip())
     insert_hight = int(request.POST['insert_hight'].strip())
-    result = result_data_cdinsert(a, b, c, insert_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro, lam_req)
+    uppercost = float(request.POST['uppercost'].strip())
+    result = result_data_cdinsert(a, b, c, insert_hight, cardboard_req, paper_req, kol, lid_hight, cur_euro, lam_req,
+                                  uppercost)
     return result
 
 
@@ -61,7 +64,8 @@ def request_construction_case(request):
     a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(
         request.POST['hight'].strip())
     kol = int(request.POST['kol'].strip())
-    result = result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro, lam_req)
+    uppercost = float(request.POST['uppercost'].strip())
+    result = result_data_case(a, b, c, cardboard_req, paper_req, kol, cur_euro, lam_req, uppercost)
     return result
 
 
@@ -74,13 +78,14 @@ def request_construction_casketm(request):
         cur_euro = float(req_cur_euro[0] + '.' + req_cur_euro[1])
     cardboard_req = request.POST['cardboard']
     paper_req = request.POST['paper']
-    lam_req_lid = 'Без кашировки'
+    lam_req_lid = 'без кашировки'
     lam_req_tray = request.POST['laminatingtray']
     lam_req = [lam_req_lid, lam_req_tray]
     a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(
         request.POST['hight'].strip())
     kol = int(request.POST['kol'].strip())
-    result = result_data_casket(a, b, c, cardboard_req, paper_req, kol, cur_euro, lam_req)
+    uppercost = float(request.POST['uppercost'].strip())
+    result = result_data_casket(a, b, c, cardboard_req, paper_req, kol, cur_euro, lam_req, uppercost)
     return result
 
 
@@ -94,11 +99,12 @@ def request_construction_briefcase(request):
     handle = request.POST['handle']
     cardboard_req = request.POST['cardboard']
     paper_req = request.POST['paper']
-    lam_req_lid = 'Без кашировки'
+    lam_req_lid = 'без кашировки'
     lam_req_tray = request.POST['laminatingtray']
     lam_req = [lam_req_lid, lam_req_tray]
     a, b, c = int(request.POST['width'].strip()), int(request.POST['length'].strip()), int(
         request.POST['hight'].strip())
     kol = int(request.POST['kol'].strip())
-    result = result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, handle, lam_req)
+    uppercost = float(request.POST['uppercost'].strip())
+    result = result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, cur_euro, handle, lam_req, uppercost)
     return result

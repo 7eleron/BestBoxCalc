@@ -35,8 +35,7 @@ def expence(case, lis_siz):
         trayD_m2 = calc_m2(case[1])
         trayB_m2 = calc_m2(case[0])
         return {'Расход': float(tray_ras),
-                'Информация': f'одной полосой. ' \
-                              f'Полоса - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм. ',
+                'Информация': f'борт - {case[0][0]}x{case[0][1]}мм., шлепок - {case[1][0]}x{case[1][1]}мм. ',
                 'm2': trayB_m2 + trayD_m2}
     elif a == 6:
         tray_bor = calc([case[0]], lis_siz) * 2
@@ -45,8 +44,7 @@ def expence(case, lis_siz):
         trayD_m2 = calc_m2(case[1])
         trayB_m2 = calc_m2(case[0]) * 2
         return {'Расход': float(tray_ras),
-                'Информация': f'двумя полосами. '
-                              f'Полоса(х2) - {case[0][0]}x{case[0][1]}мм. Дно - {case[1][0]}x{case[1][1]}мм. ',
+                'Информация': f'бор(х2) - {case[0][0]}x{case[0][1]}мм., шлепок - {case[1][0]}x{case[1][1]}мм. ',
                 'm2': trayB_m2 + trayD_m2}
 
 

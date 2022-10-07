@@ -36,13 +36,13 @@ def expence_pap_fold(width, length, hight, thickness_cb, lis_siz):
         fold_ras = calc([folder], lis_siz)
         fold_m2 = calc_m2(folder)
         return {'Расход': float(fold_ras[0]),
-                'Информация': f'лайнер {folder[0]}x{folder[1]}мм.',
+                'Информация': f'{int(folder[0])}x{int(folder[1])}мм.',
                 'm2': fold_m2}
     except ZeroDivisionError:
         folder = folder_paper_dab(width, length, hight, thickness_cb)
         fold_ras = calc([folder[0]], lis_siz)[0] + calc([folder[1]], lis_siz)[0]
         fold_m2 = calc_m2(folder[0]) + calc_m2(folder[1])
         return {'Расход': float(fold_ras),
-                'Информация': f'лайнер 1 - {folder[0][0]}x{folder[0][1]}мм. '
-                              f'лайнер 2 - {folder[1][0]}x{folder[1][1]}мм. ',
+                'Информация': f'лайнер-1 {int(folder[0][0])}x{int(folder[0][1])}мм. '
+                              f'лайнер-2 {int(folder[1][0])}x{int(folder[1][1])}мм. ',
                 'm2': fold_m2}

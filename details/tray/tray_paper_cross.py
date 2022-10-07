@@ -18,5 +18,5 @@ def expence_pap(width, length, hight, thickness_cb, lis_siz):
     tray_ras = calc([tray], lis_siz)
     tray_m2 = calc_m2(tray)
     return {'Расход': float(tray_ras[0]),
-            'Информация': f'одним листом {tray[0]}x{tray[1]}мм. ',
+            'Информация': f'{int(tray[0])}x{int(tray[1])}мм. ',
             'm2': tray_m2}

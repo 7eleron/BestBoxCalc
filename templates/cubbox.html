@@ -28,6 +28,7 @@
   {% include 'laminating_lid.html' %}
   {% include 'laminating_tray.html' %}
     <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+    <input class="text" id="co" placeholder="Наценка %" name="uppercost" required="required" />
     <button class="button" type="submit">Рассчитать</button>
     </div>
 </center>
@@ -52,6 +53,10 @@
     th.value = localStorage.getItem('th');
     th.oninput = () => {
       localStorage.setItem('th', th.value)
+    };
+    co.value = localStorage.getItem('co');
+    co.oninput = () => {
+      localStorage.setItem('co', co.value)
     };
 </script>
 {% endblock %}
