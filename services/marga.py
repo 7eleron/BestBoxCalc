@@ -21,7 +21,7 @@ def count_all(calc_sum_all: float):
 # маржа заказа
 def marga_all(calc_sum_all: float, production_cost_all: int):
     marga = calc_sum_all - production_cost_all
-    return f'Маржа: {int(marga)} руб./шт.'
+    return f'Маржа: {int(marga)} руб.'
 
 
 # наценка

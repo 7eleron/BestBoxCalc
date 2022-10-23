@@ -1,0 +1,41 @@
+{% load static %}
+
+<head>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+</head>
+
+<button onclick="ExportToExcel('xlsx')">Сохранить расчет</button>
+
+<script>
+    function ExportToExcel(type, fn, dl) {
+        const wb = XLSX.utils.book_new();
+
+        // STEP 2: Create data rows and styles
+        let row = [
+            { v: "Размер коробки", t: "s", s: {font : {sz : "11", bold : true}, alignment: { horizontal: "center" }} },
+        ];
+        // STEP 3: Create worksheet with rows; Add worksheet to workbook
+        var ws = XLSX.utils.aoa_to_sheet([
+              ["Размер коробки", "{{ info }}".split(".")[0].slice(15) + '.' + "{{ info }}".split(".")[1]],
+              ["Размеры деталей", "{{ infocb }} \n{{ infotpap }}"],
+              ["Какой картон, какой лайнер", "{{ material }}".replace("<br>", "\n")],
+              ["Тираж", document.getElementById('k').value],
+              ["персонализация/тиснение/шелкуха", ""],
+              ["Расход картона и бумаги", "{{ expence }}".replace("<br>", "\n")],
+              ["", ""],
+              ["", ""],
+              ["Маржа", "{{ marga }}".slice(7)],
+              ["Бонус менеджера", "{{ procmanager }}".slice(17)],
+              ["Штамп", "{{ priceshtamp }}".slice(14)],
+              ["Наценка", document.getElementById('co').value + "%"],
+              ["Себестоимость", "{{ sebek }}".slice(22)],
+              ["Сумма заказа", "{{ count_all }}".slice(14)],
+        ]);
+
+        ws['!cols'] = [{wch: 30}, {wch: 50}];
+        XLSX.utils.book_append_sheet(wb, ws, "Детализация расчета");
+        return dl ?
+                XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'binary' }) :
+                XLSX.writeFile(wb, fn || ('Расчет коробки.' + (type || 'xlsx')));
+    }
+</script>

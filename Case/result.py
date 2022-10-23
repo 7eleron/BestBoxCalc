@@ -8,6 +8,7 @@ from services.marga import prices_one, upper_cost, proc_manager, count_all, marg
 from services.materialcalculate import material_information, material_price, cardboard_search_price
 from services.showdetailcalc import show
 from services.shtamp.case import resp_case
+from services.shtamp.mold import mold
 from services.shtamp.trayflap import resp_tray
 from work.hand_work_laminating import laminating_work
 from work.hand_work_cubbox import hand_work
@@ -46,7 +47,7 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, currency_req, lamin
         result_laminat = rou(result_laminat)
 
     # расчет изготовления в ручную крышка
-    work_lid = hand_work(a, c, b) * 0.75
+    work_lid = hand_work(a, b, c) * 0.75
     type_work_lid = 'Сборка шубера ручная.'
     shtamp_case = resp_case(a, b, c)
 
@@ -60,7 +61,8 @@ def result_data_case(a, b, c, cardboard_req, paper_req, kol, currency_req, lamin
             work_tray = machin_work_tray(paper_tray['m2'])
             type_work_tray = 'Сборка дна автомат.'
             # стоимость штампа
-            shtamp_tray = resp_tray(a, b, c)*2
+            shtamp_tray = resp_tray(a, b, c) * 2 + mold(a, b, c)
+
         else:
             # расчет изготовления вручную дна
             # расход бумаги дно

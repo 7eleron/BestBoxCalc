@@ -4,10 +4,10 @@
 
 <h4>Картон</h4>
 <div class="mat_card">
-{% for mat_cb in cardboard_list %}
-  <input id="cbstand" type="checkbox" name="cardboard" value="{{mat_cb.mt_name}}" onclick="myFunction3()"> {{mat_cb.mt_name}}
-{% endfor %}
-  <input id="cardboardnew" type="checkbox" name="cardboard" onclick="myFunction1()">Свое
+    {% for mat_cb in cardboard_list %}
+      <input id="{{mat_cb.mt_name}}" type="checkbox" name="cardboard" value="{{mat_cb.mt_name}}"> {{mat_cb.mt_name}}
+    {% endfor %}
+      <input id="cardboardnew" type="checkbox" name="cardboard">Свое
 </div>
 <br>
 <div id="text1" class="block" style="display:none">
@@ -28,9 +28,9 @@
 <h4>Бумага</h4>
   <div class="mat_pap">
     {% for mat_pap in paper_list %}
-      <input id="papstand" type="checkbox" name="paper" value="{{mat_pap.mt_name}}" onclick="myFunction4()"> {{mat_pap.mt_name}}
+      <input id="{{mat_pap.mt_name}}" type="checkbox" name="paper" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
     {% endfor %}
-      <input id="paper" type="checkbox" name="paper" onclick="myFunction2()">Свое
+      <input id="paper" type="checkbox" name="paper">Свое
   </div>
 <br>
 <div id="text2" class="block" style="display:none">
@@ -49,6 +49,91 @@
 
 
 <script>
+        $('document').ready(function(){
+            // Cardboard data
+            var local_cardboardname = localStorage.getItem('cardboardname');
+            var local_cardboardx = localStorage.getItem('cardboardx');
+            var local_cardboardy = localStorage.getItem('cardboardy');
+            var local_cardboardl = localStorage.getItem('cardboardl');
+            var local_cardboardprice = localStorage.getItem('cardboardprice');
+
+            // Ppaper data
+            var local_papername = localStorage.getItem('papername');
+            var local_paperx = localStorage.getItem('paperx');
+            var local_papery = localStorage.getItem('papery');
+            var local_paperprice = localStorage.getItem('paperprice');
+
+
+            // --- Remember input new cardboard
+            cardboardname.value = local_cardboardname;
+            cardboardname.oninput = () => {
+              localStorage.setItem('cardboardname', cardboardname.value)
+            };
+            cardboardx.value = local_cardboardx;
+            cardboardx.oninput = () => {
+              localStorage.setItem('cardboardx', cardboardx.value)
+            };
+            cardboardy.value = local_cardboardy;
+            cardboardy.oninput = () => {
+              localStorage.setItem('cardboardy', cardboardy.value)
+            };
+            cardboardl.value = local_cardboardl;
+            cardboardl.oninput = () => {
+              localStorage.setItem('cardboardl', cardboardl.value)
+            };
+            cardboardprice.value = local_cardboardprice;
+            cardboardprice.oninput = () => {
+              localStorage.setItem('cardboardprice', cardboardprice.value)
+            };
+
+            // --- Remember input new paper
+            papername.value = local_papername;
+            papername.oninput = () => {
+              localStorage.setItem('papername', papername.value)
+            };
+            paperx.value = local_paperx;
+            paperx.oninput = () => {
+              localStorage.setItem('paperx', paperx.value)
+            };
+            papery.value = local_papery;
+            papery.oninput = () => {
+              localStorage.setItem('papery', papery.value)
+            };
+            paperprice.value = local_paperprice;
+            paperprice.oninput = () => {
+              localStorage.setItem('paperprice', paperprice.value)
+            };
+
+            var checkBox = document.getElementById("cardboardnew");
+            var block = document.getElementById("text1");
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+            var checkBox = document.getElementById("paper");
+            var block = document.getElementById("text2");
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+
+            // --- Join cardboard new ---
+            if(document.getElementById("cardboardnew").checked){
+                var cardboardcurrency = $(".cardboardcurrency").val();
+                $("#cardboardnew").val(local_cardboardname+";"+local_cardboardx+";"+local_cardboardy+";"+local_cardboardl+";"+local_cardboardprice+";"+cardboardcurrency);
+            };
+
+            // --- Join paper new ---
+            if(document.getElementById("paper").checked){
+                var paperl = $(".paperl").val();
+                var papercurrency = $(".papercurrency").val();
+                $("#paper").val(local_papername+";"+local_paperx+";"+local_papery+";"+paperl+";"+local_paperprice+";"+papercurrency);
+            };
+        });
 
         $(".mat_card input").on("click", function() {
             $(".mat_card input").removeAttr("checked"); // Снимаем чекбокс со всей группы
@@ -60,56 +145,95 @@
             $(this).prop("checked", true); // Оставляем выбранный чекбокс
         });
 
-        // Remember checkbox cbstand
-        document.getElementById('cbstand').onclick = function() {
-            if(document.getElementById('cbstand').checked) {
-                localStorage.setItem('cbstand', "true");
+        // --- Remember checkbox cbstand ---
+        var list_id = []
+        {% for mat_cb in cardboard_list %}
+            list_id.push("{{mat_cb.mt_name}}")
+        {% endfor %}
+        list_id.push("cardboardnew")
+
+        {% for mat_cb in cardboard_list %}
+        document.getElementById('{{mat_cb.mt_name}}').onclick = function() {
+            var block = document.getElementById("text1");
+            block.style.display = "none";
+
+            var new_list_id = list_id.filter(item => item !== '{{mat_cb.mt_name}}');
+            for (let i = 0; i < new_list_id.length; i++) {
+               localStorage.removeItem(new_list_id[i]);
+            }
+            if(document.getElementById('{{mat_cb.mt_name}}').checked) {
+                localStorage.setItem('{{mat_cb.mt_name}}', "true");
             } else {
-                localStorage.setItem('cbstand', "false");
+                localStorage.setItem('{{mat_cb.mt_name}}', "false");
+            }
+            //
+        }
+            if (localStorage.getItem('{{mat_cb.mt_name}}') == "true") {
+                document.getElementById("{{mat_cb.mt_name}}").setAttribute('checked','checked');
+        };
+        {% endfor %}
+
+        document.getElementById('cardboardnew').onclick = function() {
+            var new_list_id = list_id.filter(item => item !== 'cardboardnew');
+            for (let i = 0; i < new_list_id.length; i++) {
+               localStorage.removeItem(new_list_id[i]);
+            }
+            if(document.getElementById('cardboardnew').checked) {
+                localStorage.setItem('cardboardnew', "true");
+            } else {
+                localStorage.setItem('cardboardnew', "false");
             }
         }
-            if (localStorage.getItem('cbstand') == "true") {
-                document.getElementById("cbstand").setAttribute('checked','checked');
+            if (localStorage.getItem('cardboardnew') == "true") {
+                document.getElementById("cardboardnew").setAttribute('checked','checked');
         };
 
-        // Remember checkbox papstand
-        document.getElementById('papstand').onclick = function() {
-            if(document.getElementById('papstand').checked) {
-                localStorage.setItem('papstand', "true");
+        // --- Remember checkbox paper ---
+        var list_id_paper = []
+        {% for mat_pap in paper_list %}
+            list_id_paper.push("{{mat_pap.mt_name}}")
+        {% endfor %}
+        list_id_paper.push("paper")
+
+        {% for mat_pap in paper_list %}
+        document.getElementById('{{mat_pap.mt_name}}').onclick = function() {
+            var block = document.getElementById("text2");
+            block.style.display = "none";
+
+            var new_list_id_paper = list_id_paper.filter(item => item !== '{{mat_pap.mt_name}}');
+            for (let i = 0; i < new_list_id_paper.length; i++) {
+               localStorage.removeItem(new_list_id_paper[i]);
+            }
+            if(document.getElementById('{{mat_pap.mt_name}}').checked) {
+                localStorage.setItem('{{mat_pap.mt_name}}', "true");
             } else {
-                localStorage.setItem('papstand', "false");
+                localStorage.setItem('{{mat_pap.mt_name}}', "false");
+            }
+            //
+        }
+            if (localStorage.getItem('{{mat_pap.mt_name}}') == "true") {
+                document.getElementById("{{mat_pap.mt_name}}").setAttribute('checked','checked');
+        };
+        {% endfor %}
+
+        document.getElementById('paper').onclick = function() {
+            var new_list_id_paper = list_id_paper.filter(item => item !== 'paper');
+            for (let i = 0; i < new_list_id_paper.length; i++) {
+               localStorage.removeItem(new_list_id_paper[i]);
+            }
+            if(document.getElementById('paper').checked) {
+                localStorage.setItem('paper', "true");
+            } else {
+                localStorage.setItem('paper', "false");
             }
         }
-            if (localStorage.getItem('papstand') == "true") {
-                document.getElementById("papstand").setAttribute('checked','checked');
+            if (localStorage.getItem('paper') == "true") {
+                document.getElementById("paper").setAttribute('checked','checked');
         };
 
-        $(".cardboardname, .cardboardx, .cardboardy, .cardboardl, .cardboardprice, .cardboardcurrency").bind("keyup", function(){
-            var cardboardname = $(".cardboardname").val();
-            var cardboardx = $(".cardboardx").val();
-            var cardboardy = $(".cardboardy").val();
-            var cardboardl = $(".cardboardl").val();
-            var cardboardprice = $(".cardboardprice").val();
-            var cardboardcurrency = $(".cardboardcurrency").val();
-
-            $("#cardboardnew").val(cardboardname+";"+cardboardx+";"+cardboardy+";"+cardboardl+";"+cardboardprice+";"+cardboardcurrency);
-        });
-
-        $(".papername, .paperx, .papery, .paperl, .paperprice, .papercurrency").bind("keyup", function(){
-            var papername = $(".papername").val();
-            var paperx = $(".paperx").val();
-            var papery = $(".papery").val();
-            var paperl = $(".paperl").val();
-            var paperprice = $(".paperprice").val();
-            var papercurrency = $(".papercurrency").val();
-
-            $("#paper").val(papername+";"+paperx+";"+papery+";"+paperl+";"+paperprice+";"+papercurrency);
-        });
-
-        function myFunction1() {
-          // Get the checkbox
+        // Cardboard new click
+        document.getElementById('cardboardnew').addEventListener("click", function(){
           var checkBox = document.getElementById("cardboardnew");
-          // Get the output text
           var block = document.getElementById("text1");
           // If the checkbox is checked, display the output text
           if (checkBox.checked == true){
@@ -117,12 +241,11 @@
           } else {
             block.style.display = "none";
           }
-        };
+        });
 
-        function myFunction2() {
-          // Get the checkbox
+        // Paper new click
+        document.getElementById('paper').addEventListener("click", function(){
           var checkBox = document.getElementById("paper");
-          // Get the output text
           var block = document.getElementById("text2");
           // If the checkbox is checked, display the output text
           if (checkBox.checked == true){
@@ -130,30 +253,6 @@
           } else {
             block.style.display = "none";
           }
-        };
-
-        function myFunction3() {
-          var checkBox = document.getElementById("cbstand");
-          var block = document.getElementById("text1");
-          // If the checkbox is checked, display the output text
-          if (checkBox.checked == true){
-            block.style.display = "none";
-          } else {
-            block.style.display = "none";
-          }
-        };
-
-        function myFunction4() {
-          var checkBox = document.getElementById("papstand");
-          var block = document.getElementById("text2");
-          // If the checkbox is checked, display the output text
-          if (checkBox.checked == true){
-            block.style.display = "none";
-          } else {
-            block.style.display = "none";
-          }
-        };
-
-
+        });
 
 </script>

@@ -8,6 +8,7 @@ from services.marga import prices_one, upper_cost, count_all, marga_all, proc_ma
 from services.materialcalculate import material_information, material_price, cardboard_search_price
 from services.showdetailcalc import show
 from services.shtamp.cdinsert import resp_insert
+from services.shtamp.mold import mold
 from work.auto_work_tray import machin_work_tray
 from work.hand_work_cubbox import hand_work
 from work.hand_work_laminating import laminating_work
@@ -50,11 +51,14 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
     if result_laminat > 0:
         result_laminat = rou(result_laminat)
 
+    shtamp_res = 0
+
     if kol >= 500 and a >= 60 and b >= 60:
         if a <= 460 and b <= 380 and lid_hight >= 10 and lid_hight <= 120:
             # расчет изготовления на автоматической машине крышка
             work_lid = machin_work_tray(paper_lid['m2'])
             type_work_lid = 'Сборка крышки автомат.'
+            shtamp_res += resp_insert(a, b, tray_hight, lid_hight, insert_hight) * 0.5
         else:
             # расчет изготовления в ручную крышка
             work_lid = hand_work(a, b, tray_hight) * 0.33
@@ -64,6 +68,7 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
             # расчет изготовления на автоматической машине вставка
             work_insert = machin_work_tray(paper_insert['m2'])
             type_work_insert = 'Сборка вставки автомат.'
+            shtamp_res += resp_insert(a, b, tray_hight, lid_hight, insert_hight) * 0.5 + mold(a, b, insert_hight)
         else:
             # расчет изготовления вручную вставка
             work_insert = hand_work(a, b, insert_hight) * 0.66
@@ -78,7 +83,7 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
             work_tray = machin_work_tray(paper_tray['m2'])
             type_work_tray = 'Сборка дна автомат.'
             # стоимость штампа
-            shtamp_res = resp_insert(a, b, tray_hight, lid_hight, insert_hight) * 2
+            shtamp_res += resp_insert(a, b, tray_hight, lid_hight, insert_hight) * 1.5 + mold(a, b, tray_hight)
         else:
             # расчет изготовления вручную дно
             # расход бумаги дно

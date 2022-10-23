@@ -1,7 +1,7 @@
 def cutter(a, b, c):
     len_knif_tray = (c*4)+(a*4)+(b*4)
     total_len = len_knif_tray/100
-    price = total_len*146.5
+    price = total_len*120
     return price
 
 

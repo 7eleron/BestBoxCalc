@@ -4,12 +4,12 @@
 
 <h4>Внутренняя кашировка вставки</h4>
 <div class="laminatinginsert_mat">
-  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="без кашировки" onclick="myFunction4444()">Нет
-  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Офсетная бумага с ламинацией" onclick="myFunction4444()">Офсетная бумага с ламинацией
+  <input id="laminatinginsertno" type="checkbox" name="laminatinginsert" value="без кашировки">Нет
+  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Офсетная бумага с ламинацией">Офсетная бумага с ламинацией
   {% for mat_pap in paper_list %}
-    <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="{{mat_pap.mt_name}}" onclick="myFunction4444()"> {{mat_pap.mt_name}}
+    <input id="{{mat_pap.mt_name}}t" type="checkbox" name="laminatinginsert" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
   {% endfor %}
-  <input id="laminatinginsertnew" type="checkbox" name="laminatinginsert" onclick="myFunction1234()" >Свое
+  <input id="laminatinginsertnew" type="checkbox" name="laminatinginsert">Свое
 </div>
 <br>
 <div id="textlaminatinginsert" class="block" style="display:none">
@@ -29,60 +29,145 @@
 
 <script>
 
-        // Lid
+        // Insert
+        $('document').ready(function(){
+            // Ppaper laminating data
+            var local_laminatinginsertname = localStorage.getItem('laminatinginsertname');
+            var local_laminatinginsertx = localStorage.getItem('laminatinginsertx');
+            var local_laminatinginserty = localStorage.getItem('laminatinginserty');
+            var local_laminatinginsertprice = localStorage.getItem('laminatinginsertprice');
+
+            // --- Remember input new paper laminating
+            laminatinginsertname.value = local_laminatinginsertname;
+            laminatinginsertname.oninput = () => {
+              localStorage.setItem('laminatinginsertname', laminatinginsertname.value)
+            };
+            laminatinginsertx.value = local_laminatinginsertx;
+            laminatinginsertx.oninput = () => {
+              localStorage.setItem('laminatinginsertx', laminatinginsertx.value)
+            };
+            laminatinginserty.value = local_laminatinginserty;
+            laminatinginserty.oninput = () => {
+              localStorage.setItem('laminatinginserty', laminatinginserty.value)
+            };
+            laminatinginsertprice.value = local_laminatinginsertprice;
+            laminatinginsertprice.oninput = () => {
+              localStorage.setItem('laminatinginsertprice', laminatinginsertprice.value)
+            };
+
+            var checkBox = document.getElementById("laminatinginsertnew");
+            var block = document.getElementById("textlaminatinginsert");
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+
+            // --- Join paper new laminating ---
+            if(document.getElementById("laminatinginsertnew").checked){
+                var laminatinginsertl = $(".laminatinginsertl").val();
+                var laminatinginsertcurrency = $(".laminatinginsertcurrency").val();
+                $("#laminatinginsertnew").val(local_laminatinginsertname+";"+local_laminatinginsertx+";"+local_laminatinginserty+";"+laminatinginsertl+";"+local_laminatinginsertprice+";"+laminatinginsertcurrency);
+            };
+        });
+
         $(".laminatinginsert_mat input").on("click", function() {
             $(".laminatinginsert_mat input").removeAttr("checked"); // Снимаем чекбокс со всей группы
             $(this).prop("checked", true); // Оставляем выбранный чекбокс
         });
 
-        // Remember checkbox laminating
+        // --- Remember checkbox paper ---
+        var list_id_paper_laminating_insert = []
+        {% for mat_pap in paper_list %}
+            list_id_paper_laminating_insert.push("{{mat_pap.mt_name}}" + "t")
+        {% endfor %}
+        list_id_paper_laminating_insert.push("laminatinginsertno")
+        list_id_paper_laminating_insert.push("laminatinginsert")
+        list_id_paper_laminating_insert.push("laminatinginsertnew")
+
+        {% for mat_pap in paper_list %}
+        document.getElementById('{{mat_pap.mt_name}}' + 't').onclick = function() {
+            var block = document.getElementById("textlaminatinginsert");
+            block.style.display = "none";
+
+            var new_list_id_paper_laminat = list_id_paper_laminating_insert.filter(item => item !== '{{mat_pap.mt_name}}'+'t');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
+            if(document.getElementById('{{mat_pap.mt_name}}' + 't').checked) {
+                localStorage.setItem('{{mat_pap.mt_name}}' + 't', "true");
+            } else {
+                localStorage.setItem('{{mat_pap.mt_name}}' + 't', "false");
+            }
+            //
+        }
+        if (localStorage.getItem('{{mat_pap.mt_name}}' + 't') == "true") {
+            document.getElementById("{{mat_pap.mt_name}}" + "t").setAttribute('checked','checked');
+        };
+        {% endfor %}
+
+        document.getElementById('laminatinginsertnew').onclick = function() {
+            var new_list_id_paper_laminat = list_id_paper_laminating_insert.filter(item => item !== 'laminatinginsertnew');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
+            if(document.getElementById('laminatinginsertnew').checked) {
+                localStorage.setItem('laminatinginsertnew', "true");
+            } else {
+                localStorage.setItem('laminatinginsertnew', "false");
+            }
+        }
+        if (localStorage.getItem('laminatinginsertnew') == "true") {
+            document.getElementById("laminatinginsertnew").setAttribute('checked','checked');
+        };
+
+        document.getElementById('laminatinginsertno').onclick = function() {
+            var block = document.getElementById("textlaminatinginsert");
+            block.style.display = "none";
+
+            var new_list_id_paper_laminat = list_id_paper_laminating_insert.filter(item => item !== 'laminatinginsertno');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
+            if(document.getElementById('laminatinginsertno').checked) {
+                localStorage.setItem('laminatinginsertno', "true");
+            } else {
+                localStorage.setItem('laminatinginsertno', "false");
+            }
+        }
+        if (localStorage.getItem('laminatinginsertno') == "true") {
+            document.getElementById("laminatinginsertno").setAttribute('checked','checked');
+        };
+
         document.getElementById('laminatinginsert').onclick = function() {
+            var block = document.getElementById("textlaminatinginsert");
+            block.style.display = "none";
+
+            var new_list_id_paper_laminat = list_id_paper_laminating_insert.filter(item => item !== 'laminatinginsert');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
             if(document.getElementById('laminatinginsert').checked) {
                 localStorage.setItem('laminatinginsert', "true");
             } else {
                 localStorage.setItem('laminatinginsert', "false");
             }
         }
-            if (localStorage.getItem('laminatinginsert') == "true") {
-                document.getElementById("laminatinginsert").setAttribute('checked','checked');
+        if (localStorage.getItem('laminatinginsert') == "true") {
+            document.getElementById("laminatinginsert").setAttribute('checked','checked');
         };
 
-        $(".laminatinginsertname, .laminatinginsertx, .laminatinginserty, .laminatinginsertl, .laminatinginsertprice, .laminatinginsertcurrency").bind("keyup", function(){
-            var laminatinginsertname = $(".laminatinginsertname").val();
-            var laminatinginsertx = $(".laminatinginsertx").val();
-            var laminatinginserty = $(".laminatinginserty").val();
-            var laminatinginsertl = $(".laminatinginsertl").val();
-            var laminatinginsertprice = $(".laminatinginsertprice").val();
-            var laminatinginsertcurrency = $(".laminatinginsertcurrency").val();
-
-            $("#laminatinginsertnew").val(laminatinginsertname+";"+laminatinginsertx+";"+laminatinginserty+";"+laminatinginsertl+";"+laminatinginsertprice+";"+laminatinginsertcurrency);
-        });
-
-        function myFunction1234() {
-          // Get the checkbox
+        // Paper new click
+        document.getElementById('laminatinginsertnew').addEventListener("click", function(){
           var checkBox = document.getElementById("laminatinginsertnew");
-          // Get the output text
-          var text = document.getElementById("textlaminatinginsert");
+          var block = document.getElementById("textlaminatinginsert");
           // If the checkbox is checked, display the output text
           if (checkBox.checked == true){
-            text.style.display = "block";
+            block.style.display = "block";
           } else {
-            text.style.display = "none";
+            block.style.display = "none";
           }
-        };
-
-        function myFunction4444() {
-          var checkBox = document.getElementById("laminatinginsert");
-          var text2 = document.getElementById("textlaminatinginsert");
-
-          // If the checkbox is checked, display the output text
-          if (checkBox.checked == true){
-            text2.style.display = "none";
-          } else {
-            text2.style.display = "none";
-          }
-        };
-
-
+        });
 
 </script>

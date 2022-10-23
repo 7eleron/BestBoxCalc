@@ -8,6 +8,7 @@ from details.algprog.toFix import toFixed
 from services.marga import prices_one, upper_cost, count_all, marga_all, proc_manager
 from services.materialcalculate import material_information, material_price, cardboard_search_price
 from services.showdetailcalc import show
+from services.shtamp.mold import mold
 from work.hand_work_laminating import laminating_work
 
 
@@ -81,7 +82,7 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
             work_tray = machin_work(paper_tray['m2'], kol)[1]
             type_work_tray = 'Сборка дна автомат.'
             # стоимость штампа
-            shtamp_res = cutter(a, b, c, lid_hight) * 2
+            shtamp_res = cutter(a, b, c, lid_hight) * 2 + mold(a, b, c) + mold(a, b, lid_hight)
         else:
             # расчет изготовления лотка вручную
             # расход материала

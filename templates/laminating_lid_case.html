@@ -4,12 +4,11 @@
 
 <h4>Внутренняя кашировка футляра</h4>
 <div class="laminatinglid_mat">
-  <input id="laminatinglid" type="checkbox" name="laminatinglid" value="Офсетная бумага с ламинацией" onclick="myFunction444()">Офсетная бумага с ламинацией
+  <input id="laminatinglid" type="checkbox" name="laminatinglid" value="Офсетная бумага с ламинацией">Офсетная бумага с ламинацией
   {% for mat_pap in paper_list %}
-      <input id="laminatinglid" type="checkbox" name="laminatinglid" value="{{mat_pap.mt_name}}" onclick="myFunction444()"> {{mat_pap.mt_name}}
+      <input id="{{mat_pap.mt_name}}l" type="checkbox" name="laminatinglid" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
   {% endfor %}
-
-  <input id="laminatinglidnew" type="checkbox" name="laminatinglid" onclick="myFunction123()">Свое
+  <input id="laminatinglidnew" type="checkbox" name="laminatinglid">Свое
 </div>
 <br>
 <div id="textlaminatinglid" class="block" style="display:none">
@@ -28,60 +27,127 @@
 
 <script>
 
-        // Lid
+        // Case
+        $('document').ready(function(){
+            // Ppaper laminating data
+            var local_laminatinglidname = localStorage.getItem('laminatinglidname');
+            var local_laminatinglidx = localStorage.getItem('laminatinglidx');
+            var local_laminatinglidy = localStorage.getItem('laminatinglidy');
+            var local_laminatinglidprice = localStorage.getItem('laminatinglidprice');
+
+            // --- Remember input new paper laminating
+            laminatinglidname.value = local_laminatinglidname;
+            laminatinglidname.oninput = () => {
+              localStorage.setItem('laminatinglidname', laminatinglidname.value)
+            };
+            laminatinglidx.value = local_laminatinglidx;
+            laminatinglidx.oninput = () => {
+              localStorage.setItem('laminatinglidx', laminatinglidx.value)
+            };
+            laminatinglidy.value = local_laminatinglidy;
+            laminatinglidy.oninput = () => {
+              localStorage.setItem('laminatinglidy', laminatinglidy.value)
+            };
+            laminatinglidprice.value = local_laminatinglidprice;
+            laminatinglidprice.oninput = () => {
+              localStorage.setItem('laminatinglidprice', laminatinglidprice.value)
+            };
+
+            var checkBox = document.getElementById("laminatinglidnew");
+            var block = document.getElementById("textlaminatinglid");
+            // If the checkbox is checked, display the output text
+            if (checkBox.checked == true){
+                block.style.display = "block";
+            } else {
+                block.style.display = "none";
+            }
+
+            // --- Join paper new laminating ---
+            if(document.getElementById("laminatinglidnew").checked){
+                console.log('hi')
+                var laminatinglidl = $(".laminatinglidl").val();
+                var laminatinglidcurrency = $(".laminatinglidcurrency").val();
+                $("#laminatinglidnew").val(local_laminatinglidname+";"+local_laminatinglidx+";"+local_laminatinglidy+";"+laminatinglidl+";"+local_laminatinglidprice+";"+laminatinglidcurrency);
+            };
+        });
+
         $(".laminatinglid_mat input").on("click", function() {
             $(".laminatinglid_mat input").removeAttr("checked"); // Снимаем чекбокс со всей группы
             $(this).prop("checked", true); // Оставляем выбранный чекбокс
         });
 
-        // Remember checkbox laminating
+        // --- Remember checkbox paper ---
+        var list_id_paper_laminating = []
+        {% for mat_pap in paper_list %}
+            list_id_paper_laminating.push("{{mat_pap.mt_name}}" + "l")
+        {% endfor %}
+        list_id_paper_laminating.push("laminatinglid")
+        list_id_paper_laminating.push("laminatinglidnew")
+
+        {% for mat_pap in paper_list %}
+        document.getElementById('{{mat_pap.mt_name}}' + 'l').onclick = function() {
+            var block = document.getElementById("textlaminatinglid");
+            block.style.display = "none";
+
+            var new_list_id_paper_laminat = list_id_paper_laminating.filter(item => item !== '{{mat_pap.mt_name}}'+'l');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
+            if(document.getElementById('{{mat_pap.mt_name}}' + 'l').checked) {
+                localStorage.setItem('{{mat_pap.mt_name}}' + 'l', "true");
+            } else {
+                localStorage.setItem('{{mat_pap.mt_name}}' + 'l', "false");
+            }
+            //
+        }
+        if (localStorage.getItem('{{mat_pap.mt_name}}' + 'l') == "true") {
+            document.getElementById("{{mat_pap.mt_name}}" + "l").setAttribute('checked','checked');
+        };
+        {% endfor %}
+
+        document.getElementById('laminatinglidnew').onclick = function() {
+            var new_list_id_paper_laminat = list_id_paper_laminating.filter(item => item !== 'laminatinglidnew');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
+            if(document.getElementById('laminatinglidnew').checked) {
+                localStorage.setItem('laminatinglidnew', "true");
+            } else {
+                localStorage.setItem('laminatinglidnew', "false");
+            }
+        }
+        if (localStorage.getItem('laminatinglidnew') == "true") {
+            document.getElementById("laminatinglidnew").setAttribute('checked','checked');
+        };
+
         document.getElementById('laminatinglid').onclick = function() {
+            var block = document.getElementById("textlaminatinglid");
+            block.style.display = "none";
+
+            var new_list_id_paper_laminat = list_id_paper_laminating.filter(item => item !== 'laminatinglid');
+            for (let i = 0; i < new_list_id_paper_laminat.length; i++) {
+               localStorage.removeItem(new_list_id_paper_laminat[i]);
+            }
             if(document.getElementById('laminatinglid').checked) {
                 localStorage.setItem('laminatinglid', "true");
             } else {
                 localStorage.setItem('laminatinglid', "false");
             }
         }
-            if (localStorage.getItem('laminatinglid') == "true") {
-                document.getElementById("laminatinglid").setAttribute('checked','checked');
+        if (localStorage.getItem('laminatinglid') == "true") {
+            document.getElementById("laminatinglid").setAttribute('checked','checked');
         };
 
-        $(".laminatinglidname, .laminatinglidx, .laminatinglidy, .laminatinglidl, .laminatinglidprice, .laminatinglidcurrency").bind("keyup", function(){
-            var laminatinglidname = $(".laminatinglidname").val();
-            var laminatinglidx = $(".laminatinglidx").val();
-            var laminatinglidy = $(".laminatinglidy").val();
-            var laminatinglidl = $(".laminatinglidl").val();
-            var laminatinglidprice = $(".laminatinglidprice").val();
-            var laminatinglidcurrency = $(".laminatinglidcurrency").val();
-
-            $("#laminatinglidnew").val(laminatinglidname+";"+laminatinglidx+";"+laminatinglidy+";"+laminatinglidl+";"+laminatinglidprice+";"+laminatinglidcurrency);
-        });
-
-        function myFunction123() {
-          // Get the checkbox
+        // Paper new click
+        document.getElementById('laminatinglidnew').addEventListener("click", function(){
           var checkBox = document.getElementById("laminatinglidnew");
-          // Get the output text
-          var text = document.getElementById("textlaminatinglid");
+          var block = document.getElementById("textlaminatinglid");
           // If the checkbox is checked, display the output text
           if (checkBox.checked == true){
-            text.style.display = "block";
+            block.style.display = "block";
           } else {
-            text.style.display = "none";
+            block.style.display = "none";
           }
-        };
-
-        function myFunction444() {
-          var checkBox = document.getElementById("laminatinglid");
-          var text2 = document.getElementById("textlaminatinglid");
-
-          // If the checkbox is checked, display the output text
-          if (checkBox.checked == true){
-            text2.style.display = "none";
-          } else {
-            text2.style.display = "none";
-          }
-        };
-
-
+        });
 
 </script>

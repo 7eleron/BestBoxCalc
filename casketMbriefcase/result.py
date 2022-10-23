@@ -7,6 +7,7 @@ from details.algprog.toFix import toFixed
 from services.marga import prices_one, upper_cost, proc_manager, count_all, marga_all
 from services.materialcalculate import material_information, material_price, cardboard_search_price
 from services.showdetailcalc import show
+from services.shtamp.mold import mold
 from work.hand_work_laminating import laminating_work
 from work.auto_work_tray import machin_work_tray
 from work.hand_work_folder import folder_work
@@ -62,7 +63,7 @@ def result_data_briefcase(a, b, c, cardboard_req, paper_req, kol, currency_req, 
             work_tray = machin_work_tray(paper_tray['m2'])
             type_work_tray = 'Сборка дна автомат.'
             # стоимость штампа
-            shtamp_tray = resp_tray(a, b, c)*2
+            shtamp_tray = resp_tray(a, b, c) * 2 + mold(a, b, c)
         else:
             # расчет изготовления вручную дна
             # расход материала
