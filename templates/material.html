@@ -47,7 +47,6 @@
     </div>
 </div>
 
-
 <script>
         $('document').ready(function(){
             // Cardboard data
@@ -121,18 +120,6 @@
                 block.style.display = "none";
             }
 
-            // --- Join cardboard new ---
-            if(document.getElementById("cardboardnew").checked){
-                var cardboardcurrency = $(".cardboardcurrency").val();
-                $("#cardboardnew").val(local_cardboardname+";"+local_cardboardx+";"+local_cardboardy+";"+local_cardboardl+";"+local_cardboardprice+";"+cardboardcurrency);
-            };
-
-            // --- Join paper new ---
-            if(document.getElementById("paper").checked){
-                var paperl = $(".paperl").val();
-                var papercurrency = $(".papercurrency").val();
-                $("#paper").val(local_papername+";"+local_paperx+";"+local_papery+";"+paperl+";"+local_paperprice+";"+papercurrency);
-            };
         });
 
         $(".mat_card input").on("click", function() {
@@ -254,5 +241,6 @@
             block.style.display = "none";
           }
         });
+
 
 </script>

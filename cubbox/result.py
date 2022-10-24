@@ -35,6 +35,8 @@ def hand_work(a, b, hight):
 
 def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_req, laminating, uppercost):
     # материал
+    print(f'cardboard_req = {cardboard_req}')
+    print(f'paper_req = {paper_req}')
     mt_cardboard = material_information(cardboard_req)
     mt_paper = material_information(paper_req)
     cardboard = CardboardBox(width=a, length=b, tray_hight=c, thickness_cb=mt_cardboard["thickness"],

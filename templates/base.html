@@ -15,4 +15,67 @@
 
 
 </body>
+<script>
+
+        const btn = document.querySelector('button');
+
+        btn.onclick = function() {
+            // Cardboard data
+            var local_cardboardname = localStorage.getItem('cardboardname');
+            var local_cardboardx = localStorage.getItem('cardboardx');
+            var local_cardboardy = localStorage.getItem('cardboardy');
+            var local_cardboardl = localStorage.getItem('cardboardl');
+            var local_cardboardprice = localStorage.getItem('cardboardprice');
+
+            // Ppaper data
+            var local_papername = localStorage.getItem('papername');
+            var local_paperx = localStorage.getItem('paperx');
+            var local_papery = localStorage.getItem('papery');
+            var local_paperprice = localStorage.getItem('paperprice');
+
+            // Ppaper laminating insert data
+            var local_laminatinginsertname = localStorage.getItem('laminatinginsertname');
+            var local_laminatinginsertx = localStorage.getItem('laminatinginsertx');
+            var local_laminatinginserty = localStorage.getItem('laminatinginserty');
+            var local_laminatinginsertprice = localStorage.getItem('laminatinginsertprice');
+
+            // Ppaper laminating lid data
+            var local_laminatinglidname = localStorage.getItem('laminatinglidname');
+            var local_laminatinglidx = localStorage.getItem('laminatinglidx');
+            var local_laminatinglidy = localStorage.getItem('laminatinglidy');
+            var local_laminatinglidprice = localStorage.getItem('laminatinglidprice');
+
+            // Ppaper laminating tray data
+            var local_laminatingtrayname = localStorage.getItem('laminatingtrayname');
+            var local_laminatingtrayx = localStorage.getItem('laminatingtrayx');
+            var local_laminatingtrayy = localStorage.getItem('laminatingtrayy');
+            var local_laminatingtrayprice = localStorage.getItem('laminatingtrayprice');
+
+            // --- Join cardboard new ---
+            var cardboardcurrency = $(".cardboardcurrency").val();
+            $("#cardboardnew").val(local_cardboardname+";"+local_cardboardx+";"+local_cardboardy+";"+local_cardboardl+";"+local_cardboardprice+";"+cardboardcurrency);
+
+            // --- Join paper new ---
+            var paperl = $(".paperl").val();
+            var papercurrency = $(".papercurrency").val();
+            $("#paper").val(local_papername+";"+local_paperx+";"+local_papery+";"+paperl+";"+local_paperprice+";"+papercurrency);
+
+            // --- Join paper new laminating ---
+            var laminatinginsertl = $(".laminatinginsertl").val();
+            var laminatinginsertcurrency = $(".laminatinginsertcurrency").val();
+            $("#laminatinginsertnew").val(local_laminatinginsertname+";"+local_laminatinginsertx+";"+local_laminatinginserty+";"+laminatinginsertl+";"+local_laminatinginsertprice+";"+laminatinginsertcurrency);
+
+            // --- Join paper new laminating ---
+            var laminatinglidl = $(".laminatinglidl").val();
+            var laminatinglidcurrency = $(".laminatinglidcurrency").val();
+            $("#laminatinglidnew").val(local_laminatinglidname+";"+local_laminatinglidx+";"+local_laminatinglidy+";"+laminatinglidl+";"+local_laminatinglidprice+";"+laminatinglidcurrency);
+
+            // --- Join paper new laminating ---
+            var laminatingtrayl = $(".laminatingtrayl").val();
+            var laminatingtraycurrency = $(".laminatingtraycurrency").val();
+            $("#laminatingtraynew").val(local_laminatingtrayname+";"+local_laminatingtrayx+";"+local_laminatingtrayy+";"+laminatingtrayl+";"+local_laminatingtrayprice+";"+laminatingtraycurrency);
+
+        }
+
+</script>
 </html>

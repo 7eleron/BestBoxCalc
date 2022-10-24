@@ -64,13 +64,6 @@
                 block.style.display = "none";
             }
 
-            // --- Join paper new laminating ---
-            if(document.getElementById("laminatinglidnew").checked){
-
-                var laminatinglidl = $(".laminatinglidl").val();
-                var laminatinglidcurrency = $(".laminatinglidcurrency").val();
-                $("#laminatinglidnew").val(local_laminatinglidname+";"+local_laminatinglidx+";"+local_laminatinglidy+";"+laminatinglidl+";"+local_laminatinglidprice+";"+laminatinglidcurrency);
-            };
         });
 
         $(".laminatinglid_mat input").on("click", function() {
