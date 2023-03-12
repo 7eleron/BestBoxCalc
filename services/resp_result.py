@@ -15,4 +15,7 @@ def responseresult(result):
             'procmanager': result.get('Процент менеджера'),
             'infocb': result.get('Информация картон'),
             'infotpap': result.get('Информация бумага'),
+            'kroy': result.get('Крой'),
+            'pressfoil': result.get('Тиснение'),
+            'printing': result.get('Шелкография'),
             }

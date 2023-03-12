@@ -51,6 +51,23 @@
             var local_laminatingtrayy = localStorage.getItem('laminatingtrayy');
             var local_laminatingtrayprice = localStorage.getItem('laminatingtrayprice');
 
+            // Pressfoil data
+            var local_pressfoilprice = localStorage.getItem('pressfoilprice');
+            var local_pressfoilpush = localStorage.getItem('pressfoilpush');
+            var local_pressfoilpreparation = localStorage.getItem('pressfoilpreparation');
+
+            // Pressfoil2 data
+            var local_pressfoilx1 = localStorage.getItem('pressfoilx1');
+            var local_pressfoily1 = localStorage.getItem('pressfoily1');
+            var local_pressfoilpush1 = localStorage.getItem('pressfoilpush1');
+
+            // Printing data
+            var local_printingprice = localStorage.getItem('printingprice');
+            var local_printingpush = localStorage.getItem('printingpush');
+            var local_printingpreparation = localStorage.getItem('printingpreparation');
+            var local_printingpush1 = localStorage.getItem('printingpush1');
+
+
             // --- Join cardboard new ---
             var cardboardcurrency = $(".cardboardcurrency").val();
             $("#cardboardnew").val(local_cardboardname+";"+local_cardboardx+";"+local_cardboardy+";"+local_cardboardl+";"+local_cardboardprice+";"+cardboardcurrency);
@@ -74,6 +91,18 @@
             var laminatingtrayl = $(".laminatingtrayl").val();
             var laminatingtraycurrency = $(".laminatingtraycurrency").val();
             $("#laminatingtraynew").val(local_laminatingtrayname+";"+local_laminatingtrayx+";"+local_laminatingtrayy+";"+laminatingtrayl+";"+local_laminatingtrayprice+";"+laminatingtraycurrency);
+            
+            // --- Join new pressfoil ---
+            $("#pressfoilnew").val(local_pressfoilprice+";"+local_pressfoilpush+";"+local_pressfoilpreparation+';'+'0');
+
+            // --- Join new pressfoil2 ---
+            $("#pressfoil").val(local_pressfoilpush1+";"+local_pressfoilx1+";"+local_pressfoily1);
+
+            // --- Join new pressfoil ---
+            $("#printingnew").val(local_printingprice+";"+local_printingpush+";"+local_printingpreparation+';'+'0');
+
+            // --- Join new pressfoil2 ---
+            $("#printing").val(local_printingpush1+";"+'0'+";"+'0');
 
         }
 

@@ -1,0 +1,179 @@
+{% load static %}
+<h4>Тиснение</h4>
+<div class="pressfoil_block">
+<input id="pressfoilno" type="checkbox" name="pressfoil" value="0"> Нет
+<input id="pressfoil" type="checkbox" name="pressfoil"> Да
+<input id="pressfoilnew" type="checkbox" name="pressfoil">Свое
+</div>
+<br>
+<div id="textpressfoil1" class="block" style="display:none">
+    <div class="pressfoil2">
+        <input id="pressfoilpush1" type="text" class="pressfoilpush" name="pressfoilpush1" placeholder="Оттиск" title="Оттиск" maxlength="1">
+        <input id="pressfoilx1" type="text" class="pressfoilx" name="pressfoilx1" placeholder="Ширина" title="Ширина в мм" maxlength="4">х
+        <input id="pressfoily1" type="text" class="pressfoily" name="pressfoily1" placeholder="Длина" title="Длина в мм" maxlength="4">
+    </div>
+</div>
+<br>
+<div id="textpressfoil" class="block" style="display:none">
+  <div class="pressfoil2">
+    <input id="pressfoilprice" type="text" class="pressfoilprice" name="pressfoilprice" placeholder="Клише" title="Стоимость клише" maxlength="7">
+    <input id="pressfoilpush" type="text" class="pressfoilpush" name="pressfoilpush" placeholder="Оттиск" title="Стоимость оттиска" maxlength="4">
+    <input id="pressfoilpreparation" type="text" class="pressfoilpreparation" name="pressfoilpreparation" placeholder="Приладка" title="Стоимость приладки">
+  </div>
+</div>
+
+
+<style>
+    .pressfoil {
+        margin: 10px;
+    }
+
+</style>
+
+<script>
+
+    $('document').ready(function(){
+        // Pressfoil data
+        var local_pressfoilprice = localStorage.getItem('pressfoilprice');
+        var local_pressfoilpush = localStorage.getItem('pressfoilpush');
+        var local_pressfoilpreparation = localStorage.getItem('pressfoilpreparation');
+        
+        var local_pressfoilx1 = localStorage.getItem('pressfoilx1');
+        var local_pressfoily1 = localStorage.getItem('pressfoily1');
+        var local_pressfoilpush1 = localStorage.getItem('pressfoilpush1');
+
+        // --- Remember input new paper laminating
+        pressfoilprice.value = local_pressfoilprice;
+        pressfoilprice.oninput = () => {
+          localStorage.setItem('pressfoilprice', pressfoilprice.value)
+        };
+        pressfoilpush.value = local_pressfoilpush;
+        pressfoilpush.oninput = () => {
+          localStorage.setItem('pressfoilpush', pressfoilpush.value)
+        };
+        pressfoilpreparation.value = local_pressfoilpreparation;
+        pressfoilpreparation.oninput = () => {
+          localStorage.setItem('pressfoilpreparation', pressfoilpreparation.value)
+        };
+
+        pressfoilx1.value = local_pressfoilx1;
+        pressfoilx1.oninput = () => {
+          localStorage.setItem('pressfoilx1', pressfoilx1.value)
+        };
+        pressfoily1.value = local_pressfoily1;
+        pressfoily1.oninput = () => {
+          localStorage.setItem('pressfoily1', pressfoily1.value)
+        };
+        pressfoilpush1.value = local_pressfoilpush1;
+        pressfoilpush1.oninput = () => {
+          localStorage.setItem('pressfoilpush1', pressfoilpush1.value)
+        };
+
+        var checkBox = document.getElementById("pressfoilnew");
+        var block = document.getElementById("textpressfoil");
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            block.style.display = "block";
+        } else {
+            block.style.display = "none";
+        }
+
+        var checkBox = document.getElementById("pressfoil");
+        var block = document.getElementById("textpressfoil1");
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            block.style.display = "block";
+        } else {
+            block.style.display = "none";
+        }
+
+    });
+
+    $(".pressfoil_block input").on("click", function() {
+        $(".pressfoil_block input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+        $(this).prop("checked", true); // Оставляем выбранный чекбокс
+    });
+
+    // --- Remember checkbox ---
+    var list_id_pressfoil = []
+
+    list_id_pressfoil.push("pressfoilno")
+    list_id_pressfoil.push("pressfoill")
+    list_id_pressfoil.push("pressfoilnew")
+
+
+    document.getElementById('pressfoilnew').onclick = function() {
+        var block = document.getElementById("textpressfoil");
+        block.style.display = "block";
+        var block2 = document.getElementById("textpressfoil1");
+        block2.style.display = "none";
+        
+
+        var new_list_id_pressfoil = list_id_pressfoil.filter(item => item !== 'pressfoilnew');
+        for (let i = 0; i < new_list_id_pressfoil.length; i++) {
+           localStorage.removeItem(new_list_id_pressfoil[i]);
+        }
+        if(document.getElementById('pressfoilnew').checked) {
+            localStorage.setItem('pressfoilnew', "true");
+        } else {
+            localStorage.setItem('pressfoilnew', "false");
+        }
+    }
+    if (localStorage.getItem('pressfoilnew') == "true") {
+        document.getElementById("pressfoilnew").setAttribute('checked','checked');
+    };
+
+    document.getElementById('pressfoilno').onclick = function() {
+        var block = document.getElementById("textpressfoil");
+        block.style.display = "none";
+        var block2 = document.getElementById("textpressfoil1");
+        block2.style.display = "none";
+        
+        var new_list_id_pressfoil = list_id_pressfoil.filter(item => item !== 'pressfoilno');
+        for (let i = 0; i < new_list_id_pressfoil.length; i++) {
+           localStorage.removeItem(new_list_id_pressfoil[i]);
+        }
+        if(document.getElementById('pressfoilno').checked) {
+            localStorage.setItem('pressfoilno', "true");
+        } else {
+            localStorage.setItem('pressfoilno', "false");
+        }
+    }
+    if (localStorage.getItem('pressfoilno') == "true") {
+        document.getElementById("pressfoilno").setAttribute('checked','checked');
+    };
+
+    document.getElementById('pressfoil').onclick = function() {
+        var block = document.getElementById("textpressfoil");
+        block.style.display = "none";
+        var block2 = document.getElementById("textpressfoil1");
+        block2.style.display = "block";
+
+        var new_list_id_pressfoil = list_id_pressfoil.filter(item => item !== 'pressfoill');
+        for (let i = 0; i < new_list_id_pressfoil.length; i++) {
+           localStorage.removeItem(new_list_id_pressfoil[i]);
+        }
+        if(document.getElementById('pressfoil').checked) {
+            localStorage.setItem('pressfoill', "true");
+        } else {
+            localStorage.setItem('pressfoill', "false");
+        }
+    }
+    if (localStorage.getItem('pressfoill') == "true") {
+        document.getElementById("pressfoil").setAttribute('checked','checked');
+    };
+
+    // new click
+    document.getElementById('pressfoilnew').addEventListener("onclick", function(){
+      var checkBox = document.getElementById("pressfoilnew");
+      var block = document.getElementById("textpressfoil");
+      // If the checkbox is checked, display the output text
+      if (checkBox.checked == true){
+        block.style.display = "block";
+      } else {
+        block.style.display = "none";
+      }
+    });
+
+</script>
+

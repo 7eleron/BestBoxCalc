@@ -31,9 +31,9 @@ def cubbox_page(request):
     try:
         result = request_construction_cubbox(request)
         return render(request, f'./cubbox.html', material() | responseresult(result))
-    except:
+    except Exception as ex:
         return render(request, './cubbox.html', material() | {'cur_euro': currency_eur(),
-                                                     'ex': ''})
+                                                     'ex': ex})
 
 
 def cubboxinsert_page(request):

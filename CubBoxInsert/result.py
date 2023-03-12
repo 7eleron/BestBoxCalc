@@ -15,7 +15,7 @@ from work.hand_work_laminating import laminating_work
 
 
 def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_req, kol, lid_hight,
-                         currency_req, laminating, uppercost):
+                         currency_req, laminating, uppercost, feature):
     # материал
     mt_cardboard = material_information(cardboard_req)
     mt_paper = material_information(paper_req)
@@ -198,6 +198,16 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
     else:
         all_hight = insert_hight
 
+    # доп услуги
+    # тиснение наценка
+    pressfoil_one = feature['pressfoil'] / kol
+
+    # шелкография наценка
+    pattern_one = feature['pattern'] / kol
+
+    # ложементы наценка
+    logement_one = feature['logement'] / kol
+
     data = {'Информация о коробке': f'Размер коробки {a}x{b}x{all_hight}мм. '
                                     f'Крышка {lid_hight}мм, дно {tray_hight}мм, вставка {insert_hight}мм. Тираж {kol}шт. ',
             'Материал': mark_safe(f'Картон - {cardboard_req}. '
@@ -212,8 +222,9 @@ def result_data_cdinsert(a, b, tray_hight, insert_hight, cardboard_req, paper_re
             'Информация бумага': info_cardboard_paper['Бумага'],
             'Работа': f'Стоимость работы: крышка - {toFixed(work_lid)} руб., дно - {toFixed(work_tray)} руб., '
                       f'внутренняя оклейка - {toFixed(work_laminate)} руб. {type_work_lid} {type_work_tray} ',
-            'Цены': prices_one(calc_sum, uppercost),
-            'Цена заказа': count_all((calc_sum * kol) + shtamp_res),
+            'Цены': prices_one(calc_sum + pressfoil_one + pattern_one + logement_one, uppercost),
+            'Цена заказа': count_all((calc_sum * kol) + shtamp_res +
+                                     feature['pressfoil'] + feature['pattern'] + feature['logement']),
             'Себек': f'Себестоимость заказа: {int((production_cost * kol) + manager["result"] + shtamp_res)} руб. ',
             'Маржа': marga_all(calc_sum * kol + shtamp_res, production_cost * kol + shtamp_res + manager['result']),
             'Процент менеджера': manager['информация'],

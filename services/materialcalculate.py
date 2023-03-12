@@ -126,7 +126,7 @@ def cardboard_search_price(material: str):
         currency = Material.objects.get(mt_name=material[0]).currency
         # цена
         cardboard = Material.objects.get(mt_name=material[0])
-        price = cardboard.prise * cardboard.len
+        price = cardboard.prise
     if show:
         print(f'material - {material[0]},'
               f'\nprise - {price},'

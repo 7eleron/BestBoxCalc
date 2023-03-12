@@ -16,7 +16,7 @@ from services.shtamp.folderm import resp_folder
 from services.shtamp.trayflap import resp_tray
 
 
-def result_data_casket(a, b, c, cardboard_req, paper_req, kol, currency_req, laminating, uppercost):
+def result_data_casket(a, b, c, cardboard_req, paper_req, kol, currency_req, laminating, uppercost, feature):
     # материал
     mt_cardboard = material_information(cardboard_req)
     mt_paper = material_information(paper_req)
@@ -169,6 +169,16 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol, currency_req, lam
     calc_sum = upper_cost(production_cost, uppercost)
     manager = proc_manager(production_cost + (shtamp_res / kol), uppercost, kol)
 
+    # доп услуги
+    # тиснение наценка
+    pressfoil_one = feature['pressfoil'] / kol
+
+    # шелкография наценка
+    pattern_one = feature['pattern'] / kol
+
+    # ложементы наценка
+    logement_one = feature['logement'] / kol
+
     data = {'Информация о коробке': f'Размер коробки {a}x{b}x{c}мм. Тираж {kol}шт. ',
             'Материал': mark_safe(f'Картон - {cardboard_req}. '
                                   f'Бумага внешняя - {paper_price["material"]}. '
@@ -180,8 +190,9 @@ def result_data_casket(a, b, c, cardboard_req, paper_req, kol, currency_req, lam
             'Информация бумага': info_cardboard_paper['Бумага'],
             'Работа': f'Стоимость работы: крышки(папка) - {int(work_lid)}руб., дно - {int(work_tray)}руб., '
                       f'внутренняя оклейка - {toFixed(work_laminate)} руб. внутренняя оклейка - {toFixed(work_laminate)} руб. {type_work_lid} {type_work_tray}',
-            'Цены': prices_one(calc_sum, uppercost),
-            'Цена заказа': count_all((calc_sum * kol) + shtamp_res),
+            'Цены': prices_one(calc_sum + pressfoil_one + pattern_one + logement_one, uppercost),
+            'Цена заказа': count_all((calc_sum * kol) + shtamp_res +
+                                     feature['pressfoil'] + feature['pattern'] + feature['logement']),
             'Себек': f'Себестоимость заказа: {int((production_cost * kol) + manager["result"] + shtamp_res)} руб. ',
             'Маржа': marga_all(calc_sum * kol + shtamp_res, production_cost * kol + shtamp_res + manager['result']),
             'Процент менеджера': manager['информация'],

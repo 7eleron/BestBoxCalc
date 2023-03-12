@@ -15,24 +15,41 @@
     {% else %}
         <h5>Курс евро <input class="text" id="c_2" type="text" placeholder="" name="currency" required="required"/></h5>
     {% endif %}
-    <div class="main">
+<div class="main">
 
-<div class="field">
-      <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
-      <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
-      <input class="text" id="h" placeholder="Высота мм." name="hight" required="required" />
-      <input class="text" id="th" placeholder="Высота крышки мм." name="lid_hight" required="required" />
-</div>
+  <div class="field">
+      Ширина <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
+      Длина <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
+      Высота <input class="text" id="h" placeholder="Высота мм." name="height" required="required" />
+      Высота крышки <input class="text" id="th" placeholder="Высота крышки мм." name="lid_height" required="required" />
+  </div>
 
   {% include 'material.html' %}
   {% include 'laminating_lid.html' %}
   {% include 'laminating_tray.html' %}
-    <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
-    <input class="text" id="co" placeholder="Наценка %" name="uppercost" required="required" />
+  {% include 'feature.html' %}
+  <div class="button_block">
+    Тираж <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
+    Наценка <input class="text" id="co" placeholder="Наценка %" name="uppercost" required="required" />
     <button id="button" class="button" type="submit">Рассчитать</button>
-    </div>
+  </div>
+  </div>
 </center>
 </form>
+
+<style>
+  .field {
+    font-size: 20px;
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    width: 600px;
+  }
+  .text {
+    width: 40px;
+  }
+</style>
 <script>
     w.value = localStorage.getItem('w');
     w.oninput = () => {

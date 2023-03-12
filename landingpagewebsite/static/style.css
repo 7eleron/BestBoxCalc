@@ -9,6 +9,14 @@
             margin-top: 10px;
             width: 200px;
     }
+.button_block
+    {
+            width: 400px;
+            padding: 20px;
+            background-color: white;
+            font-size: 20px;
+            border-radius: 10px;
+    }
 .button {
             width: 100px;
             margin-bottom: 5px;
@@ -21,7 +29,8 @@
 .field{
             margin-top: 5px;
     }
-.main{
+.main{      
+            padding: 20px;
             background-color: whitesmoke;
             list-style-type: none;
             border-radius: 3px;

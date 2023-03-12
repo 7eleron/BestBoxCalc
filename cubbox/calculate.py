@@ -1,5 +1,6 @@
 import numpy as np
 from details.algprog.calc_lis import calc
+from details.views.views_calc_list import kroy
 from details.algprog.cal_m2 import calc_m2
 from details.algprog.round import rou
 from details.lid.lid_flat_cardboard import lid_cb
@@ -44,6 +45,7 @@ class PaperBox(Box):
         lid_m2 = calc_m2(lid)
         return {'Расход': lid_ras[0],
                 'Информация': f'Бумага крышка - {int(lid[0])}x{int(lid[1])}мм. ',
+                'Крой': kroy([int(lid[0]), int(lid[1])], lid_ras[1], lis_siz),
                 'm2': lid_m2}
 
     # Дно в ручную

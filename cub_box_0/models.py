@@ -65,3 +65,21 @@ class Work2(models.Model):
     class Meta:
         verbose_name = 'Работа ручная'
         verbose_name_plural = 'Работы ручная'
+
+
+class Kroy(models.Model):
+    name = models.CharField(max_length=50)
+    kroy_Img = models.ImageField(upload_to='images_kroy/')
+
+
+class PressFoil(models.Model):
+    quantity = models.IntegerField(default=0)
+    preparation = models.IntegerField(default=0)
+    push = models.IntegerField(default=0)
+
+
+class Printing(models.Model):
+    quantity = models.IntegerField(default=0)
+    preparation = models.IntegerField(default=0)
+    push = models.IntegerField(default=0)
+

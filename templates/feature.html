@@ -1,0 +1,37 @@
+{% load static %}
+
+<div class="feature">
+  {% include 'pressfoil.html' %} 
+</div>
+<div class="feature">
+  {% include 'printing.html' %}
+</div>
+
+
+<br>Ложемент <input id="logement" type="number" class="logement" name="logement" placeholder="Стоимость" value="0"><br>
+
+<style>
+    .feature {
+      margin: 5px;
+      padding: 10px;
+      display: inline-block;
+      background-color: white;
+      border-radius: 10px;
+    }
+    .logement {
+        margin: 10px;
+    }
+</style>
+
+<script>
+    $('document').ready(function(){
+            
+            var local_pattern = localStorage.getItem('pattern');
+        
+            logement.value = local_logement;
+            logement.oninput = () => {
+              localStorage.setItem('logement', logement.value)
+            };
+
+        });
+</script>

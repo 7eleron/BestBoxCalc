@@ -1,25 +1,47 @@
 {% load static %}
 <center>
     {% if info %}
-        <br>{{ info}}
-        <br>{{ material }}
-        <br>{{ expence }}
-        <br>{{ work }}
-        <br>{{ prices }}
-        <br>{{ priceshtamp }}
-        <br>{{ count_all }}
-        <br>{{ sebek }} {{ marga }} {{ procmanager }}
-
-    <h6><br>Информация о деталях:
-    <br>{{ infocb }}
-    <br>{{ infotpap }}
-    </h6>
-    {% include 'newsave.html' %}
+        <div class="info_info">
+            <br>{{ info}}
+            <br>{{ material }}
+            <br>{{ expence }}
+            <br>{{ work }}
+        </div>
+        <div class="info_info">
+            <br>{{ prices }}
+            <br>{{ priceshtamp }}
+            <br>Тиснение : {{ pressfoil }} 
+            <br>Шелкография: {{ printing }}
+            <br>{{ count_all }}
+            <br>{{ sebek }} {{ marga }} {{ procmanager }}
+        </div>
+        <div class="info_detail">
+        <h6><br>Информация о деталях:
+        <br>{{ infocb }}
+        <br>{{ infotpap }}
+        <br><img src="{{ kroy.kroy_Img.url }}" alt="" width="500" height="300">
+        </h6>
+        </div>
+        {% include 'newsave.html' %}
     {% else %}
     <br><b>{{ ex }}</b>
     {% endif %}
 </center>
 
-
+<style>
+    .info_info {
+      margin: 5px;
+      padding: 10px;
+      display: inline-block;
+      background-color: whitesmoke;
+      border-radius: 10px;
+    }
+    .info_detail {
+      margin: 5px;
+      padding: 10px;
+      background-color: whitesmoke;
+      border-radius: 10px;
+    }
+</style>
 
 

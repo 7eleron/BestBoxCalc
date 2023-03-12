@@ -19,13 +19,14 @@
 <div class="field">
       <input class="text" id="w" placeholder="Ширина мм." name="width" required="required"/>
       <input class="text" id="ln" placeholder="Длина мм." name="length" required="required"/>
-      <input class="text" id="h" placeholder="Высота дна мм." name="hight" required="required"/>
+      <input class="text" id="h" placeholder="Высота дна мм." name="height" required="required"/>
+      <input class="text" type="hidden" id="th" placeholder="Высота крышки мм." name="lid_height" value="0"/>
 </div>
 
     {% include 'material.html' %}
     {% include 'laminating_lid_case.html' %}
     {% include 'laminating_tray.html' %}
-
+    {% include 'feature.html' %}
     <input class="text" id="k" placeholder="Тираж шт." name="kol" required="required" />
     <input class="text" id="co" placeholder="Наценка %" name="uppercost" required="required" />
 

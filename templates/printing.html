@@ -1,0 +1,167 @@
+{% load static %}
+<h4>Шелкографи</h4>
+<div class="printing_block">
+<input id="printingno" type="checkbox" name="printing" value="0"> Нет
+<input id="printing" type="checkbox" name="printing"> Да
+<input id="printingnew" type="checkbox" name="printing">Свое
+</div>
+<br>
+<div id="textprinting1" class="block" style="display:none">
+    <div class="printing2">
+        <input id="printingpush1" type="text" class="printingpush" name="printingpush1" placeholder="Оттиск" title="Оттиск" maxlength="1">
+    </div>
+</div>
+<br>
+<div id="textprinting" class="block" style="display:none">
+  <div class="printing2">
+    <input id="printingprice" type="text" class="printingprice" name="printingprice" placeholder="Сетки" title="Стоимость сетки" maxlength="7">
+    <input id="printingpush" type="text" class="printingpush" name="printingpush" placeholder="Оттиск" title="Стоимость оттиска" maxlength="4">
+    <input id="printingpreparation" type="text" class="printingpreparation" name="printingpreparation" placeholder="Приладка" title="Стоимость приладки">
+  </div>
+</div>
+
+
+<style>
+    .printing {
+        margin: 10px;
+    }
+
+</style>
+
+<script>
+
+    $('document').ready(function(){
+        // printing data
+        var local_printingprice = localStorage.getItem('printingprice');
+        var local_printingpush = localStorage.getItem('printingpush');
+        var local_printingpreparation = localStorage.getItem('printingpreparation');
+
+        var local_printingpush1 = localStorage.getItem('printingpush1');
+
+        // --- Remember input new paper laminating
+        printingprice.value = local_printingprice;
+        printingprice.oninput = () => {
+          localStorage.setItem('printingprice', printingprice.value)
+        };
+        printingpush.value = local_printingpush;
+        printingpush.oninput = () => {
+          localStorage.setItem('printingpush', printingpush.value)
+        };
+        printingpreparation.value = local_printingpreparation;
+        printingpreparation.oninput = () => {
+          localStorage.setItem('printingpreparation', printingpreparation.value)
+        };
+
+        printingpush1.value = local_printingpush1;
+        printingpush1.oninput = () => {
+          localStorage.setItem('printingpush1', printingpush1.value)
+        };
+
+        var checkBox = document.getElementById("printingnew");
+        var block = document.getElementById("textprinting");
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            block.style.display = "block";
+        } else {
+            block.style.display = "none";
+        }
+
+        var checkBox = document.getElementById("printing");
+        var block = document.getElementById("textprinting1");
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            block.style.display = "block";
+        } else {
+            block.style.display = "none";
+        }
+
+    });
+
+    $(".printing_block input").on("click", function() {
+        $(".printing_block input").removeAttr("checked"); // Снимаем чекбокс со всей группы
+        $(this).prop("checked", true); // Оставляем выбранный чекбокс
+    });
+
+    // --- Remember checkbox ---
+    var list_id_printing = []
+
+    list_id_printing.push("printingno")
+    list_id_printing.push("printingl")
+    list_id_printing.push("printingnew")
+
+
+    document.getElementById('printingnew').onclick = function() {
+        var block = document.getElementById("textprinting");
+        block.style.display = "block";
+        var block2 = document.getElementById("textprinting1");
+        block2.style.display = "none";
+        
+
+        var new_list_id_printing = list_id_printing.filter(item => item !== 'printingnew');
+        for (let i = 0; i < new_list_id_printing.length; i++) {
+           localStorage.removeItem(new_list_id_printing[i]);
+        }
+        if(document.getElementById('printingnew').checked) {
+            localStorage.setItem('printingnew', "true");
+        } else {
+            localStorage.setItem('printingnew', "false");
+        }
+    }
+    if (localStorage.getItem('printingnew') == "true") {
+        document.getElementById("printingnew").setAttribute('checked','checked');
+    };
+
+    document.getElementById('printingno').onclick = function() {
+        var block = document.getElementById("textprinting");
+        block.style.display = "none";
+        var block2 = document.getElementById("textprinting1");
+        block2.style.display = "none";
+        
+        var new_list_id_printing = list_id_printing.filter(item => item !== 'printingno');
+        for (let i = 0; i < new_list_id_printing.length; i++) {
+           localStorage.removeItem(new_list_id_printing[i]);
+        }
+        if(document.getElementById('printingno').checked) {
+            localStorage.setItem('printingno', "true");
+        } else {
+            localStorage.setItem('printingno', "false");
+        }
+    }
+    if (localStorage.getItem('printingno') == "true") {
+        document.getElementById("printingno").setAttribute('checked','checked');
+    };
+
+    document.getElementById('printing').onclick = function() {
+        var block = document.getElementById("textprinting");
+        block.style.display = "none";
+        var block2 = document.getElementById("textprinting1");
+        block2.style.display = "block";
+
+        var new_list_id_printing = list_id_printing.filter(item => item !== 'printingl');
+        for (let i = 0; i < new_list_id_printing.length; i++) {
+           localStorage.removeItem(new_list_id_printing[i]);
+        }
+        if(document.getElementById('printing').checked) {
+            localStorage.setItem('printingl', "true");
+        } else {
+            localStorage.setItem('printingl', "false");
+        }
+    }
+    if (localStorage.getItem('printingl') == "true") {
+        document.getElementById("printing").setAttribute('checked','checked');
+    };
+
+    // new click
+    document.getElementById('printingnew').addEventListener("onclick", function(){
+      var checkBox = document.getElementById("printingnew");
+      var block = document.getElementById("textprinting");
+      // If the checkbox is checked, display the output text
+      if (checkBox.checked == true){
+        block.style.display = "block";
+      } else {
+        block.style.display = "none";
+      }
+    });
+
+</script>
+

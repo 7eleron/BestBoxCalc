@@ -4,12 +4,12 @@
 
 <h4>Внутренняя кашировка вставки</h4>
 <div class="laminatinginsert_mat">
-  <input id="laminatinginsertno" type="checkbox" name="laminatinginsert" value="без кашировки">Нет
-  <input id="laminatinginsert" type="checkbox" name="laminatinginsert" value="Офсетная бумага с ламинацией">Офсетная бумага с ламинацией
+  <input id="laminatinginsertno" type="checkbox" name="laminatingtray" value="без кашировки">Нет
+  <input id="laminatinginsert" type="checkbox" name="laminatingtray" value="Офсетная бумага с ламинацией">Офсетная бумага с ламинацией
   {% for mat_pap in paper_list %}
-    <input id="{{mat_pap.mt_name}}t" type="checkbox" name="laminatinginsert" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
+    <input id="{{mat_pap.mt_name}}t" type="checkbox" name="laminatingtray" value="{{mat_pap.mt_name}}"> {{mat_pap.mt_name}}
   {% endfor %}
-  <input id="laminatinginsertnew" type="checkbox" name="laminatinginsert">Свое
+  <input id="laminatinginsertnew" type="checkbox" name="laminatingtray">Свое
 </div>
 <br>
 <div id="textlaminatinginsert" class="block" style="display:none">

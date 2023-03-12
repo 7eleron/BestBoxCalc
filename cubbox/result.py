@@ -1,7 +1,8 @@
 from django.utils.safestring import mark_safe
+from django.core.files.images import ImageFile
 
 from cubbox.calculate import CardboardBox, PaperBox
-from cub_box_0.models import Work, calc_count, Work2
+from cub_box_0.models import Work, calc_count, Work2, Kroy
 from cubbox.shtamp import cutter
 from details.algprog.round import rou
 from details.algprog.toFix import toFixed
@@ -33,10 +34,8 @@ def hand_work(a, b, hight):
     return work_count
 
 
-def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_req, laminating, uppercost):
+def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_req, laminating, uppercost, feature):
     # материал
-    print(f'cardboard_req = {cardboard_req}')
-    print(f'paper_req = {paper_req}')
     mt_cardboard = material_information(cardboard_req)
     mt_paper = material_information(paper_req)
     cardboard = CardboardBox(width=a, length=b, tray_hight=c, thickness_cb=mt_cardboard["thickness"],
@@ -117,6 +116,14 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
     # информация
     info_cardboard_paper = {'Картон': cardboard.get("Информация"),
                             'Бумага': paper_lid.get("Информация") + paper_tray.get("Информация")}
+
+    with open(f'details/views/calc_save/{paper_lid.get("Крой")}.jpg', mode='rb') as f:
+        kroy = [x.name for x in Kroy.objects.all()]
+        if paper_lid.get("Крой") not in kroy:
+            lid_paper_kroy = Kroy(name=paper_lid.get("Крой"), kroy_Img=ImageFile(f))
+            lid_paper_kroy.save()
+
+    kroy = Kroy.objects.get(name=paper_lid.get("Крой"))
     currency = {'euro': currency_req, 'rub': 1}
 
     # расчетные данные для калькуляции стоимости
@@ -183,6 +190,16 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
     calc_sum = upper_cost(production_cost, uppercost)
     manager = proc_manager(production_cost + (shtamp_res / kol), uppercost, kol)
 
+    # доп услуги
+    # тиснение наценка
+    pressfoil_one = feature['pressfoil']['цена']/kol
+
+    # шелкография наценка
+    pattern_one = feature['pattern']['цена']/kol
+
+    # ложементы наценка
+    logement_one = feature['logement']/kol
+
     data = {'Информация о коробке': f'Размер коробки {a}x{b}x{c}мм. Высота крышки {lid_hight}. Тираж {kol}шт. ',
             'Материал': mark_safe(f'Картон - {cardboard_req}. '
                                   f'Бумага внешняя - {paper_price["material"]}. '
@@ -196,12 +213,17 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
             'Информация бумага': info_cardboard_paper['Бумага'],
             'Работа': f'Стоимость работы: крышка - {toFixed(work_lid)} руб., дно - {toFixed(work_tray)} руб., '
                       f'внутренняя оклейка - {toFixed(work_laminate)} руб. {type_work_lid} {type_work_tray} ',
-            'Цены': prices_one(calc_sum, uppercost),
-            'Цена заказа': count_all((calc_sum * kol) + shtamp_res),
+            'Цены': prices_one(calc_sum + pressfoil_one + pattern_one + logement_one, uppercost),
+            'Цена заказа': count_all((calc_sum * kol) + shtamp_res +
+                                     feature['pressfoil']['цена'] + feature['pattern']['цена'] + feature['logement']),
             'Себек': f'Себестоимость заказа: {int((production_cost * kol) + manager["result"] + shtamp_res)} руб.',
             'Маржа': marga_all(calc_sum * kol + shtamp_res, production_cost * kol + shtamp_res + manager['result']),
             'Процент менеджера': manager['информация'],
-            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.'}
+            'Цена штампа': f'Цена штампа - {toFixed(shtamp_res, 2)} руб.',
+            'Тиснение': feature['pressfoil']['информация'], 'Шелкография': feature['pattern']['информация'],
+            'Ложементы': feature['logement'],
+            'Крой': kroy,
+            }
     if show:
         print(f'оклейка непроизводственные - '
               f'\nкашировка непроизводственные - {data_calc_lam.not_production}'
@@ -211,6 +233,8 @@ def result_data_box(a, b, c, cardboard_req, paper_req, kol, lid_hight, currency_
               '+ резчики + работа + непроизводственные')
         print(
             f'(({paper_count} + {cardboard_count} + {paper_count_laminate_lid} + {paper_count_laminate_tray}) '
-            f'* ) +  + {work} + {nonproductwork}')
-        print(data)
+            f'* {reject}) + {data_calc_hand.cut} + {work} + {nonproductwork}')
+
+        print(f'calc_sum = {upper_cost(production_cost, uppercost)}')
+
     return data

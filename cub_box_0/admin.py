@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Work, calc_count, Material, Work2
+from .models import Work, calc_count, Material, Work2, Kroy, PressFoil, Printing
 
 
 # Register your models here.
@@ -27,13 +27,30 @@ class CalcAdm(admin.ModelAdmin):
 class MatAdm2(admin.ModelAdmin):
     list_display = ('mt_type', 'mt_name', 'size_x', 'size_y', 'prise', 'currency')
     search_fields = ('mt_type', 'mt_name', 'size_x', 'size_y', 'prise', 'currency')
-    fields = ('prise',)
-    readonly_fields = ('prise',)
+    fields = ('mt_type', 'mt_name', 'size_x', 'size_y', 'prise', 'currency')
     list_editable = ('prise',)
+
+
+class KroyAdm(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+class PressFoilAdm(admin.ModelAdmin):
+    list_display = ('quantity', 'preparation', 'push',)
+    search_fields = ('quantity',)
+
+
+class PrintingAdm(admin.ModelAdmin):
+    list_display = ('quantity', 'preparation', 'push',)
+    search_fields = ('quantity',)
 
 
 admin.site.register(Work, WorkAdm)
 admin.site.register(Work2, WorkAdm2)
 admin.site.register(calc_count, CalcAdm)
 admin.site.register(Material, MatAdm2)
+admin.site.register(Kroy, KroyAdm)
+admin.site.register(PressFoil, PressFoilAdm)
+admin.site.register(Printing, PrintingAdm)
 

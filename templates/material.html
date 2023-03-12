@@ -2,6 +2,7 @@
 <link href="{% static 'material.css' %}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<div class="material_block">
 <h4>Картон</h4>
 <div class="mat_card">
     {% for mat_cb in cardboard_list %}
@@ -23,8 +24,9 @@
     </select>
   </div>
 </div>
+</div>
 
-
+<div class="material_block">
 <h4>Бумага</h4>
   <div class="mat_pap">
     {% for mat_pap in paper_list %}
@@ -46,6 +48,17 @@
       </select>
     </div>
 </div>
+</div>
+
+<style>
+  .material_block {
+    margin: 5px;
+    padding: 10px;
+    display: inline-block;
+    background-color: white;
+    border-radius: 10px;
+  }
+</style>
 
 <script>
         $('document').ready(function(){
